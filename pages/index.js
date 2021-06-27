@@ -3,8 +3,8 @@ import Post from '../components/Post';
 
 function Index({ data, cookies }) {
   return (
-    <div>
-      <h1>hnnc</h1>
+    <div class="bg-white dark:bg-black">
+      <h1 className={`text-gray-800 dark:text-gray-100`}>hnnc</h1>
       <ol>
         {data.items.map((post, index) => (
           <Post post={post} key={index} index={index} />

@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', ui-sans-serif, sans-serif;
+}
+
+h1 {
+  @apply text-3xl;
+}
+
+ol {
+  list-style: decimal-leading-zero;
+  @apply list-inside;
+}
+
+li {
+  @apply px-12;
+  @apply py-4;
+}
+
+li:before {
+  @apply text-gray-800;
+  @apply dark:text-gray-100;
+}
+
+.underline {
+  display: inline;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.underline:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 0;
+  bottom: -3px;
+  --tw-bg-opacity: 1;
+  background-color: rgba(99, 102, 241, var(--tw-bg-opacity));
+  height: 1px;
+  transition-property: width;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
+}
+
+.underline:hover:after,
+.underline:focus:after,
+.underline:active:after {
+  left: 0;
+  right: auto;
+  width: 100%;
+}
