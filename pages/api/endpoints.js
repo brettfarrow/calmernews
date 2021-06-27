@@ -1,13 +1,13 @@
-const MAIN_DOMAIN = 'https://news.ycombinator.com'
+const SITE_HOSTNAME = 'https://news.ycombinator.com'
 const endpoints = {
-    HOME: MAIN_DOMAIN,
-    NEWS: `${MAIN_DOMAIN}/news`,
-    NEWEST: `${MAIN_DOMAIN}/newest`,
-    ASK: `${MAIN_DOMAIN}/ask`,
-    SHOW: `${MAIN_DOMAIN}/show`,
-    FROM: `${MAIN_DOMAIN}/from`,
-    USER: `${MAIN_DOMAIN}/user`,
-    COMMENTS: `${MAIN_DOMAIN}/item`,
+    HOME: SITE_HOSTNAME,
+    NEWS: `${SITE_HOSTNAME}/news`,
+    NEWEST: `${SITE_HOSTNAME}/newest`,
+    ASK: `${SITE_HOSTNAME}/ask`,
+    SHOW: `${SITE_HOSTNAME}/show`,
+    FROM: `${SITE_HOSTNAME}/from`,
+    USER: `${SITE_HOSTNAME}/user`,
+    COMMENTS: `${SITE_HOSTNAME}/item`,
 }
 
 export default endpoints
