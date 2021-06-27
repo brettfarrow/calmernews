@@ -1,15 +1,28 @@
 import fetch from 'isomorphic-fetch';
-import Post from '../components/Post';
+import get from 'lodash/get';
+import React, { useState } from 'react';
+import Posts from '../components/Posts';
 
 function Index({ data, cookies }) {
+  const [showComments, setShowComments] = useState(
+    get(cookies, 'show_comments', false) === 'true'
+  );
+  const [showByline, setShowByline] = useState(
+    get(cookies, 'show_byline', false) === 'true'
+  );
+  const [showScore, setShowScore] = useState(
+    get(cookies, 'show_score', false) === 'true'
+  );
+
   return (
-    <div class="bg-white dark:bg-black">
-      <h1 className={`text-gray-800 dark:text-gray-100`}>calmer news</h1>
-      <ol>
-        {data.items.map((post, index) => (
-          <Post post={post} key={index} index={index} cookies={cookies} />
-        ))}
-      </ol>
+    <div class="bg-coolGray-100 dark:bg-coolGray-700">
+      <h1 className={`text-gray-800 dark:text-gray-200`}>calmer news</h1>
+      <Posts
+        items={data.items}
+        showComments={showComments}
+        showByline={showByline}
+        showScore={showScore}
+      />
     </div>
   );
 }

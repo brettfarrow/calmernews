@@ -1,12 +1,13 @@
-import get from 'lodash/get';
-
-export default function Post({ post, index, cookies }) {
-  const showComments = get(cookies, 'show_comments', false) === 'true';
-  const showByline = get(cookies, 'show_byline', false) === 'true';
-  const showScore = get(cookies, 'show_score', false) === 'true';
-
+export default function Post({
+  post,
+  key,
+  index,
+  showComments,
+  showByline,
+  showScore,
+}) {
   return (
-    <li key={`item-${index}`} className={`text-gray-800 dark:text-gray-100`}>
+    <li key={`item-${index}`} className={`text-gray-800 dark:text-gray-200`}>
       <a href={post.href} className={`text-indigo-500 underline`}>
         {post.text}
       </a>
