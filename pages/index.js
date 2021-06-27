@@ -7,7 +7,7 @@ function Index({ data, cookies }) {
       <h1 className={`text-gray-800 dark:text-gray-100`}>hnnc</h1>
       <ol>
         {data.items.map((post, index) => (
-          <Post post={post} key={index} index={index} />
+          <Post post={post} key={index} index={index} cookies={cookies} />
         ))}
       </ol>
     </div>
