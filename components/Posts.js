@@ -1,8 +1,14 @@
 import Post from '../components/Post';
 
-export default function Posts({ items, showComments, showByline, showScore }) {
+export default function Posts({
+  items,
+  start,
+  showComments,
+  showByline,
+  showScore,
+}) {
   return (
-    <ol>
+    <ol start={start}>
       {items.map((post, index) => (
         <Post
           post={post}
