@@ -28,10 +28,10 @@ export default async function index(req, res) {
     const id = Number($(story).attr('id') || '');
 
     const link = $(story).find('a.storylink');
-    const href = link.attr('href') || '';
+    const host = $(story).find('span.sitestr').text();
+    const href = host ? link.attr('href') : `${host}/${link.attr('href')}`;
     const text = link.text() || '';
 
-    const host = $(story).find('span.sitestr').text() || '';
     const age = $(storyInfo[index]).find('span.age').text() || '';
     const score = Number(
       ($(storyInfo[index]).find('span.score').text() || '').replace(
@@ -50,8 +50,8 @@ export default async function index(req, res) {
       id,
       age,
       comments,
-      host,
-      href,
+      host: host ? host : endpoints.HOME,
+      href: host ? href : `${endpoints.HOME}${href}`,
       score,
       text,
       user,
