@@ -17,7 +17,9 @@ function Index({ data, cookies }) {
 
   return (
     <div className="bg-coolGray-100 dark:bg-coolGray-700">
-      <h1 className={`text-gray-800 dark:text-gray-200`}>calmer news</h1>
+      <h1 className={`text-gray-800 dark:text-gray-200 flex justify-center`}>
+        calmer news
+      </h1>
       <Posts
         items={get(data, 'items', [])}
         showComments={showComments}
@@ -25,10 +27,17 @@ function Index({ data, cookies }) {
         showScore={showScore}
         start={get(data, 'start', 1)}
       />
-      <Link href={get(data, 'more', '')}>
-        <a href={get(data, 'more', '')}>More</a>
-      </Link>
+      <div className={`grid`}>
+        <Link href={get(data, 'more', '')}>
+          <button
+            className={`rounded flex content-center justify-self-center text-center bg-purple-600 w-24 h-12 mb-6 text-white font-bold py-3 px-7`}
+          >
+            <a href={get(data, 'more', '')}>More</a>
+          </button>
+        </Link>
+      </div>
     </div>
+    /* TODO: Add toggle buttons for comments, byline, and score */
   );
 }
 
