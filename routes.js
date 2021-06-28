@@ -11,4 +11,5 @@ module.exports = new Router()
   .match('/api', cacheResponse(NEWS))
   .match('/news', cacheResponse(NEWS))
   .match('/api/news', cacheResponse(NEWS))
+  .match('/_next/data/:__build__/news.json', cacheResponse(NEWS))
   .use(nextRoutes);
