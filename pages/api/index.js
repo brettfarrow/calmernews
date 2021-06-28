@@ -1,11 +1,23 @@
 import cheerio from 'cheerio';
 import endpoints from './endpoints';
 import fetch from 'isomorphic-fetch';
+import qs from 'qs';
 
 export default async function index(req, res) {
-  const data = await fetch(endpoints.HOME).then((r) => r.text());
+  const {
+    query: { n, p, next },
+  } = req;
+
+  const params = {};
+  if (n) params.n = n;
+  if (p) params.p = p;
+  if (next) params.next = next;
+  const url = `${endpoints.NEWS}?${qs.stringify(params)}`;
+  const data = await fetch(url).then((r) => r.text());
+
   const $ = cheerio.load(data);
   const stories = $('tr.athing').toArray();
+  const more = $('a.morelink').attr('href');
   const storyInfo = $('table.itemlist tr')
     .not('.spacer')
     .not('.athing')
@@ -46,5 +58,11 @@ export default async function index(req, res) {
     };
   });
 
-  res.json({ items: parsed });
+  const pageNumber = Number(p);
+
+  res.json({
+    items: parsed,
+    more,
+    start: pageNumber > 1 ? (pageNumber - 1) * 30 + 1 : 1,
+  });
 }
