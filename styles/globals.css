@@ -38,8 +38,7 @@ li:before {
   right: 0;
   width: 0;
   bottom: -3px;
-  --tw-bg-opacity: 1;
-  background-color: rgba(99, 102, 241, var(--tw-bg-opacity));
+  background-color: rgb(165, 180, 252, 1); /* equivalent to text-indigo-300 */
   height: 1px;
   transition-property: width;
   transition-duration: 0.3s;

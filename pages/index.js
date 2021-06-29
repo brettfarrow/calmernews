@@ -31,7 +31,7 @@ function Index({ data, cookies }) {
       <div className={`grid`}>
         <Link href={get(data, 'more', '')}>
           <button
-            className={`rounded flex content-center justify-self-center text-center bg-purple-600 w-24 h-12 mb-6 text-white font-bold py-3 px-7`}
+            className={`rounded flex content-center justify-self-center text-center bg-purple-700 w-24 h-12 mb-6 text-white font-bold py-3 px-7`}
           >
             <Prefetch>
               <a href={get(data, 'more', '')}>More</a>

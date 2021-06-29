@@ -8,7 +8,10 @@ export default function Post({
 }) {
   return (
     <li key={`item-${index}`} className={`text-gray-800 dark:text-gray-200`}>
-      <a href={post.href} className={`text-indigo-500 underline`}>
+      <a
+        href={post.href}
+        className={`text-indigo-500 dark:text-indigo-300 underline`}
+      >
         {post.text}
       </a>
       &nbsp;
