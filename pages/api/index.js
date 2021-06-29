@@ -5,14 +5,17 @@ import qs from 'qs';
 
 export default async function index(req, res) {
   const {
-    query: { n, p, next },
+    query: { n, p, next, site },
   } = req;
 
   const params = {};
   if (n) params.n = n;
   if (p) params.p = Math.round(p) || 0; // to better match HN parsing
   if (next) params.next = next;
-  const url = `${endpoints.NEWS}?${qs.stringify(params)}`;
+  if (site) params.site = site;
+  const url = site
+    ? `${endpoints.FROM}?${qs.stringify(params)}`
+    : `${endpoints.NEWS}?${qs.stringify(params)}`;
   const data = await fetch(url).then((r) => r.text());
 
   const $ = cheerio.load(data);

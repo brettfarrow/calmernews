@@ -15,7 +15,20 @@ export default function Post({
         {post.text}
       </a>
       &nbsp;
-      {post.host && <span>({post.host})</span>}
+      {post.host === 'https://news.ycombinator.com' ? (
+        <span>({post.host})</span>
+      ) : (
+        <span>
+          (
+          <a
+            href={`/from?site=${post.host}`}
+            className={`underline underline-white`}
+          >
+            {post.host}
+          </a>
+          )
+        </span>
+      )}
       <div className={`grid grid-cols-2 gap-1`}>
         {showByline && (
           <span className={`byline`}>
