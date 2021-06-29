@@ -14,8 +14,7 @@ export default function Post({
         className={`text-indigo-500 dark:text-indigo-300 underline`}
       >
         {post.text}
-      </a>
-      &nbsp;
+      </a>{' '}
       {post.host === ORIGIN_SITE_HOSTNAME ? (
         <span>({post.host})</span>
       ) : (
@@ -30,21 +29,32 @@ export default function Post({
           )
         </span>
       )}
-      <div className={`grid grid-cols-2 gap-1`}>
-        {showByline && (
-          <span className={`byline`}>
-            posted {post.age} by {post.user}
-          </span>
-        )}
-        <span className={`grid grid-cols-2 gap-1`}>
+      <div className={`grid grid-cols-2`}>
+        <span>
           {showScore && (
-            <span className={`score`}>
+            <span className={`score mr-3`}>
               {post.score} {post.score === 1 ? 'point' : 'points'}
             </span>
           )}
+          {showByline && (
+            <span className={`byline`}>
+              posted {post.age} by{' '}
+              <a
+                className={`underline underline-white`}
+                href={`${ORIGIN_SITE_HOSTNAME}/user?id=${post.user}`}
+              >
+                {post.user}
+              </a>
+            </span>
+          )}
+        </span>
+        <span>
           {showComments && (
             <span className={`comments`}>
-              <a href={`${ORIGIN_SITE_HOSTNAME}/item?id=${post.id}`}>
+              <a
+                className={`underline underline-white`}
+                href={`${ORIGIN_SITE_HOSTNAME}/item?id=${post.id}`}
+              >
                 {post.comments ? (
                   <>view {post.comments} comments</>
                 ) : (
