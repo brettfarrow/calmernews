@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prettier": "npx prettier --write ."
+    "prettier": "npx prettier --write .",
+    "tailwind:watch": "npx tailwindcss --watch"
   },
   "name": "calmernews",
   "version": "0.1.0",
