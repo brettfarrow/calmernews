@@ -40,10 +40,10 @@ function Index({ data, cookies }) {
         showScore={showScore}
         start={get(data, 'start', 1)}
       />
-      <div className={`grid`}>
+      <div className={`flex justify-center`}>
         <Link href={get(data, 'more', '')}>
           <button
-            className={`rounded flex content-center justify-self-center text-center bg-purple-700 w-24 h-12 mb-6 text-white font-bold py-3 px-7`}
+            className={`rounded text-center bg-purple-700 w-24 h-12 mb-6 text-white font-bold py-3 px-7`}
           >
             <Prefetch>
               <a href={get(data, 'more', '')}>More</a>
@@ -53,17 +53,17 @@ function Index({ data, cookies }) {
       </div>
       <footer className={`flex justify-center pb-16`}>
         <ToggleButton
-          name={'Comments'}
-          value={showComments}
-          onClick={() => {
-            toggleClick('show_comments', setShowComments, showComments);
-          }}
-        />
-        <ToggleButton
           name={'Byline'}
           value={showByline}
           onClick={() => {
             toggleClick('show_byline', setShowByline, showByline);
+          }}
+        />
+        <ToggleButton
+          name={'Comments'}
+          value={showComments}
+          onClick={() => {
+            toggleClick('show_comments', setShowComments, showComments);
           }}
         />
         <ToggleButton

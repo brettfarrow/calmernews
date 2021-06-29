@@ -16,8 +16,14 @@ ol {
 }
 
 li {
-  @apply px-12;
-  @apply py-4;
+  @apply p-4;
+}
+
+@media (min-width: 768px) {
+  li {
+    @apply px-12;
+    @apply py-4;
+  }
 }
 
 li:before {
