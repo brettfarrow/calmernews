@@ -19,7 +19,11 @@ function Index({ data, cookies }) {
   return (
     <div className="bg-coolGray-100 dark:bg-coolGray-700">
       <h1 className={`text-gray-800 dark:text-gray-200 flex justify-center`}>
-        calmer news
+        <Link href="/">
+          <Prefetch>
+            <a href="/">calmer news</a>
+          </Prefetch>
+        </Link>
       </h1>
       <Posts
         items={get(data, 'items', [])}
