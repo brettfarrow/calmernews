@@ -1,17 +1,17 @@
 export default function Post({
   post,
-  key,
   index,
   showComments,
   showByline,
   showScore,
 }) {
   const ORIGIN_SITE_HOSTNAME = 'https://news.ycombinator.com';
+
   return (
     <li key={`item-${index}`} className={`text-gray-800 dark:text-gray-200`}>
       <a
         href={post.href}
-        className={`text-indigo-500 dark:text-indigo-300 underline`}
+        className={`text-indigo-700 dark:text-indigo-300 underline`}
       >
         {post.text}
       </a>{' '}
