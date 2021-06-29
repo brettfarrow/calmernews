@@ -2,6 +2,7 @@ import fetch from 'isomorphic-fetch';
 import get from 'lodash/get';
 import React, { useState } from 'react';
 import Posts from '../components/Posts';
+import ToggleButton from '../components/ToggleButton';
 import Link from 'next/link';
 import { Prefetch } from '@layer0/react';
 
@@ -16,9 +17,16 @@ function Index({ data, cookies }) {
     get(cookies, 'show_score', false) === 'true'
   );
 
+  const toggleClick = (name, setter, value) => {
+    document.cookie = `${name}=${!value}`;
+    setter(!value);
+  };
+
   return (
     <div className="bg-coolGray-100 dark:bg-coolGray-700">
-      <h1 className={`text-gray-800 dark:text-gray-200 flex justify-center`}>
+      <h1
+        className={`text-gray-800 dark:text-gray-200 flex justify-center p-4`}
+      >
         <Link href="/">
           <Prefetch>
             <a href="/">calmer news</a>
@@ -43,8 +51,30 @@ function Index({ data, cookies }) {
           </button>
         </Link>
       </div>
+      <footer className={`flex justify-center pb-16`}>
+        <ToggleButton
+          name={'Comments'}
+          value={showComments}
+          onClick={() => {
+            toggleClick('show_comments', setShowComments, showComments);
+          }}
+        />
+        <ToggleButton
+          name={'Byline'}
+          value={showByline}
+          onClick={() => {
+            toggleClick('show_byline', setShowByline, showByline);
+          }}
+        />
+        <ToggleButton
+          name={'Score'}
+          value={showScore}
+          onClick={() => {
+            toggleClick('show_score', setShowScore, showScore);
+          }}
+        />
+      </footer>
     </div>
-    /* TODO: Add toggle buttons for comments, byline, and score */
   );
 }
 
