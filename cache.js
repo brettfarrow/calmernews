@@ -8,7 +8,8 @@ const ONE_YEAR_TTL = 60 * 60 * 24 * 365;
 const key = new CustomCacheKey().excludeAllQueryParametersExcept(
   'p',
   'n',
-  'next'
+  'next',
+  'site'
 );
 
 module.exports = {
