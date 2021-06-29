@@ -29,7 +29,7 @@ export default function Post({
           )
         </span>
       )}
-      <div className={`grid grid-cols-2`}>
+      <div className={`grid grid-cols-1 sm:grid-cols-2`}>
         <span>
           {showScore && (
             <span className={`score mr-3`}>
@@ -37,7 +37,7 @@ export default function Post({
             </span>
           )}
           {showByline && (
-            <span className={`byline`}>
+            <span className={`byline block sm:inline`}>
               posted {post.age} by{' '}
               <a
                 className={`underline underline-link`}
