@@ -22,7 +22,7 @@ export default function Post({
           (
           <a
             href={`/from?site=${post.host}`}
-            className={`underline underline-white`}
+            className={`underline underline-link`}
           >
             {post.host}
           </a>
@@ -40,7 +40,7 @@ export default function Post({
             <span className={`byline`}>
               posted {post.age} by{' '}
               <a
-                className={`underline underline-white`}
+                className={`underline underline-link`}
                 href={`${ORIGIN_SITE_HOSTNAME}/user?id=${post.user}`}
               >
                 {post.user}
@@ -52,7 +52,7 @@ export default function Post({
           {showComments && (
             <span className={`comments`}>
               <a
-                className={`underline underline-white`}
+                className={`underline underline-link`}
                 href={`${ORIGIN_SITE_HOSTNAME}/item?id=${post.id}`}
               >
                 {post.comments ? (

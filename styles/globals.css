@@ -53,6 +53,14 @@ li:before {
   width: 100%;
 }
 
-.underline.underline-white:after {
-  background-color: rgb(229, 231, 235, 1); /* equivalent to text-gray-200 */
+@media (prefers-color-scheme: light) {
+  .underline.underline-link:after {
+    background-color: rgb(2, 2, 2, 1); /* equivalent to text-gray-200 */
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .underline.underline-link:after {
+    background-color: rgb(229, 231, 235, 1); /* equivalent to text-gray-200 */
+  }
 }
