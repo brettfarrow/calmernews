@@ -1,4 +1,4 @@
-import news from './index';
+import fromDomain from './index';
 
 export async function getServerSideProps(ctx) {
   const { url } = ctx.req;
@@ -13,4 +13,4 @@ export async function getServerSideProps(ctx) {
   };
 }
 
-export default news;
+export default fromDomain;
