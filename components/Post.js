@@ -6,6 +6,7 @@ export default function Post({
   showByline,
   showScore,
 }) {
+  const ORIGIN_SITE_HOSTNAME = 'https://news.ycombinator.com';
   return (
     <li key={`item-${index}`} className={`text-gray-800 dark:text-gray-200`}>
       <a
@@ -15,7 +16,7 @@ export default function Post({
         {post.text}
       </a>
       &nbsp;
-      {post.host === 'https://news.ycombinator.com' ? (
+      {post.host === ORIGIN_SITE_HOSTNAME ? (
         <span>({post.host})</span>
       ) : (
         <span>
@@ -43,11 +44,13 @@ export default function Post({
           )}
           {showComments && (
             <span className={`comments`}>
-              {post.comments ? (
-                <>view {post.comments} comments</>
-              ) : (
-                <>discuss</>
-              )}
+              <a href={`${ORIGIN_SITE_HOSTNAME}/item?id=${post.id}`}>
+                {post.comments ? (
+                  <>view {post.comments} comments</>
+                ) : (
+                  <>discuss</>
+                )}
+              </a>
             </span>
           )}
         </span>
