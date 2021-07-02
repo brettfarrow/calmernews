@@ -42,13 +42,15 @@ function Index({ data, cookies }) {
       />
       <div className={`flex justify-center`}>
         <Link href={get(data, 'more', '')}>
-          <button
-            className={`rounded text-center bg-purple-700 w-24 h-12 mb-6 text-white font-bold py-3 px-7`}
-          >
-            <Prefetch>
-              <a href={get(data, 'more', '')}>More</a>
-            </Prefetch>
-          </button>
+          <Prefetch>
+            <a href={get(data, 'more', '')}>
+              <button
+                className={`rounded text-center bg-purple-700 w-24 h-12 mb-6 text-white font-bold py-3 px-7`}
+              >
+                More
+              </button>
+            </a>
+          </Prefetch>
         </Link>
       </div>
       <footer className={`flex justify-center pb-16`}>
