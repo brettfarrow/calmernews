@@ -1,7 +1,7 @@
 name: Cache warm main domain
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '0 * * * *'
 
 jobs:
   warm-cache:
