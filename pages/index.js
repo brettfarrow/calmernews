@@ -5,7 +5,7 @@ import Posts from '../components/Posts';
 import ToggleButton from '../components/ToggleButton';
 import Link from 'next/link';
 import { Prefetch } from '@layer0/react';
-import { Head } from 'next/document';
+import Head from 'next/head';
 
 function Index({ data, cookies }) {
   const p = get(data, 'page', 1);
