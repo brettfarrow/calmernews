@@ -16,7 +16,8 @@ ol {
 }
 
 li {
-  @apply p-4;
+  @apply px-4;
+  @apply py-5;
 }
 
 @media (min-width: 768px) {
