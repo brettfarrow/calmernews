@@ -5,7 +5,6 @@ class MyDocument extends Document {
     return (
       <Html className={`dark no-js`} lang="en">
         <Head>
-          <title>calmer news</title>
           <link rel="manifest" href="manifest.json" />
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -21,11 +20,6 @@ class MyDocument extends Document {
             name="msapplication-starturl"
             content="https://calmernews.com"
           />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
-
           <link
             rel="icon"
             sizes="512x512"
