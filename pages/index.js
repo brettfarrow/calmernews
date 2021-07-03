@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Prefetch } from '@layer0/react';
 
 function Index({ data, cookies }) {
+  const p = get(data, 'page', 1);
   const [showComments, setShowComments] = useState(
     get(cookies, 'show_comments', false) === 'true'
   );
@@ -40,18 +41,35 @@ function Index({ data, cookies }) {
         showScore={showScore}
         start={get(data, 'start', 1)}
       />
-      <div className={`flex justify-center`}>
-        <Link href={get(data, 'more', '')}>
-          <Prefetch>
-            <a href={get(data, 'more', '')}>
-              <button
-                className={`rounded text-center bg-purple-700 w-24 h-12 mb-6 text-white font-bold py-3 px-7`}
-              >
-                More
-              </button>
-            </a>
-          </Prefetch>
-        </Link>
+      <div className={`grid ${p > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+        {p > 1 && (
+          <div className={`flex justify-center`}>
+            <Link href={get(data, 'previous', '')}>
+              <Prefetch>
+                <a href={get(data, 'previous', '')}>
+                  <button
+                    className={`rounded text-center bg-purple-700 w-24 h-12 mb-6 text-white font-bold py-3 px-7`}
+                  >
+                    Previous
+                  </button>
+                </a>
+              </Prefetch>
+            </Link>
+          </div>
+        )}
+        <div className={`flex justify-center`}>
+          <Link href={get(data, 'more', '')}>
+            <Prefetch>
+              <a href={get(data, 'more', '')}>
+                <button
+                  className={`rounded text-center bg-purple-700 w-24 h-12 mb-6 text-white font-bold py-3 px-7`}
+                >
+                  More
+                </button>
+              </a>
+            </Prefetch>
+          </Link>
+        </div>
       </div>
       <footer className={`flex justify-center pb-16`}>
         <ToggleButton

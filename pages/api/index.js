@@ -66,6 +66,11 @@ export default async function index(req, res) {
   res.json({
     items: parsed,
     more,
+    page: pageNumber,
+    previous:
+      pageNumber > 1
+        ? more.replace(`p=${pageNumber + 1}`, `p=${pageNumber - 1}`)
+        : '/',
     start: pageNumber > 1 ? (pageNumber - 1) * 30 + 1 : 1,
   });
 }
