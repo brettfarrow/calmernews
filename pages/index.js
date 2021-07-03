@@ -48,7 +48,7 @@ function Index({ data, cookies }) {
               <Prefetch>
                 <a href={get(data, 'previous', '')}>
                   <button
-                    className={`rounded text-center bg-purple-700 w-24 h-12 mb-6 text-white font-bold py-3 px-7`}
+                    className={`rounded text-center bg-purple-700 w-28 h-12 mb-6 text-white font-bold`}
                   >
                     Previous
                   </button>
@@ -62,7 +62,7 @@ function Index({ data, cookies }) {
             <Prefetch>
               <a href={get(data, 'more', '')}>
                 <button
-                  className={`rounded text-center bg-purple-700 w-24 h-12 mb-6 text-white font-bold py-3 px-7`}
+                  className={`rounded text-center bg-purple-700 w-28 h-12 mb-6 text-white font-bold`}
                 >
                   More
                 </button>
