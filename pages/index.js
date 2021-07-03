@@ -9,6 +9,7 @@ import Head from 'next/head';
 
 function Index({ data, cookies }) {
   const p = get(data, 'page', 1);
+  const { more, previous } = data;
   const [showComments, setShowComments] = useState(
     get(cookies, 'show_comments', false) === 'true'
   );
@@ -57,9 +58,9 @@ function Index({ data, cookies }) {
         <div className={`grid ${p > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
           {p > 1 && (
             <div className={`flex justify-center`}>
-              <Link href={get(data, 'previous', '')}>
+              <Link href={previous}>
                 <Prefetch>
-                  <a href={get(data, 'previous', '')}>
+                  <a href={previous}>
                     <button
                       className={`rounded text-center bg-purple-700 w-28 h-12 m-6 text-white font-bold`}
                     >
@@ -71,9 +72,9 @@ function Index({ data, cookies }) {
             </div>
           )}
           <div className={`flex justify-center`}>
-            <Link href={get(data, 'more', '')}>
+            <Link href={more}>
               <Prefetch>
-                <a href={get(data, 'more', '')}>
+                <a href={more}>
                   <button
                     className={`rounded text-center bg-purple-700 w-28 h-12 m-6 text-white font-bold`}
                   >
