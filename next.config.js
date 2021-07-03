@@ -1,6 +1,7 @@
 const { withLayer0, withServiceWorker } = require('@layer0/next/config');
+const { withPlausibleProxy } = require('next-plausible');
 
-module.exports = {
+module.exports = withPlausibleProxy()({
   webpack: (config, { dev, isServer }) => {
     // Replace React with Preact only in client production build
     if (!dev && !isServer) {
@@ -18,4 +19,4 @@ module.exports = {
       layer0SourceMaps: true,
     })
   ),
-};
+});
