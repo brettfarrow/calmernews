@@ -58,31 +58,31 @@ function Index({ data, cookies }) {
         <div className={`grid ${p > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
           {p > 1 && (
             <div className={`flex justify-center`}>
-              <Link href={previous}>
-                <Prefetch>
-                  <a href={previous}>
-                    <button
-                      className={`rounded text-center bg-purple-700 w-28 h-12 m-6 text-white font-bold`}
-                    >
+              <button
+                className={`rounded text-center bg-purple-700 w-28 h-12 m-6 text-white font-bold`}
+              >
+                <Link href={previous}>
+                  <Prefetch>
+                    <a className={`w-28 h-12 block leading-12`} href={previous}>
                       Previous
-                    </button>
-                  </a>
-                </Prefetch>
-              </Link>
+                    </a>
+                  </Prefetch>
+                </Link>
+              </button>
             </div>
           )}
           <div className={`flex justify-center`}>
-            <Link href={more}>
-              <Prefetch>
-                <a href={more}>
-                  <button
-                    className={`rounded text-center bg-purple-700 w-28 h-12 m-6 text-white font-bold`}
-                  >
+            <button
+              className={`rounded text-center bg-purple-700 w-28 h-12 m-6 text-white font-bold`}
+            >
+              <Link href={more}>
+                <Prefetch>
+                  <a className={`w-28 h-12 block leading-12`} href={more}>
                     More
-                  </button>
-                </a>
-              </Prefetch>
-            </Link>
+                  </a>
+                </Prefetch>
+              </Link>
+            </button>
           </div>
         </div>
         <footer className={`flex justify-center pb-16`}>

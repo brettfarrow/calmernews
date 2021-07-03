@@ -75,3 +75,7 @@ li:before {
 .no-js .toggle-button {
   display: none;
 }
+
+.leading-12 {
+  line-height: 3rem;
+}
