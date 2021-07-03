@@ -1,0 +1,15 @@
+name: Cache warm main domain
+on:
+  schedule:
+    - cron: '0 * * * *'
+
+jobs:
+  warm-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.17.1'
+      - run: npm install
+      - run: node cache-warm.js --host=https://calmernews.com
