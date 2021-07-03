@@ -16,11 +16,15 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
             rel="stylesheet"
           />
-          <script>document.documentElement.classList.remove("no-js");</script>
           <script
             defer
             data-domain="calmernews.com"
             src="https://plausible.io/js/plausible.js"
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `document.documentElement.classList.remove("no-js");`,
+            }}
           />
         </Head>
         <body className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
