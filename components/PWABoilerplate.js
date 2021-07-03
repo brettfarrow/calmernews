@@ -18,12 +18,12 @@ export default function PWABoilerplate() {
       <link
         rel="icon"
         sizes="512x512"
-        href="https://calmernews.com/logo-min.png"
+        href="https://calmernews.com/images/logo.png"
       />
       <link
         rel="apple-touch-icon"
         sizes="512x512"
-        href="https://calmernews.com/logo-min.png"
+        href="https://calmernews.com/images/logo.png"
       />
     </Head>
   );
