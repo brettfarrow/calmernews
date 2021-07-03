@@ -1,0 +1,17 @@
+{
+  "name": "calmer news",
+  "short_name": "cn",
+  "lang": "en-US",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#374151",
+  "background_color": "#374151",
+  "icons": [
+    {
+      "src": "/images/logo-min.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ]
+}

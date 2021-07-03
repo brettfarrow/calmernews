@@ -6,6 +6,36 @@ class MyDocument extends Document {
       <Html className={`dark no-js`} lang="en">
         <Head>
           <title>calmer news</title>
+          <link rel="manifest" href="manifest.json" />
+          <meta name="mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="application-name" content="cn" />
+          <meta name="apple-mobile-web-app-title" content="cn" />
+          <meta name="theme-color" content="#374151" />
+          <meta name="msapplication-navbutton-color" content="#374151" />
+          <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+          />
+          <meta
+            name="msapplication-starturl"
+            content="https://calmernews.com"
+          />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+
+          <link
+            rel="icon"
+            sizes="512x512"
+            href="https://calmernews.com/logo-min.png"
+          />
+          <link
+            rel="apple-touch-icon"
+            sizes="512x512"
+            href="https://calmernews.com/logo-min.png"
+          />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"
