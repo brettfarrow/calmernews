@@ -1,6 +1,7 @@
 import Post from '../components/Post';
 
 export default function Posts({
+  from,
   items,
   start,
   showComments,
@@ -8,7 +9,7 @@ export default function Posts({
   showScore,
 }) {
   return (
-    <ol start={start}>
+    <ol start={start} className={`${from ? 'list-none' : 'list-decimal-zero'}`}>
       {items.map((post, index) => (
         <Post
           post={post}

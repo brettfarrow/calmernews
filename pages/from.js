@@ -7,7 +7,10 @@ export async function getServerSideProps(ctx) {
   ).then((r) => r.json());
   return {
     props: {
-      data,
+      data: {
+        ...data,
+        from: true,
+      },
       cookies: ctx.req.cookies,
     },
   };

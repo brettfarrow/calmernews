@@ -10,7 +10,7 @@ import Script from 'next/script';
 
 function Index({ data, cookies }) {
   const p = get(data, 'page', 1);
-  const { more, previous } = data;
+  const { from, more, previous } = data;
   const [showComments, setShowComments] = useState(
     get(cookies, 'show_comments', false) === 'true'
   );
@@ -50,6 +50,7 @@ function Index({ data, cookies }) {
           </Link>
         </h1>
         <Posts
+          from={from}
           items={get(data, 'items', [])}
           showComments={showComments}
           showByline={showByline}
@@ -72,19 +73,21 @@ function Index({ data, cookies }) {
               </button>
             </div>
           )}
-          <div className={`flex justify-center`}>
-            <button
-              className={`rounded text-center bg-purple-700 w-28 h-12 m-6 text-white font-bold`}
-            >
-              <Link href={more}>
-                <Prefetch>
-                  <a className={`w-28 h-12 block leading-12`} href={more}>
-                    More
-                  </a>
-                </Prefetch>
-              </Link>
-            </button>
-          </div>
+          {more && (
+            <div className={`flex justify-center`}>
+              <button
+                className={`rounded text-center bg-purple-700 w-28 h-12 m-6 text-white font-bold`}
+              >
+                <Link href={more}>
+                  <Prefetch>
+                    <a className={`w-28 h-12 block leading-12`} href={more}>
+                      More
+                    </a>
+                  </Prefetch>
+                </Link>
+              </button>
+            </div>
+          )}
         </div>
         <footer className={`flex justify-center pb-16`}>
           <ToggleButton
