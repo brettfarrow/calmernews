@@ -22,7 +22,7 @@ function Index({ data, cookies }) {
   );
 
   const toggleClick = (name, setter, value) => {
-    document.cookie = `${name}=${!value}`;
+    document.cookie = `${name}=${!value}; Max-Age=2147483647`;
     setter(!value);
   };
 
