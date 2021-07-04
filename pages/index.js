@@ -61,7 +61,7 @@ function Index({ data, cookies }) {
           {p > 1 && (
             <div className={`flex justify-center`}>
               <button
-                className={`rounded text-center bg-purple-700 w-28 h-12 m-6 text-white font-bold`}
+                className={`rounded text-center bg-purple-700 w-28 h-12 m-6 text-white font-bold transition duration-500 ease-in-out hover:bg-purple-800`}
               >
                 <Link href={previous}>
                   <Prefetch url={`/api${previous}`}>
@@ -76,7 +76,7 @@ function Index({ data, cookies }) {
           {more && (
             <div className={`flex justify-center`}>
               <button
-                className={`rounded text-center bg-purple-700 w-28 h-12 m-6 text-white font-bold`}
+                className={`rounded text-center bg-purple-700 w-28 h-12 m-6 text-white font-bold transition duration-500 ease-in-out hover:bg-purple-800`}
               >
                 <Link href={more}>
                   <Prefetch url={`/api${more}`}>
