@@ -8,18 +8,23 @@ on:
 jobs:
   warm-cache:
     runs-on: ubuntu-latest
+    # cancels the deployment for the automatic merge push created when tagging a release
+    if: contains(github.ref, 'refs/tags') == false || github.event_name == 'release'
+    runs-on: ubuntu-latest
     steps:
-    - name: Check for Layer0 deploy token secret
+      - name: Check for Layer0 deploy token secret
         if: env.layer0_deploy_token == ''
         run: |
           echo You must define the "layer0_deploy_token" secret in GitHub project settings
           exit 1
         env:
           layer0_deploy_token: ${{secrets.layer0_deploy_token}}
-    - name: Clear cache to trigger warming
+      - name: Deploy to Layer0
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: '14.17.1'
-      - run: npm install
-      - run: layer0 cache-clear --team=calmernews --site=calmernews --environment=production --token=$layer0_deploy_token
+
+        run: layer0 cache-clear --team=calmernews --site=calmernews --environment=production --token=$layer0_deploy_token
+        env:
+          layer0_deploy_token: ${{secrets.layer0_deploy_token}}          
