@@ -20,7 +20,7 @@ export default async function index(req, res) {
 
   const $ = cheerio.load(data);
   const stories = $('tr.athing').toArray();
-  const more = $('a.morelink').attr('href');
+  const more = $('a.morelink').attr('href') || '';
   const storyInfo = $('table.itemlist tr')
     .not('.spacer')
     .not('.athing')
