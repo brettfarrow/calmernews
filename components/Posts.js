@@ -9,7 +9,7 @@ export default function Posts({
   showScore,
 }) {
   return (
-    <ol start={start} className={`${from ? 'list-none' : 'list-decimal-zero'}`}>
+    <ol start={start} className={`${from ? 'list-disc' : 'list-decimal-zero'}`}>
       {items.map((post, index) => (
         <Post
           post={post}
