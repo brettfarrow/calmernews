@@ -14,67 +14,73 @@
       "purpose": "maskable any"
     },
     {
-      "src": "https://calmernews.com/images/logo-36.png",
+      "src": "https://calmernews.com/images/logo-36-min.png",
       "sizes": "36x36",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "https://calmernews.com/images/logo-48.png",
+      "src": "https://calmernews.com/images/logo-48-min.png",
       "sizes": "48x48",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "https://calmernews.com/images/logo-72.png",
+      "src": "https://calmernews.com/images/logo-72-min.png",
       "sizes": "72x72",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "https://calmernews.com/images/logo-96.png",
+      "src": "https://calmernews.com/images/logo-96-min.png",
       "sizes": "96x96",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "https://calmernews.com/images/logo-120.png",
+      "src": "https://calmernews.com/images/logo-120-min.png",
       "sizes": "120x120",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "https://calmernews.com/images/logo-144.png",
+      "src": "https://calmernews.com/images/logo-144-min.png",
       "sizes": "144x144",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "https://calmernews.com/images/logo-152.png",
+      "src": "https://calmernews.com/images/logo-152-min.png",
       "sizes": "152x152",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "https://calmernews.com/images/logo-167.png",
+      "src": "https://calmernews.com/images/logo-167-min.png",
       "sizes": "167x167",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "https://calmernews.com/images/logo-180.png",
+      "src": "https://calmernews.com/images/logo-180-min.png",
       "sizes": "180x180",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "https://calmernews.com/images/logo-192.png",
+      "src": "https://calmernews.com/images/logo-192-min.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "https://calmernews.com/images/logo-1024.png",
+      "src": "https://calmernews.com/images/logo-512-min.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "https://calmernews.com/images/logo-1024-min.png",
       "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "maskable any"
