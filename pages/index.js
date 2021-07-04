@@ -114,7 +114,7 @@ function Index({ data, cookies }) {
         </footer>
       </div>
       <Script
-        src="https://plausible.io/js/plausible.js"
+        src="/js/measure.js"
         data-domain="calmernews.com"
         afterInteractive
       />

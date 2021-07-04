@@ -1,6 +1,11 @@
 const { Router } = require('@layer0/core/router');
 const { nextRoutes } = require('@layer0/next');
-const { NEWS, SERVICE_WORKER, cacheResponse } = require('./cache');
+const {
+  NEWS,
+  SERVICE_WORKER,
+  THIRD_PARTY_SCRIPTS,
+  cacheResponse,
+} = require('./cache');
 const { existsSync, readFileSync } = require('fs');
 const { join } = require('path');
 
@@ -50,4 +55,8 @@ module.exports = new Router()
   .match('/_next/data/:__build__/from.json', cacheResponse(NEWS))
   .match('/_next/data/:__build__/index.json', cacheResponse(NEWS))
   .match('/_next/data/:__build__/news.json', cacheResponse(NEWS))
+  .match('/js/measure.js', ({ cache, proxy }) => {
+    cache(THIRD_PARTY_SCRIPTS);
+    proxy('plausible', { path: '/js/plausible.js' });
+  })
   .use(nextRoutes);
