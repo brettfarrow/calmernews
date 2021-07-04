@@ -11,8 +11,11 @@ h1 {
 }
 
 ol {
-  list-style: decimal-leading-zero;
   @apply list-inside;
+}
+
+.list-decimal-zero {
+  list-style: decimal-leading-zero;
 }
 
 li {
