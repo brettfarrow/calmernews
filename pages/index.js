@@ -44,7 +44,7 @@ function Index({ data, cookies }) {
           className={`text-gray-800 dark:text-gray-200 flex justify-center p-4`}
         >
           <Link href="/">
-            <Prefetch>
+            <Prefetch url="/api">
               <a href="/">calmer news</a>
             </Prefetch>
           </Link>
@@ -64,7 +64,7 @@ function Index({ data, cookies }) {
                 className={`rounded text-center bg-purple-700 w-28 h-12 m-6 text-white font-bold`}
               >
                 <Link href={previous}>
-                  <Prefetch>
+                  <Prefetch url={`/api${previous}`}>
                     <a className={`w-28 h-12 block leading-12`} href={previous}>
                       Previous
                     </a>
@@ -79,7 +79,7 @@ function Index({ data, cookies }) {
                 className={`rounded text-center bg-purple-700 w-28 h-12 m-6 text-white font-bold`}
               >
                 <Link href={more}>
-                  <Prefetch>
+                  <Prefetch url={`/api${more}`}>
                     <a className={`w-28 h-12 block leading-12`} href={more}>
                       More
                     </a>
