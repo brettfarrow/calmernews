@@ -7,7 +7,6 @@ on:
 
 jobs:
   warm-cache:
-    runs-on: ubuntu-latest
     # cancels the deployment for the automatic merge push created when tagging a release
     if: contains(github.ref, 'refs/tags') == false || github.event_name == 'release'
     runs-on: ubuntu-latest
@@ -19,12 +18,12 @@ jobs:
           exit 1
         env:
           layer0_deploy_token: ${{secrets.layer0_deploy_token}}
-      - name: Deploy to Layer0
+      - name: Set up Node
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: '14.17.1'
-
+      - name: Clear cache
         run: layer0 cache-clear --team=calmernews --site=calmernews --environment=production --token=$layer0_deploy_token
         env:
           layer0_deploy_token: ${{secrets.layer0_deploy_token}}          
