@@ -1,8 +1,41 @@
 const { Router } = require('@layer0/core/router');
 const { nextRoutes } = require('@layer0/next');
 const { NEWS, SERVICE_WORKER, cacheResponse } = require('./cache');
+const { existsSync, readFileSync } = require('fs');
+const { join } = require('path');
+
+// Read the Next.js build ID from '.next/BUILD_ID'
+const buildIdPath = join(process.cwd(), '.next', 'BUILD_ID');
+
+function getPrerenderRequests() {
+  const prerenderRequests = [
+    { path: '/' },
+    { path: '/api' },
+    { path: '/from' },
+  ];
+  for (let i = 1; i <= 10; i++) {
+    prerenderRequests.push({ path: `/news?p=${i}` });
+  }
+
+  if (existsSync(buildIdPath)) {
+    // Derive the API requests from the HTML page URLs
+    const buildId = readFileSync(buildIdPath, 'utf8');
+    const apiPaths = prerenderRequests
+      .filter((i) => i.path.includes('?p='))
+      .map((p) => {
+        const [pathname, search] = p.path.split('?');
+        return {
+          path: `/data/${buildId}${pathname}.json?${search}`,
+        };
+      });
+    prerenderRequests.push(...apiPaths);
+  }
+
+  return prerenderRequests;
+}
 
 module.exports = new Router()
+  .prerender(getPrerenderRequests)
   .match('/service-worker.js', ({ cache, serviceWorker }) => {
     cache(SERVICE_WORKER);
     return serviceWorker('.next/static/service-worker.js');

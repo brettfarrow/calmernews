@@ -1,0 +1,17 @@
+# This action clears the cache for the production site via the command line,
+# then static prerendering warms it for the first ten pages of the site.
+name: Cache clear then warm main domain
+on:
+  schedule:
+    - cron: '0 */1 * * *'
+
+jobs:
+  warm-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.17.1'
+      - run: npm install
+      - run: npm run layer0:clearprodcache
