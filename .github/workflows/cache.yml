@@ -14,7 +14,9 @@
 name: Clear production cache and prerender hourly
 on:
   schedule:
-    - cron: '0 */1 * * *'
+    - cron: '18 */1 * * *'
+  workflow_dispatch:
+
 jobs:
   clear-the-cache:
     runs-on: ubuntu-latest
