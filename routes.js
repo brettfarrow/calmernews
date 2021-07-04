@@ -15,13 +15,14 @@ function getPrerenderRequests() {
   ];
   for (let i = 1; i <= 10; i++) {
     prerenderRequests.push({ path: `/news?p=${i}` });
+    prerenderRequests.push({ path: `/api/news?p=${i}` });
   }
 
   if (existsSync(buildIdPath)) {
     // Derive the API requests from the HTML page URLs
     const buildId = readFileSync(buildIdPath, 'utf8');
     const apiPaths = prerenderRequests
-      .filter((i) => i.path.includes('?p='))
+      .filter((i) => i.path.startsWith('/news?p='))
       .map((p) => {
         const [pathname, search] = p.path.split('?');
         return {
