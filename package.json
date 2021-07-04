@@ -13,17 +13,16 @@
     "tailwind:watch": "npx tailwindcss --watch"
   },
   "name": "calmernews",
-  "version": "0.3.0",
-  "private": true,
+  "version": "1.0.0",
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
     "isomorphic-fetch": "^3.0.0",
     "lodash": "^4.17.21",
-    "next": "^10.0.0",
+    "next": "^11.0.1",
     "next-pwa": "^5.2.21",
     "qs": "^6.10.1",
-    "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
   },
   "devDependencies": {
     "@layer0/cli": "^3.16.0",

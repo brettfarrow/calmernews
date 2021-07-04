@@ -10,11 +10,6 @@ function MyApp({ Component, pageProps }) {
           href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
           rel="stylesheet"
         />
-        <script
-          defer
-          data-domain="calmernews.com"
-          src="https://plausible.io/js/plausible.js"
-        />
       </Head>
       <PWABoilerplate />
       <Component {...pageProps} />

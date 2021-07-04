@@ -6,6 +6,7 @@ import ToggleButton from '../components/ToggleButton';
 import Link from 'next/link';
 import { Prefetch } from '@layer0/react';
 import Head from 'next/head';
+import Script from 'next/script';
 
 function Index({ data, cookies }) {
   const p = get(data, 'page', 1);
@@ -109,6 +110,11 @@ function Index({ data, cookies }) {
           />
         </footer>
       </div>
+      <Script
+        src="https://plausible.io/js/plausible.js"
+        data-domain="calmernews.com"
+        afterInteractive
+      />
     </>
   );
 }
