@@ -16,6 +16,7 @@ ol {
 
 .list-decimal-zero {
   list-style: decimal-leading-zero;
+  @apply list-inside;
 }
 
 li {
