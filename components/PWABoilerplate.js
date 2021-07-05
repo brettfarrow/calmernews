@@ -25,6 +25,25 @@ export default function PWABoilerplate() {
         sizes="512x512"
         href="https://calmernews.com/images/logo.png"
       />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="/images/favicon-32x32.png"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="/images/favicon-16x16.png"
+      />
+      <link
+        rel="mask-icon"
+        href="/images/safari-pinned-tab.svg"
+        color="#374151"
+      />
+      <meta name="msapplication-TileColor" content="#374151" />
+      <meta name="theme-color" content="#ffffff" />
     </Head>
   );
 }

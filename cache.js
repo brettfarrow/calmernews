@@ -46,6 +46,15 @@ module.exports = {
       staleWhileRevalidateSeconds: ONE_HOUR_TTL,
     },
   },
+  STATIC_ASSETS: {
+    browser: {
+      maxAgeSeconds: 0,
+    },
+    edge: {
+      maxAgeSeconds: ONE_YEAR_TTL,
+      staleWhileRevalidateSeconds: ONE_HOUR_TTL,
+    },
+  },
   cacheResponse:
     (config) =>
     ({ cache }) =>

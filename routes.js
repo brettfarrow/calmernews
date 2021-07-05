@@ -3,6 +3,7 @@ const { nextRoutes } = require('@layer0/next');
 const {
   NEWS,
   SERVICE_WORKER,
+  STATIC_ASSETS,
   THIRD_PARTY_SCRIPTS,
   cacheResponse,
 } = require('./cache');
@@ -58,5 +59,9 @@ module.exports = new Router()
   .match('/js/measure.js', ({ cache, proxy }) => {
     cache(THIRD_PARTY_SCRIPTS);
     proxy('plausible', { path: '/js/plausible.js' });
+  })
+  .match('/favicon.ico', ({ serveStatic, cache }) => {
+    cache(STATIC_ASSETS);
+    serveStatic('public/images/favicon.ico'); // path is relative to the root of your project
   })
   .use(nextRoutes);
