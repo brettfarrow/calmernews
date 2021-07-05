@@ -60,6 +60,9 @@ module.exports = new Router()
     cache(THIRD_PARTY_SCRIPTS);
     proxy('plausible', { path: '/js/plausible.js' });
   })
+  .post('/api/event', ({ proxy }) => {
+    proxy('plausible');
+  })
   .match('/favicon.ico', ({ serveStatic, cache }) => {
     cache(STATIC_ASSETS);
     serveStatic('public/images/favicon.ico'); // path is relative to the root of your project
