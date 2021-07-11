@@ -1,9 +1,6 @@
-export default function LoadingButton() {
+export default function LoadingButton({ customClasses }) {
   return (
-    <svg
-      className={`animate-spin w-8 h-8 mx-10 my-2 text-white`}
-      viewBox="0 0 24 24"
-    >
+    <svg className={customClasses} viewBox="0 0 24 24">
       <circle
         class="opacity-25"
         cx="12"
