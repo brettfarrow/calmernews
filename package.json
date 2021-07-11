@@ -7,6 +7,7 @@
     "clearcache:stage": "layer0 cache-clear --team=calmernews --site=myLayer0App --environment=staging --token=$layer0_deploy_token",
     "clearcache:prod": "layer0 cache-clear --team=calmernews --site=calmernews --environment=production --token=$layer0_deploy_token",
     "deploy": "layer0 deploy --team=calmernews",
+    "deploy:staging": "layer0 deploy --team=calmernews --environment=staging",
     "start": "layer0 dev",
     "start:cache": "layer0 dev --cache",
     "next:build": "next build",
@@ -16,7 +17,7 @@
     "tailwind:watch": "npx tailwindcss --watch"
   },
   "name": "calmernews",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
     "isomorphic-fetch": "^3.0.0",
@@ -34,12 +35,12 @@
     "webpack": "^5.42.0"
   },
   "devDependencies": {
-    "@layer0/cli": "^3.16.0",
-    "@layer0/core": "^3.16.0",
-    "@layer0/devtools": "^3.16.0",
-    "@layer0/next": "^3.16.0",
-    "@layer0/prefetch": "^3.16.0",
-    "@layer0/react": "^3.16.0",
+    "@layer0/cli": "^3.16.1",
+    "@layer0/core": "^3.16.1",
+    "@layer0/devtools": "^3.16.1",
+    "@layer0/next": "^3.16.1",
+    "@layer0/prefetch": "^3.16.1",
+    "@layer0/react": "^3.16.1",
     "autoprefixer": "^10.2.6",
     "eslint": "^7.29.0",
     "eslint-config-prettier": "^8.3.0",
