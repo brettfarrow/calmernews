@@ -24,7 +24,7 @@ module.exports = {
       maxAgeSeconds: 0,
     },
     edge: {
-      maxAgeSeconds: ONE_HOUR_TTL,
+      maxAgeSeconds: FIFTEEN_MINUTE_TTL,
       staleWhileRevalidateSeconds: FIFTEEN_MINUTE_TTL,
     },
   },
@@ -34,7 +34,7 @@ module.exports = {
     },
     edge: {
       maxAgeSeconds: ONE_YEAR_TTL,
-      staleWhileRevalidateSeconds: ONE_HOUR_TTL,
+      staleWhileRevalidateSeconds: FIFTEEN_MINUTE_TTL,
     },
   },
   THIRD_PARTY_SCRIPTS: {
@@ -43,7 +43,7 @@ module.exports = {
     },
     edge: {
       maxAgeSeconds: ONE_YEAR_TTL,
-      staleWhileRevalidateSeconds: ONE_HOUR_TTL,
+      staleWhileRevalidateSeconds: FIFTEEN_MINUTE_TTL,
     },
   },
   STATIC_ASSETS: {
@@ -52,7 +52,7 @@ module.exports = {
     },
     edge: {
       maxAgeSeconds: ONE_YEAR_TTL,
-      staleWhileRevalidateSeconds: ONE_HOUR_TTL,
+      staleWhileRevalidateSeconds: FIFTEEN_MINUTE_TTL,
     },
   },
   cacheResponse:
