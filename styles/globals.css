@@ -64,6 +64,10 @@ li:before {
   width: 100%;
 }
 
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 @media (prefers-color-scheme: light) {
   .underline.underline-link:after {
     background-color: rgb(2, 2, 2, 1); /* equivalent to text-gray-200 */
