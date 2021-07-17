@@ -38,6 +38,7 @@ module.exports = {
     },
   },
   THIRD_PARTY_SCRIPTS: {
+    key,
     browser: {
       maxAgeSeconds: 0,
     },
@@ -47,6 +48,7 @@ module.exports = {
     },
   },
   STATIC_ASSETS: {
+    key,
     browser: {
       maxAgeSeconds: 0,
     },

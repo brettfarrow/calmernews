@@ -57,7 +57,12 @@ module.exports = new Router()
   .match('/_next/data/:__build__/index.json', cacheResponse(NEWS))
   .match('/_next/data/:__build__/news.json', cacheResponse(NEWS))
   .match('/js/measure.js', ({ cache, proxy }) => {
-    cache(THIRD_PARTY_SCRIPTS);
+    cache({
+      edge: {
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+        staleWhileRevalidateSeconds: 60 * 60,
+      },
+    });
     proxy('plausible', { path: '/js/plausible.js' });
   })
   .post('/api/event', ({ proxy }) => {
@@ -65,6 +70,18 @@ module.exports = new Router()
   })
   .match('/favicon.ico', ({ serveStatic, cache }) => {
     cache(STATIC_ASSETS);
-    serveStatic('public/images/favicon.ico'); // path is relative to the root of your project
+    serveStatic('public/images/favicon.ico');
+  })
+  .match('/robots.txt', ({ serveStatic, cache }) => {
+    cache(STATIC_ASSETS);
+    serveStatic('public/robots.txt');
+  })
+  .match('/manifest.json', ({ serveStatic, cache }) => {
+    cache(STATIC_ASSETS);
+    serveStatic('public/manifest.json');
+  })
+  .match('/images/:path*', ({ serveStatic, cache }) => {
+    cache(STATIC_ASSETS);
+    serveStatic('public/images/:path*');
   })
   .use(nextRoutes);
