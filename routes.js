@@ -56,14 +56,10 @@ module.exports = new Router()
   .match('/_next/data/:__build__/from.json', cacheResponse(NEWS))
   .match('/_next/data/:__build__/index.json', cacheResponse(NEWS))
   .match('/_next/data/:__build__/news.json', cacheResponse(NEWS))
-  .match('/js/measure.js', ({ cache, proxy }) => {
-    cache({
-      edge: {
-        maxAgeSeconds: 60 * 60 * 24 * 365,
-        staleWhileRevalidateSeconds: 60 * 60,
-      },
-    });
+  .match('/js/measure.js', ({ cache, proxy, removeUpstreamResponseHeader }) => {
+    cache(THIRD_PARTY_SCRIPTS);
     proxy('plausible', { path: '/js/plausible.js' });
+    removeUpstreamResponseHeader('cache-control');
   })
   .post('/api/event', ({ proxy }) => {
     proxy('plausible');
