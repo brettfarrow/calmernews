@@ -43,12 +43,13 @@ function Index({ data, cookies }) {
   };
 
   useEffect(() => {
-    if (loading)
+    if (loading) {
       setLoading({
         loading: false,
         button: false,
       });
-  }, [data]);
+    }
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const refreshingContent = (
     <LoadingButton customClasses={`animate-spin w-8 h-8 my-0 mx-auto`} />
@@ -76,8 +77,9 @@ function Index({ data, cookies }) {
           <h1
             className={`text-gray-800 dark:text-gray-200 flex justify-center p-4`}
           >
-            <Link href="/">
+            <Link href="/" passHref>
               <Prefetch url="/api">
+                {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
                 <a href="/">calmer news</a>
               </Prefetch>
             </Link>

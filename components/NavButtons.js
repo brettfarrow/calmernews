@@ -35,7 +35,7 @@ export default function NavButtons({
             }
             disabled={loading.button === false ? false : true}
           >
-            <Link href={previous}>
+            <Link href={previous} passHref>
               <Prefetch url={`/api${previous}`}>
                 <a className={`w-28 h-12 block leading-12`} href={previous}>
                   {loading.loading && loading.button === 'previous' ? (
@@ -90,7 +90,7 @@ export default function NavButtons({
             }
             disabled={loading.button === false ? false : true}
           >
-            <Link href={more}>
+            <Link href={more} passHref>
               <Prefetch url={`/api${more}`}>
                 <a className={`w-28 h-12 block leading-12`} href={more}>
                   {loading.loading && loading.button === 'more' ? (

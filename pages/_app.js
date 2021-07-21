@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }) {
         router.events.off('routeChangeStart', handleRouteChange);
       };
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
