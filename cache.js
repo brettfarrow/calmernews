@@ -22,6 +22,7 @@ module.exports = {
     key,
     browser: {
       maxAgeSeconds: 0,
+      serviceWorkerSeconds: FIFTEEN_MINUTE_TTL,
     },
     edge: {
       maxAgeSeconds: FIFTEEN_MINUTE_TTL,
@@ -31,6 +32,7 @@ module.exports = {
   SERVICE_WORKER: {
     browser: {
       maxAgeSeconds: 0,
+      serviceWorkerSeconds: ONE_YEAR_TTL,
     },
     edge: {
       maxAgeSeconds: ONE_YEAR_TTL,
@@ -41,6 +43,7 @@ module.exports = {
     key,
     browser: {
       maxAgeSeconds: 0,
+      serviceWorkerSeconds: ONE_DAY_TTL,
     },
     edge: {
       maxAgeSeconds: ONE_YEAR_TTL,
@@ -51,6 +54,7 @@ module.exports = {
     key,
     browser: {
       maxAgeSeconds: 0,
+      serviceWorkerSeconds: ONE_YEAR_TTL,
     },
     edge: {
       maxAgeSeconds: ONE_YEAR_TTL,
