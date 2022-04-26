@@ -7,11 +7,6 @@ const {
   THIRD_PARTY_SCRIPTS,
   cacheResponse,
 } = require('./cache');
-const { existsSync, readFileSync } = require('fs');
-const { join } = require('path');
-
-// Read the Next.js build ID from '.next/BUILD_ID'
-const buildIdPath = join(process.cwd(), '.next', 'BUILD_ID');
 
 function getPrerenderRequests() {
   const prerenderRequests = [
@@ -22,20 +17,6 @@ function getPrerenderRequests() {
   for (let i = 1; i <= 10; i++) {
     prerenderRequests.push({ path: `/news?p=${i}` });
     prerenderRequests.push({ path: `/api/news?p=${i}` });
-  }
-
-  if (existsSync(buildIdPath)) {
-    // Derive the API requests from the HTML page URLs
-    const buildId = readFileSync(buildIdPath, 'utf8');
-    const apiPaths = prerenderRequests
-      .filter((i) => i.path.startsWith('/news?p='))
-      .map((p) => {
-        const [pathname, search] = p.path.split('?');
-        return {
-          path: `/data/${buildId}${pathname}.json?${search}`,
-        };
-      });
-    prerenderRequests.push(...apiPaths);
   }
 
   return prerenderRequests;
@@ -53,9 +34,6 @@ module.exports = new Router()
   .match('/api/news', cacheResponse(NEWS))
   .match('/from', cacheResponse(NEWS))
   .match('/api/from', cacheResponse(NEWS))
-  .match('/_next/data/:__build__/from.json', cacheResponse(NEWS))
-  .match('/_next/data/:__build__/index.json', cacheResponse(NEWS))
-  .match('/_next/data/:__build__/news.json', cacheResponse(NEWS))
   .match('/js/measure.js', ({ cache, proxy, removeUpstreamResponseHeader }) => {
     cache(THIRD_PARTY_SCRIPTS);
     proxy('plausible', { path: '/js/plausible.js' });
