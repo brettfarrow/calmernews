@@ -44,10 +44,12 @@ function Index({ data, cookies }) {
 
   useEffect(() => {
     if (loading) {
-      setLoading({
-        loading: false,
-        button: false,
-      });
+      setTimeout(() => {
+        setLoading({
+          loading: false,
+          button: false,
+        });
+      }, 500);
     }
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
