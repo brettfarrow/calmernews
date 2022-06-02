@@ -8,6 +8,7 @@
     "clearcache:prod": "layer0 cache-clear --team=calmernews --site=calmernews --environment=production --token=$layer0_deploy_token",
     "deploy": "layer0 deploy --team=calmernews",
     "deploy:staging": "layer0 deploy --team=calmernews --environment=staging",
+    "deploy:production": "layer0 deploy --team=calmernews --environment=production",
     "start": "layer0 dev",
     "start:cache": "layer0 dev --cache",
     "next:build": "next build",
