@@ -15,6 +15,7 @@ import LoadingButton from '../components/LoadingButton';
 function Index({ data, cookies }) {
   const p = get(data, 'page', 1);
   const { from, more, previous } = data;
+  const router = useRouter();
 
   const [loading, setLoading] = useState({
     loading: false,
@@ -31,8 +32,6 @@ function Index({ data, cookies }) {
     get(cookies, 'show_score', false) === 'true'
   );
 
-  const router = useRouter();
-
   const toggleClick = (name, setter, value) => {
     document.cookie = `${name}=${!value}; Max-Age=2147483647`;
     setter(!value);
@@ -42,16 +41,27 @@ function Index({ data, cookies }) {
     setTimeout(() => router.reload(), 0);
   };
 
-  useEffect(() => {
+  const resetLoadingButton = () => {
     if (loading) {
       setTimeout(() => {
         setLoading({
           loading: false,
           button: false,
         });
-      }, 500);
+      }, 1000);
     }
-  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
+  };
+
+  useEffect(() => {
+    router.events.on('routeChangeComplete', resetLoadingButton);
+    return () => {
+      router.events.off('routeChangeComplete', resetLoadingButton);
+    };
+  }, []);
+
+  useEffect(() => {
+    resetLoadingButton();
+  }, [data]);
 
   const refreshingContent = (
     <LoadingButton customClasses={`animate-spin w-8 h-8 my-0 mx-auto`} />

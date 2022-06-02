@@ -1,5 +1,6 @@
 import news from './index';
 import get from 'lodash/get';
+
 news.getInitialProps = async function (ctx) {
   if (ctx.req) {
     const { url } = ctx.req;
@@ -24,4 +25,5 @@ news.getInitialProps = async function (ctx) {
     };
   }
 };
+
 export default news;
