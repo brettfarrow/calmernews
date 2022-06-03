@@ -21,6 +21,7 @@ function Index({ data, cookies }) {
     loading: false,
     button: false,
   });
+  const [isInstalled, setIsInstalled] = useState(false);
 
   const [showComments, setShowComments] = useState(
     get(cookies, 'show_comments', false) === 'true'
@@ -53,6 +54,10 @@ function Index({ data, cookies }) {
   };
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      setIsInstalled(window.matchMedia('(display-mode: standalone)').matches);
+    }
+
     router.events.on('routeChangeComplete', resetLoadingButton);
     return () => {
       router.events.off('routeChangeComplete', resetLoadingButton);
@@ -80,6 +85,11 @@ function Index({ data, cookies }) {
           content="A modified UI for Hacker News, starting with dark mode and no comments (by default). Not affiliated with Y Combinator or Hacker News in any way."
         />
       </Head>
+      {isInstalled && (
+        <div
+          className={`installed-pwa bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 sticky top-0 h-4`}
+        ></div>
+      )}
       <PullToRefresh
         pullingContent={''}
         onRefresh={handleRefresh}
