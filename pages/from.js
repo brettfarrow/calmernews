@@ -16,7 +16,9 @@ fromDomain.getInitialProps = async function (ctx) {
     };
   } else {
     const site = get(ctx, 'query.site');
-    const data = await fetch(`/api/from?site=${site}`).then((r) => r.json());
+    const next = get(ctx, 'query.next');
+    const apiUrl = `/api/from?site=${site}${next ? `&next=${next}` : ''}`;
+    const data = await fetch(apiUrl).then((r) => r.json());
     const cookies = document.cookie.split('; ').reduce((prev, current) => {
       const [name, ...value] = current.split('=');
       prev[name] = value.join('=');
