@@ -10,10 +10,7 @@ export default function PWABoilerplate() {
       <meta name="apple-mobile-web-app-title" content="calmer news" />
       <meta name="theme-color" content="#374151" />
       <meta name="msapplication-navbutton-color" content="#374151" />
-      <meta
-        name="apple-mobile-web-app-status-bar-style"
-        content="black-translucent"
-      />
+      <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="msapplication-starturl" content="https://calmernews.com" />
       <link
         rel="icon"
