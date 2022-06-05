@@ -1,7 +1,12 @@
-import fromDomain from './index';
+import React from 'react';
 import get from 'lodash/get';
+import Page from '../components/Page';
 
-fromDomain.getInitialProps = async function (ctx) {
+function From({ data, cookies }) {
+  return <Page data={data} cookies={cookies} />;
+}
+
+From.getInitialProps = async function (ctx) {
   if (ctx.req) {
     const { url } = ctx.req;
     const data = await fetch(
@@ -31,4 +36,4 @@ fromDomain.getInitialProps = async function (ctx) {
   }
 };
 
-export default fromDomain;
+export default From;

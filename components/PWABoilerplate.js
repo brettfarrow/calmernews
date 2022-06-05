@@ -10,7 +10,7 @@ export default function PWABoilerplate() {
       <meta name="apple-mobile-web-app-title" content="calmer news" />
       <meta name="theme-color" content="#374151" />
       <meta name="msapplication-navbutton-color" content="#374151" />
-      <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black" />
       <meta name="msapplication-starturl" content="https://calmernews.com" />
       <link
         rel="icon"
@@ -39,8 +39,7 @@ export default function PWABoilerplate() {
         href="/images/safari-pinned-tab.svg"
         color="#374151"
       />
-      <meta name="msapplication-TileColor" content="#374151" />
-      <meta name="theme-color" content="#ffffff" />
+      <meta name="msapplication-TileColor" content="#1F2937" />
     </Head>
   );
 }
