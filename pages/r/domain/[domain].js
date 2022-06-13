@@ -7,7 +7,6 @@ function RedditDomain({ data, cookies }) {
 }
 
 RedditDomain.getInitialProps = async (ctx) => {
-  console.log('ctx', ctx);
   if (ctx.req) {
     const { url } = ctx.req;
     const data = await fetch(`${process.env.HOST}/api/${url}`).then((r) =>
@@ -18,7 +17,6 @@ RedditDomain.getInitialProps = async (ctx) => {
       cookies: ctx.req.cookies,
     };
   } else {
-    console.log('url', `/api/${ctx.asPath}`);
     const data = await fetch(`/api/${ctx.asPath}`).then((r) => r.json());
     const cookies = document.cookie.split('; ').reduce((prev, current) => {
       const [name, ...value] = current.split('=');
