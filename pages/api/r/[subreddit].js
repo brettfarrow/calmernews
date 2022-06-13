@@ -4,7 +4,10 @@ import fetch from 'isomorphic-fetch';
 import qs from 'qs';
 
 export default async function subreddit(req, res) {
-  const { url } = req;
+  const {
+    url,
+    query: { count },
+  } = req;
   const path = url.replace('/api', '');
   const ID_PREFIX = 't3_'; // the unused prefix for reddit comment URLs
 
@@ -50,6 +53,7 @@ export default async function subreddit(req, res) {
     items,
     more,
     previous,
+    start: Number(count || 0) + 1,
     experience: 'reddit',
   });
 }
