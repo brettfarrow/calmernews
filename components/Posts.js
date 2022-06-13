@@ -7,6 +7,7 @@ export default function Posts({
   showComments,
   showByline,
   showScore,
+  experience,
 }) {
   return (
     <ol start={start} className={`${from ? 'list-disc' : 'list-decimal-zero'}`}>
@@ -18,6 +19,7 @@ export default function Posts({
           showComments={showComments}
           showByline={showByline}
           showScore={showScore}
+          experience={experience}
         />
       ))}
     </ol>

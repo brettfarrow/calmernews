@@ -9,7 +9,9 @@ const key = new CustomCacheKey().excludeAllQueryParametersExcept(
   'p',
   'n',
   'next',
-  'site'
+  'site',
+  'count',
+  'after'
 );
 
 module.exports = {

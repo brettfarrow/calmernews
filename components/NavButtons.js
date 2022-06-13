@@ -13,7 +13,8 @@ export default function NavButtons({
   // Show the back button except on page 1 of home
   const { pathname, asPath } = router;
   const showBackButton =
-    !more || (more && pathname !== '/' && asPath !== '/news?p=1' && p === 1);
+    previous &&
+    (!more || (more && pathname !== '/' && asPath !== '/news?p=1' && p === 1));
 
   // One column for More on the homepage
   // One column for Back when only one page of results

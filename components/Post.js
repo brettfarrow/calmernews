@@ -4,8 +4,40 @@ export default function Post({
   showComments,
   showByline,
   showScore,
+  experience,
 }) {
-  const ORIGIN_SITE_HOSTNAME = 'https://news.ycombinator.com';
+  const HN_HOSTNAME = 'https://news.ycombinator.com';
+  const REDDIT_HOSTNAME = 'https://old.reddit.com';
+
+  const isSelfPost = (host) => {
+    // hacker news self posts start with HN domain
+    // subreddit self posts start with the prefix
+    return host === HN_HOSTNAME || host.startsWith('self.');
+  };
+
+  const getLinkDomain = (host) => {
+    if (experience === 'hackernews') {
+      return `/from?site=${host}`;
+    } else {
+      return `/r/domain/${host}`;
+    }
+  };
+
+  const getCommentURL = (subreddit, commentId) => {
+    if (experience === 'hackernews') {
+      return `${HN_HOSTNAME}/item?id=${post.id}`;
+    } else {
+      return `${REDDIT_HOSTNAME}/r/${subreddit}/comments/${commentId}/`;
+    }
+  };
+
+  const getBylineURL = (user) => {
+    if (experience === 'hackernews') {
+      return `${HN_HOSTNAME}/user?id=${user}`;
+    } else {
+      return `${REDDIT_HOSTNAME}/user/${user}`;
+    }
+  };
 
   return (
     <li key={`item-${index}`} className={`text-gray-800 dark:text-gray-200`}>
@@ -15,13 +47,13 @@ export default function Post({
       >
         {post.text}
       </a>{' '}
-      {post.host === ORIGIN_SITE_HOSTNAME ? (
+      {isSelfPost(post.host) ? (
         <span>({post.host})</span>
       ) : (
         <span>
           (
           <a
-            href={`/from?site=${post.host}`}
+            href={getLinkDomain(post.host, experience)}
             className={`underline underline-link`}
           >
             {post.host}
@@ -41,7 +73,7 @@ export default function Post({
               posted {post.age} by{' '}
               <a
                 className={`underline underline-link`}
-                href={`${ORIGIN_SITE_HOSTNAME}/user?id=${post.user}`}
+                href={getBylineURL(post.user, experience)}
               >
                 {post.user}
               </a>
@@ -53,7 +85,7 @@ export default function Post({
             <span className={`comments`}>
               <a
                 className={`underline underline-link`}
-                href={`${ORIGIN_SITE_HOSTNAME}/item?id=${post.id}`}
+                href={getCommentURL(post.subreddit, post.id)}
               >
                 {post.comments ? (
                   <>view {post.comments} comments</>
