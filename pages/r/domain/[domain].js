@@ -9,7 +9,7 @@ function RedditDomain({ data, cookies }) {
 RedditDomain.getInitialProps = async (ctx) => {
   if (ctx.req) {
     const { url } = ctx.req;
-    const data = await fetch(`${process.env.HOST}/api/${url}`).then((r) =>
+    const data = await fetch(`${process.env.HOST}/api${url}`).then((r) =>
       r.json()
     );
     return {
@@ -17,7 +17,7 @@ RedditDomain.getInitialProps = async (ctx) => {
       cookies: ctx.req.cookies,
     };
   } else {
-    const data = await fetch(`/api/${ctx.asPath}`).then((r) => r.json());
+    const data = await fetch(`/api${ctx.asPath}`).then((r) => r.json());
     const cookies = document.cookie.split('; ').reduce((prev, current) => {
       const [name, ...value] = current.split('=');
       prev[name] = value.join('=');
