@@ -4,10 +4,7 @@ import fetch from 'isomorphic-fetch';
 import qs from 'qs';
 
 export default async function subreddit(req, res) {
-  const {
-    url,
-    query: { after, count },
-  } = req;
+  const { url } = req;
   const path = url.replace('/api', '');
   const ID_PREFIX = 't3_'; // the unused prefix for reddit comment URLs
 
@@ -17,7 +14,7 @@ export default async function subreddit(req, res) {
   const data = await fetch(fetchUrl).then((r) => r.text());
 
   const $ = cheerio.load(data);
-  const things = $('div.thing').not('.promoted').not('.sticked').toArray();
+  const things = $('div.thing').not('.promoted').not('.stickied').toArray();
 
   const nextButtonHref = $('span.next-button a').attr('href') || '';
   const prevButtonHref = $('span.prev-button a').attr('href') || '';
@@ -53,5 +50,6 @@ export default async function subreddit(req, res) {
     items,
     more,
     previous,
+    experience: 'reddit',
   });
 }
