@@ -34,6 +34,12 @@ module.exports = new Router()
   .match('/api/news', cacheResponse(NEWS))
   .match('/from', cacheResponse(NEWS))
   .match('/api/from', cacheResponse(NEWS))
+  .match('/r', cacheResponse(NEWS))
+  .match('/api/r', cacheResponse(NEWS))
+  .match('/r/:subreddit*', cacheResponse(NEWS))
+  .match('/api/r/:subreddit*', cacheResponse(NEWS))
+  .match('/r/domain/:domain*', cacheResponse(NEWS))
+  .match('/api/r/domain/:domain*', cacheResponse(NEWS))
   .match('/js/measure.js', ({ cache, proxy, removeUpstreamResponseHeader }) => {
     cache(THIRD_PARTY_SCRIPTS);
     proxy('plausible', { path: '/js/plausible.js' });
