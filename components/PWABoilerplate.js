@@ -3,7 +3,7 @@ import Head from 'next/head';
 export default function PWABoilerplate() {
   return (
     <Head>
-      <link rel="manifest" href="manifest.json" />
+      <link rel="manifest" href="/manifest.json" />
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="application-name" content="calmer news" />
