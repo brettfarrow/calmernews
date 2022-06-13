@@ -11,19 +11,13 @@ export default async function subreddit(req, res) {
   const path = url.replace('/api', '');
   const ID_PREFIX = 't3_'; // the unused prefix for reddit comment URLs
 
-  const params = {};
-  if (after) params.after = after;
-  if (count) params.count = Math.round(count) || 25; // to match reddit default
-
   // show the homepage if no subreddit is specified
   const fetchPath = path !== '/r/' ? path : '';
-  const fetchUrl = Object.keys(params).length
-    ? `${endpoints.REDDIT.HOME}${fetchPath}?${qs.stringify(params)}`
-    : `${endpoints.REDDIT.HOME}${fetchPath}`;
+  const fetchUrl = `${endpoints.REDDIT.HOME}${fetchPath}`;
   const data = await fetch(fetchUrl).then((r) => r.text());
 
   const $ = cheerio.load(data);
-  const things = $('div.thing').not('.promoted').toArray();
+  const things = $('div.thing').not('.promoted').not('.sticked').toArray();
 
   const nextButtonHref = $('span.next-button a').attr('href') || '';
   const prevButtonHref = $('span.prev-button a').attr('href') || '';
