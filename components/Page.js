@@ -13,7 +13,7 @@ import { get } from 'lodash';
 
 export default function News({ data, cookies }) {
   const p = get(data, 'page', 1);
-  const { from, more, previous } = data;
+  const { from, more, previous, experience } = data;
   const router = useRouter();
 
   const [loading, setLoading] = useState({
@@ -102,6 +102,7 @@ export default function News({ data, cookies }) {
             showByline={showByline}
             showScore={showScore}
             start={get(data, 'start', 1)}
+            experience={experience}
           />
           <NavButtons
             loading={loading}
