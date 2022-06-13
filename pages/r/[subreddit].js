@@ -9,7 +9,7 @@ function Subreddit({ data, cookies }) {
 Subreddit.getInitialProps = async (ctx) => {
   if (ctx.req) {
     const { url } = ctx.req;
-    const data = await fetch(`${process.env.HOST}/api/${url}`).then((r) =>
+    const data = await fetch(`${process.env.HOST}/api${url}`).then((r) =>
       r.json()
     );
     return {
