@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router';
-
 export default function Post({
   post,
   index,
@@ -10,8 +8,6 @@ export default function Post({
 }) {
   const HN_HOSTNAME = 'https://news.ycombinator.com';
   const REDDIT_HOSTNAME = 'https://old.reddit.com';
-  const router = useRouter();
-  const { asPath } = router;
 
   const isSelfPost = (host) => {
     // hacker news self posts start with HN domain
@@ -27,11 +23,11 @@ export default function Post({
     }
   };
 
-  const getCommentURL = (commentId) => {
+  const getCommentURL = (subreddit, commentId) => {
     if (experience === 'hackernews') {
       return `${HN_HOSTNAME}/item?id=${post.id}`;
     } else {
-      return `${REDDIT_HOSTNAME}${asPath}/comments/${commentId}`;
+      return `${REDDIT_HOSTNAME}/r/${subreddit}/comments/${commentId}/`;
     }
   };
 
@@ -89,7 +85,7 @@ export default function Post({
             <span className={`comments`}>
               <a
                 className={`underline underline-link`}
-                href={getCommentURL(post.id)}
+                href={getCommentURL(post.subreddit, post.id)}
               >
                 {post.comments ? (
                   <>view {post.comments} comments</>

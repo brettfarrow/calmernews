@@ -2,17 +2,33 @@ import * as cheerio from 'cheerio';
 import endpoints from '../endpoints';
 import fetch from 'isomorphic-fetch';
 
+function getFetchPath(url) {
+  // Remove the api prefix for client side navigation
+  let path = url.replace('/api', '');
+
+  // show the home page instead of the subreddit list page
+  if (path === '/r/') {
+    path = '';
+  }
+
+  // for list of posts by domain
+  if (path.includes('/domain/')) {
+    path = path.replace('/r', '');
+  }
+
+  return path;
+}
+
 export default async function subreddit(req, res) {
   const {
     url,
     query: { count },
   } = req;
-  const path = url.replace('/api', '');
+  const path = getFetchPath(url);
+  const isDomainRequest = path.includes('/domain/');
   const ID_PREFIX = 't3_'; // the unused prefix for reddit comment URLs
 
-  // show the homepage if no subreddit is specified
-  const fetchPath = path !== '/r/' ? path : '';
-  const fetchUrl = `${endpoints.REDDIT.HOME}${fetchPath}`;
+  const fetchUrl = `${endpoints.REDDIT.HOME}${path}`;
   const data = await fetch(fetchUrl).then((r) => r.text());
 
   const $ = cheerio.load(data);
@@ -20,8 +36,13 @@ export default async function subreddit(req, res) {
 
   const nextButtonHref = $('span.next-button a').attr('href') || '';
   const prevButtonHref = $('span.prev-button a').attr('href') || '';
-  const more = nextButtonHref.replace(endpoints.REDDIT.HOME, '');
-  const previous = prevButtonHref.replace(endpoints.REDDIT.HOME, '');
+  const more = `${isDomainRequest && '/r'}${nextButtonHref.replace(
+    endpoints.REDDIT.HOME,
+    ''
+  )}`;
+  const previous = `${
+    prevButtonHref && isDomainRequest && '/r'
+  }${prevButtonHref.replace(endpoints.REDDIT.HOME, '')}`;
 
   const items = things.map((post) => {
     const id = ($(post).attr('data-fullname') || '').replace(ID_PREFIX, '');
@@ -35,6 +56,7 @@ export default async function subreddit(req, res) {
     const score = Number($(post).attr('data-score'));
     const comments = Number($(post).attr('data-comments-count'));
     const user = $(post).attr('data-author');
+    const subreddit = $(post).attr('data-subreddit');
 
     return {
       id,
@@ -43,6 +65,7 @@ export default async function subreddit(req, res) {
       host,
       href,
       score,
+      subreddit,
       text,
       user,
     };
