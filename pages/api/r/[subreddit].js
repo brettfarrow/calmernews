@@ -1,7 +1,6 @@
 import * as cheerio from 'cheerio';
 import endpoints from '../endpoints';
 import fetch from 'isomorphic-fetch';
-import qs from 'qs';
 
 export default async function subreddit(req, res) {
   const {
