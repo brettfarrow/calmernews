@@ -6,13 +6,8 @@ function getFetchPath(url) {
   // Remove the api prefix for client side navigation
   let path = url.replace('/api', '');
 
-  // show the home page instead of the subreddit list page
-  if (path === '/r/') {
-    path = '';
-  }
-
   // for list of posts by domain
-  if (path.includes('/domain/')) {
+  if (path.includes('/domain/') || path === '/r' || path.startsWith('/r?')) {
     path = path.replace('/r', '');
   }
 
@@ -36,10 +31,9 @@ export default async function subreddit(req, res) {
 
   const nextButtonHref = $('span.next-button a').attr('href') || '';
   const prevButtonHref = $('span.prev-button a').attr('href') || '';
-  const more = `${isDomainRequest && '/r'}${nextButtonHref.replace(
-    endpoints.REDDIT.HOME,
-    ''
-  )}`;
+  const more = `${
+    isDomainRequest || url === '/api/r' || url.startsWith('/api/r?') ? '/r' : ''
+  }${nextButtonHref.replace(endpoints.REDDIT.HOME, '')}`;
   const previous = `${
     prevButtonHref && isDomainRequest && '/r'
   }${prevButtonHref.replace(endpoints.REDDIT.HOME, '')}`;
@@ -49,7 +43,12 @@ export default async function subreddit(req, res) {
 
     const link = $(post).find('a.title.may-blank');
     const host = $(post).find('p.title span.domain a').text();
-    const href = link.attr('href');
+    const linkHref = link.attr('href');
+    // Build link to include reddit domain if it's a relative URL
+    const protocolRegex = new RegExp(/https?:\/\//);
+    const href = protocolRegex.test(linkHref)
+      ? linkHref
+      : `${endpoints.REDDIT.HOME}${linkHref}`;
     const text = link.text();
 
     const age = $(post).find('p.tagline time.live-timestamp').text() || '';
