@@ -12,10 +12,6 @@ Index.getInitialProps = async (ctx) => {
     const data = await fetch(
       `${process.env.HOST}/api?${url.split('?')[1]}`
     ).then((r) => r.json());
-    console.log('server side request return', {
-      data,
-      cookies: ctx.req.cookies,
-    });
     return {
       data,
       cookies: ctx.req.cookies,
@@ -27,10 +23,6 @@ Index.getInitialProps = async (ctx) => {
       prev[name] = value.join('=');
       return prev;
     }, {});
-    console.log('client side request return', {
-      data,
-      cookies,
-    });
     return {
       data,
       cookies,
