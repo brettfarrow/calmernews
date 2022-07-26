@@ -10,7 +10,12 @@ export default function Posts({
   experience,
 }) {
   return (
-    <ol start={start} className={`${from ? 'list-disc' : 'list-decimal-zero'}`}>
+    <ol
+      start={start}
+      className={`${
+        from ? 'list-disc' : 'list-decimal-zero'
+      } max-w-4xl mx-auto`}
+    >
       {items.map((post, index) => (
         <Post
           post={post}
