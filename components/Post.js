@@ -62,24 +62,26 @@ export default function Post({
         </span>
       )}
       <div className={`grid grid-cols-1 sm:grid-cols-2`}>
-        <span>
-          {showScore && (
-            <span className={`score mr-3`}>
-              {post.score} {post.score === 1 ? 'point' : 'points'}
-            </span>
-          )}
-          {showByline && (
-            <span className={`byline block sm:inline`}>
-              posted {post.age} by{' '}
-              <a
-                className={`underline underline-link`}
-                href={getBylineURL(post.user, experience)}
-              >
-                {post.user}
-              </a>
-            </span>
-          )}
-        </span>
+        {(showScore || showByline) && (
+          <span>
+            {showScore && (
+              <span className={`score mr-3`}>
+                {post.score} {post.score === 1 ? 'point' : 'points'}
+              </span>
+            )}
+            {showByline && (
+              <span className={`byline block sm:inline`}>
+                posted {post.age} by{' '}
+                <a
+                  className={`underline underline-link`}
+                  href={getBylineURL(post.user, experience)}
+                >
+                  {post.user}
+                </a>
+              </span>
+            )}
+          </span>
+        )}
         <span>
           {showComments && (
             <span className={`comments`}>
