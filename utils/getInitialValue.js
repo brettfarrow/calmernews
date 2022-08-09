@@ -6,5 +6,5 @@ export default function getInitialValue(
   localStorage,
   defaultValue = false
 ) {
-  return get(cookies, name, get(localStorage, name, defaultValue));
+  return get(localStorage, name, get(cookies, name, defaultValue));
 }
