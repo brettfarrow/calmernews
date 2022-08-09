@@ -23,7 +23,7 @@ export default function NavButtons({
     p === 1 && !showBackButton ? 1 : p === 1 && !more && showBackButton ? 1 : 2;
 
   return (
-    <div className={`grid grid-cols-${gridCols}`}>
+    <div className={`grid grid-cols-${gridCols} max-w-4xl mx-auto`}>
       {p > 1 && (
         <div className={`flex justify-center`}>
           <button
