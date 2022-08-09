@@ -10,11 +10,13 @@ import PullToRefresh from 'react-simple-pull-to-refresh';
 import { useRouter } from 'next/router';
 import LoadingButton from './LoadingButton';
 import { get } from 'lodash';
+import getInitialValue from '../utils/getInitialValue';
 
 export default function Page({ data, cookies }) {
   const p = get(data, 'page', 1);
   const { from, more, previous, experience } = data;
   const router = useRouter();
+  const localStorage = typeof window !== 'undefined' ? window.localStorage : {};
 
   const [loading, setLoading] = useState({
     loading: false,
@@ -22,17 +24,22 @@ export default function Page({ data, cookies }) {
   });
 
   const [showComments, setShowComments] = useState(
-    get(cookies, 'show_comments', false) === 'true'
+    getInitialValue('show_comments', cookies, localStorage, false) === 'true'
   );
   const [showByline, setShowByline] = useState(
-    get(cookies, 'show_byline', false) === 'true'
+    getInitialValue('show_byline', cookies, localStorage, false) === 'true'
   );
   const [showScore, setShowScore] = useState(
-    get(cookies, 'show_score', false) === 'true'
+    getInitialValue('show_score', cookies, localStorage, false) === 'true'
   );
 
   const toggleClick = (name, setter, value) => {
     document.cookie = `${name}=${!value}; Max-Age=2147483647`;
+    try {
+      localStorage.setItem(name, !value);
+    } catch (e) {
+      console.error(e);
+    }
     setter(!value);
   };
 
@@ -40,6 +47,7 @@ export default function Page({ data, cookies }) {
     setTimeout(() => router.reload(), 0);
   };
 
+  // Attempts to handle loading button state becoming stuck
   const resetLoadingButton = () => {
     if (loading) {
       setTimeout(() => {
@@ -63,7 +71,7 @@ export default function Page({ data, cookies }) {
   }, [data]);
 
   const refreshingContent = (
-    <LoadingButton customClasses={`animate-spin w-8 h-8 my-0 mx-auto`} />
+    <LoadingButton customClasses={`animate-spin w-8 h-8 my-8 mx-auto`} />
   );
 
   return (
