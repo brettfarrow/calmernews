@@ -70,7 +70,7 @@ export default function Page({ data, cookies }) {
   }, [data]);
 
   const refreshingContent = (
-    <LoadingButton customClasses={`animate-spin w-8 h-8 my-0 mx-auto`} />
+    <LoadingButton customClasses={`animate-spin w-8 h-8 my-8 mx-auto`} />
   );
 
   return (
