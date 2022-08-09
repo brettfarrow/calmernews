@@ -47,6 +47,7 @@ export default function Page({ data, cookies }) {
     setTimeout(() => router.reload(), 0);
   };
 
+  // Attempts to handle loading button state becoming stuck
   const resetLoadingButton = () => {
     if (loading) {
       setTimeout(() => {
