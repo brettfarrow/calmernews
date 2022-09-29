@@ -31,7 +31,7 @@ export default async function index(req, res) {
   const parsed = stories.map((story, index) => {
     const id = Number($(story).attr('id') || '');
 
-    const link = $(story).find('a.titlelink');
+    const link = $(story).find('span.titleline a');
     const host = $(story).find('span.sitestr').text();
     const href = host ? link.attr('href') : `${host}/${link.attr('href')}`;
     const text = link.text() || '';
@@ -44,9 +44,10 @@ export default async function index(req, res) {
       )
     );
     const comments = Number(
-      (
-        $(storyInfo[index]).find('td.subtext').children().last().text() || ''
-      ).replace(/[^0-9]+/g, '')
+      ($(storyInfo[index]).find('span.score').text() || '').replace(
+        /[^0-9]+/g,
+        ''
+      )
     );
     const user = $(storyInfo[index]).find('a.hnuser').text() || '';
 
