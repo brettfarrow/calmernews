@@ -53,7 +53,7 @@ export default function Post({
         <span>
           <a
             href={getLinkDomain(post.host, experience)}
-            className={`underline underline-link`}
+            className={`underline underline-link underline-host`}
           >
             ({post.host})
           </a>
