@@ -59,9 +59,17 @@ li:before {
 .underline:hover:after,
 .underline:focus:after,
 .underline:active:after {
-  left: 0;
+  left: 0px;
   right: auto;
   width: 100%;
+}
+
+.underline-host.underline:hover:after,
+.underline-host.underline:focus:after,
+.underline-host.underline:active:after {
+  left: 6px;
+  right: auto;
+  width: calc(100% - 12px);
 }
 
 .grid-cols-2 {
