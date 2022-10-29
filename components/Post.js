@@ -51,14 +51,12 @@ export default function Post({
         <span>({post.host})</span>
       ) : (
         <span>
-          (
           <a
             href={getLinkDomain(post.host, experience)}
             className={`underline underline-link`}
           >
-            {post.host}
+            ({post.host})
           </a>
-          )
         </span>
       )}
       <div className={`grid grid-cols-1 sm:grid-cols-2`}>
