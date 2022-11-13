@@ -22,7 +22,7 @@
     "tailwind:watch": "npx tailwindcss --watch"
   },
   "name": "calmernews",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "isomorphic-fetch": "^3.0.0",
