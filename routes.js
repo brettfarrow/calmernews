@@ -1,5 +1,5 @@
-const { Router } = require('@layer0/core/router');
-const { nextRoutes } = require('@layer0/next');
+const { Router } = require('@edgio/core/router');
+const { nextRoutes } = require('@edgio/next');
 const {
   NEWS,
   SERVICE_WORKER,
