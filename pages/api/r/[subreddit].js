@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
 import endpoints from '../endpoints';
+import fetch from 'isomorphic-fetch';
 
 function getFetchPath(url) {
   // Remove the api prefix for client side navigation
