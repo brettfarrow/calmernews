@@ -1,4 +1,4 @@
-import { CustomCacheKey } from '@edgio/core/router';
+import { CustomCacheKey } from '@layer0/core/router';
 
 const FIFTEEN_MINUTE_TTL = 60 * 15;
 const ONE_HOUR_TTL = 60 * 60;

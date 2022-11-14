@@ -103,12 +103,5 @@ dist
 # TernJS port file
 .tern-port
 
-# edgio generated build directory
-.edgio
-
-# legacy layer0
-.layer0
 # Layer0 generated build directory
 .layer0
-# Edgio generated build directory
-.edgio
