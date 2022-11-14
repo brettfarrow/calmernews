@@ -18,7 +18,7 @@
     "tailwind:watch": "npx tailwindcss --watch"
   },
   "name": "calmernews",
-  "version": "2.4.0",
+  "version": "2.6.0",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "lodash": "^4.17.21",
@@ -31,12 +31,12 @@
     "webpack": "^5.74.0"
   },
   "devDependencies": {
-    "@layer0/cli": "^4.19.3",
-    "@layer0/core": "^4.19.3",
-    "@layer0/devtools": "^4.19.3",
-    "@layer0/next": "^4.19.3",
-    "@layer0/prefetch": "^4.19.3",
-    "@layer0/react": "^4.19.3",
+    "@layer0/cli": "^4.19.4",
+    "@layer0/core": "^4.19.4",
+    "@layer0/devtools": "^4.19.4",
+    "@layer0/next": "^4.19.4",
+    "@layer0/prefetch": "^4.19.4",
+    "@layer0/react": "^4.19.4",
     "ansi-regex": ">=6.0.1",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.26.0",
