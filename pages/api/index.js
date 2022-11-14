@@ -1,6 +1,5 @@
 import * as cheerio from 'cheerio';
 import endpoints from './endpoints';
-import fetch from 'isomorphic-fetch';
 import qs from 'qs';
 
 export default async function index(req, res) {
@@ -22,7 +21,7 @@ export default async function index(req, res) {
   const stories = $('tr.athing').toArray();
   const moreLink = $('a.morelink').attr('href');
   const more = moreLink ? `/${$('a.morelink').attr('href')}` : false;
-  const storyInfo = $('table.itemlist tr')
+  const storyInfo = $('table#hnmain tr td.subtext')
     .not('.spacer')
     .not('.athing')
     .toArray()
