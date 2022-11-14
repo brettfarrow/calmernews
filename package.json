@@ -4,7 +4,7 @@
     "layer0:build": "layer0 build",
     "layer0:deploy": "layer0 deploy --team=calmernews",
     "clearcache:dev": "layer0 cache-clear --team=calmernews --site=calmernews --environment=default --token=$layer0_deploy_token",
-    "clearcache:stage": "layer0 cache-clear --team=calmernews --site=myLayer0App --environment=staging --token=$layer0_deploy_token",
+    "clearcache:stage": "layer0 cache-clear --team=calmernews --site=calmernews --environment=staging --token=$layer0_deploy_token",
     "clearcache:prod": "layer0 cache-clear --team=calmernews --site=calmernews --environment=production --token=$layer0_deploy_token",
     "deploy": "layer0 deploy --team=calmernews",
     "deploy:staging": "layer0 deploy --team=calmernews --environment=staging",
@@ -21,7 +21,6 @@
   "version": "2.4.0",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
-    "isomorphic-fetch": "^3.0.0",
     "lodash": "^4.17.21",
     "next": "^13.0.0",
     "next-pwa": "^5.6.0",

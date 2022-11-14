@@ -1,6 +1,5 @@
 import React from 'react';
 import Page from '../../components/Page';
-import fetch from 'isomorphic-fetch';
 
 function Subreddit({ data, cookies }) {
   return <Page data={data} cookies={cookies} />;
