@@ -20,7 +20,7 @@ export default async function index(req, res) {
   const $ = cheerio.load(data);
   const stories = $('tr.athing').toArray();
   const moreLink = $('a.morelink').attr('href');
-  const more = moreLink ? `/${$('a.morelink').attr('href')}` : false;
+  const more = moreLink ? `/news${$('a.morelink').attr('href')}` : false;
   const storyInfo = $('table#hnmain tr td.subtext')
     .not('.spacer')
     .not('.athing')
@@ -71,7 +71,7 @@ export default async function index(req, res) {
     previous:
       pageNumber > 1
         ? more.replace(`p=${pageNumber + 1}`, `p=${pageNumber - 1}`)
-        : '/',
+        : '/news',
     page: pageNumber || 1,
     start: pageNumber > 1 ? (pageNumber - 1) * 30 + 1 : 1,
     experience: 'hackernews',
