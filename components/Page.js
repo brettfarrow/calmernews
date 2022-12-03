@@ -89,13 +89,9 @@ export default function Page({ data, cookies }) {
       <div className="bg-coolGray-100 dark:bg-coolGray-700">
         <div
           className={`text-3xl text-gray-800 dark:text-gray-200 flex justify-center p-4`}
+          onClick={() => (window.location.href = '/')}
         >
-          <Link href="/" passHref>
-            <Prefetch url="/api">
-              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-              <a href="/">calmer news</a>
-            </Prefetch>
-          </Link>
+          calmer news
         </div>
         <Posts
           from={from}

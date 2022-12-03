@@ -1,6 +1,4 @@
 import LoadingButton from './LoadingButton';
-import Link from 'next/link';
-import { Prefetch } from '@layer0/react';
 
 export default function NavButtons({
   loading,
@@ -36,21 +34,20 @@ export default function NavButtons({
             }
             disabled={loading.button === false ? false : true}
           >
-            <Link href={previous} passHref>
-              <Prefetch url={`/api${previous}`}>
-                <a className={`w-28 h-12 block leading-12`} href={previous}>
-                  {loading.loading && loading.button === 'previous' ? (
-                    <LoadingButton
-                      customClasses={`animate-spin w-8 h-8 mx-10 my-2 text-white`}
-                    />
-                  ) : loading.button === 'more' ? (
-                    ''
-                  ) : (
-                    'Previous'
-                  )}
-                </a>
-              </Prefetch>
-            </Link>
+            <span
+              className={`w-28 h-12 block leading-12`}
+              onClick={() => (window.location.href = previous)}
+            >
+              {loading.loading && loading.button === 'previous' ? (
+                <LoadingButton
+                  customClasses={`animate-spin w-8 h-8 mx-10 my-2 text-white`}
+                />
+              ) : loading.button === 'more' ? (
+                ''
+              ) : (
+                'Previous'
+              )}
+            </span>
           </button>
         </div>
       )}
@@ -91,21 +88,20 @@ export default function NavButtons({
             }
             disabled={loading.button === false ? false : true}
           >
-            <Link href={more} passHref>
-              <Prefetch url={`/api${more}`}>
-                <a className={`w-28 h-12 block leading-12`} href={more}>
-                  {loading.loading && loading.button === 'more' ? (
-                    <LoadingButton
-                      customClasses={`animate-spin w-8 h-8 mx-10 my-2 text-white`}
-                    />
-                  ) : loading.button === 'previous' ? (
-                    ''
-                  ) : (
-                    'More'
-                  )}
-                </a>
-              </Prefetch>
-            </Link>
+            <span
+              className={`w-28 h-12 block leading-12`}
+              onClick={() => (window.location.href = more)}
+            >
+              {loading.loading && loading.button === 'more' ? (
+                <LoadingButton
+                  customClasses={`animate-spin w-8 h-8 mx-10 my-2 text-white`}
+                />
+              ) : loading.button === 'previous' ? (
+                ''
+              ) : (
+                'More'
+              )}
+            </span>
           </button>
         </div>
       )}
