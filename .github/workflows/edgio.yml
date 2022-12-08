@@ -1,6 +1,6 @@
-# Add this file to your project at .github/workflows/layer0.yml
+# Add this file to your project at .github/workflows/edgio.yml
 #
-# This GitHub action deploys your site on Layer0.
+# This GitHub action deploys your site on Edgio.
 #
 # The site is deployed each time commits are pushed. The environment to which the changes are deployed
 # is based on the following rules:
@@ -16,7 +16,7 @@
 # In order for this action to deploy your site, you must create a deploy token from the site settings page
 # in https://app.layer0.co and configure it as a secret called "edgio_deploy_token" in your repo on GitHub.
 
-name: Deploy branch to Layer0
+name: Deploy branch to Edgio
 
 on:
   push:
@@ -24,7 +24,7 @@ on:
     types: [published]
 
 jobs:
-  deploy-to-layer0:
+  deploy-to-edgio:
     # cancels the deployment for the automatic merge push created when tagging a release
     if: contains(github.ref, 'refs/tags') == false || github.event_name == 'release'
     runs-on: ubuntu-latest
@@ -55,7 +55,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - run: npm ci
-      - name: Deploy to Layer0
-        run: npm run layer0:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$edgio_deploy_token ${{github.event_name == 'push' && env.BRANCH_NAME == 'main' && '--environment=staging' || ''}} ${{github.event_name == 'release' && '--environment=production' || ''}}
+      - name: Deploy to Edgio
+        run: npm run edgio:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$edgio_deploy_token ${{github.event_name == 'push' && env.BRANCH_NAME == 'main' && '--environment=staging' || ''}} ${{github.event_name == 'release' && '--environment=production' || ''}}
         env:
           edgio_deploy_token: ${{secrets.edgio_deploy_token}}

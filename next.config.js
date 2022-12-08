@@ -1,10 +1,10 @@
-const { withLayer0, withServiceWorker } = require('@layer0/next/config');
+const { withEdgio, withServiceWorker } = require('@edgio/next/config');
 const withPWA = require('next-pwa');
 const runtimeCaching = require('next-pwa/cache');
 
-module.exports = withLayer0(
+module.exports = withEdgio(
   withServiceWorker({
-    layer0SourceMaps: true,
+    edgioSourceMaps: true,
   }),
   withPWA({
     pwa: {
