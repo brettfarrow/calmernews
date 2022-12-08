@@ -87,54 +87,60 @@ export default function Page({ data, cookies }) {
           content="A modified UI for Hacker News, starting with dark mode and no comments (by default). Not affiliated with Y Combinator or Hacker News in any way."
         />
       </Head>
-      <div className="bg-coolGray-100 dark:bg-coolGray-700">
-        <h1
-          className={`text-gray-800 dark:text-gray-200 flex justify-center p-4`}
-          onClick={() => (window.location.href = '/')}
-        >
-          calmer news
-        </h1>
-        <Posts
-          from={from}
-          items={get(data, 'items', [])}
-          showComments={showComments}
-          showByline={showByline}
-          showScore={showScore}
-          start={get(data, 'start', 1)}
-          experience={experience}
-        />
-        <NavButtons
-          loading={loading}
-          setLoading={setLoading}
-          more={more}
-          previous={previous}
-          p={p}
-          router={router}
-        />
-        <footer className={`flex justify-center pb-16`}>
-          <ToggleButton
-            name={'Byline'}
-            value={showByline}
-            onClick={() => {
-              toggleClick('show_byline', setShowByline, showByline);
-            }}
+      <PullToRefresh
+        pullingContent={''}
+        onRefresh={handleRefresh}
+        refreshingContent={refreshingContent}
+      >
+        <div className="bg-coolGray-100 dark:bg-coolGray-700">
+          <h1
+            className={`text-gray-800 dark:text-gray-200 flex justify-center p-4`}
+            onClick={() => (window.location.href = '/')}
+          >
+            calmer news
+          </h1>
+          <Posts
+            from={from}
+            items={get(data, 'items', [])}
+            showComments={showComments}
+            showByline={showByline}
+            showScore={showScore}
+            start={get(data, 'start', 1)}
+            experience={experience}
           />
-          <ToggleButton
-            name={'Comments'}
-            value={showComments}
-            onClick={() => {
-              toggleClick('show_comments', setShowComments, showComments);
-            }}
+          <NavButtons
+            loading={loading}
+            setLoading={setLoading}
+            more={more}
+            previous={previous}
+            p={p}
+            router={router}
           />
-          <ToggleButton
-            name={'Score'}
-            value={showScore}
-            onClick={() => {
-              toggleClick('show_score', setShowScore, showScore);
-            }}
-          />
-        </footer>
-      </div>
+          <footer className={`flex justify-center pb-16`}>
+            <ToggleButton
+              name={'Byline'}
+              value={showByline}
+              onClick={() => {
+                toggleClick('show_byline', setShowByline, showByline);
+              }}
+            />
+            <ToggleButton
+              name={'Comments'}
+              value={showComments}
+              onClick={() => {
+                toggleClick('show_comments', setShowComments, showComments);
+              }}
+            />
+            <ToggleButton
+              name={'Score'}
+              value={showScore}
+              onClick={() => {
+                toggleClick('show_score', setShowScore, showScore);
+              }}
+            />
+          </footer>
+        </div>
+      </PullToRefresh>
       <Script
         src="/js/measure.js"
         data-domain="calmernews.com"
