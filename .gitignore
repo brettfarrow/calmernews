@@ -105,6 +105,3 @@ dist
 
 # Layer0 generated build directory
 .layer0
-
-# Edgio generated build directory
-.edgio

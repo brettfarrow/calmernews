@@ -1,5 +1,5 @@
 module.exports = {
-  connector: '@edgio/next',
+  connector: '@layer0/next',
   prerenderConcurrency: 1,
   backends: {
     plausible: {
