@@ -9,6 +9,7 @@
     "deploy": "layer0 deploy --team=calmernews",
     "deploy:staging": "layer0 deploy --team=calmernews --environment=staging",
     "deploy:production": "layer0 deploy --team=calmernews --environment=production",
+    "dev": "layer0 dev",
     "start": "layer0 dev",
     "start:cache": "layer0 dev --cache",
     "next:build": "next build",
