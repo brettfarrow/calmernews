@@ -54,7 +54,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
       - name: Deploy to Layer0
         run: npm run layer0:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$edgio_deploy_token ${{github.event_name == 'push' && env.BRANCH_NAME == 'main' && '--environment=staging' || ''}} ${{github.event_name == 'release' && '--environment=production' || ''}}
         env:
