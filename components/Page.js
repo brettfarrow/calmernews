@@ -95,9 +95,10 @@ export default function Page({ data, cookies }) {
         <div className="bg-coolGray-100 dark:bg-coolGray-700">
           <h1
             className={`text-gray-800 dark:text-gray-200 flex justify-center p-4`}
-            onClick={() => (window.location.href = '/')}
           >
-            calmer news
+            <Link href="/" passHref>
+              calmer news
+            </Link>
           </h1>
           <Posts
             from={from}
