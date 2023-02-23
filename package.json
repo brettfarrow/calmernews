@@ -19,7 +19,7 @@
     "tailwind:watch": "npx tailwindcss --watch"
   },
   "name": "calmernews",
-  "version": "2.6.2",
+  "version": "2.7.0",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "lodash": "^4.17.21",
