@@ -42,13 +42,14 @@ export default async function index(req, res) {
         ''
       )
     );
-    const comments = Number(
-      (
-        $(
-          $(storyInfo[index]).find('span.subline a[href^="item"]').last()
-        ).text() || ''
-      ).replace(/[^0-9]+/g, '')
-    );
+    const lastLink =
+      $(
+        $(storyInfo[index]).find('span.subline a[href^="item"]').last()
+      ).text() || '';
+    const comments =
+      lastLink.includes('comments') || lastLink.includes('discuss')
+        ? Number(lastLink.replace(/[^0-9]+/g, ''))
+        : 0;
     const user = $(storyInfo[index]).find('a.hnuser').text() || '';
 
     return {
