@@ -142,7 +142,7 @@ export default function Page({ data, cookies }) {
         </div>
       </PullToRefresh>
       <Script
-        src="/js/measure.js"
+        src="https://plausible.io/js/script.js"
         data-domain="calmernews.com"
         afterInteractive
       />

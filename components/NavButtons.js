@@ -1,6 +1,5 @@
 import LoadingButton from './LoadingButton';
 import Link from 'next/link';
-import { Prefetch } from '@layer0/react';
 
 export default function NavButtons({
   loading,
