@@ -8,25 +8,29 @@ export default function Posts({
   showByline,
   showScore,
   experience,
+  children,
 }) {
   return (
-    <ol
-      start={start}
-      className={`${
-        from ? 'list-disc' : 'list-decimal-zero'
-      } max-w-4xl mx-auto`}
-    >
-      {items.map((post, index) => (
-        <Post
-          post={post}
-          key={index}
-          index={index}
-          showComments={showComments}
-          showByline={showByline}
-          showScore={showScore}
-          experience={experience}
-        />
-      ))}
-    </ol>
+    <>
+      <ol
+        start={start}
+        className={`${
+          from ? 'list-disc' : 'list-decimal-zero'
+        } max-w-4xl mx-auto`}
+      >
+        {items.map((post, index) => (
+          <Post
+            post={post}
+            key={index}
+            index={index}
+            showComments={showComments}
+            showByline={showByline}
+            showScore={showScore}
+            experience={experience}
+          />
+        ))}
+      </ol>
+      {children}
+    </>
   );
 }

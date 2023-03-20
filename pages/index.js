@@ -1,8 +1,13 @@
 import React from 'react';
 import Page from '../components/Page';
+import News from '../components/News';
 
 function Index({ data, cookies }) {
-  return <Page data={data} cookies={cookies} />;
+  return (
+    <Page>
+      <News data={data} cookies={cookies} />
+    </Page>
+  );
 }
 
 Index.getInitialProps = async (ctx) => {

@@ -1,8 +1,13 @@
 import getQueryParameter from '../utils/getQueryParameter';
+import Page from '../components/Page';
 import Comments from '../components/Comments';
 
 const Item = ({ data }) => {
-  return <Comments data={data} />;
+  return (
+    <Page>
+      <Comments data={data} />
+    </Page>
+  );
 };
 
 Item.getInitialProps = async function (ctx) {

@@ -1,12 +1,17 @@
 import React from 'react';
 import Page from '../components/Page';
+import News from '../components/News';
 import get from 'lodash/get';
 
-function News({ data, cookies }) {
-  return <Page data={data} cookies={cookies} />;
+function NewsPage({ data, cookies }) {
+  return (
+    <Page>
+      <News data={data} cookies={cookies} />
+    </Page>
+  );
 }
 
-News.getInitialProps = async function (ctx) {
+NewsPage.getInitialProps = async function (ctx) {
   if (ctx.req) {
     const { url } = ctx.req;
     const data = await fetch(
@@ -31,4 +36,4 @@ News.getInitialProps = async function (ctx) {
   }
 };
 
-export default News;
+export default NewsPage;

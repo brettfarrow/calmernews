@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
 import endpoints from './endpoints';
+import DOMPurify from 'isomorphic-dompurify';
 
 export default async function item(req, res) {
   const {
@@ -28,16 +29,16 @@ export default async function item(req, res) {
     const username = $(comment).find('.comhead > a.hnuser').text();
     const age = $(comment).find('.comhead > span.age').text();
     $(comment).find('div.reply').remove(); // remove comment reply link
-    const body = $(comment)
-      .find('.comment > span.commtext')
-      .html()
-      .trim()
-      .replace(/<a href="(.+?)" rel="nofollow">(.+?)<\/a>/g, '$1') // replace links with text pt. 1
-      .replace(/<a href="(.+?)">(.+?)<\/a>/g, '$1') // replace links with text pt. 1
-      .replace(/<p>/g, '\n') // remove opening paragraph tags
-      .replace(/<\/p>/g, '\n') // replace with very original string
-      .replace(/\n\n/g, '\n') // remove duplicate line breaks
-      .replace(/\n(\s+)\n/g, ''); // remove any extra line breaks at end of comment
+    const body = DOMPurify.sanitize(
+      $(comment)
+        .find('.comment > span.commtext')
+        .html()
+        .trim()
+        .replace(/<p>/g, '\n') // remove opening paragraph tags
+        .replace(/<\/p>/g, '\n') // replace with newline character
+        .replace(/\n\n/g, '\n') // remove duplicate line breaks
+        .replace(/\n(\s+)\n/g, '') // remove any extra line breaks at end of comment
+    );
     const level = $(comment).find('td.ind').attr('indent');
 
     comments.push({
