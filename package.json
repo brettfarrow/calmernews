@@ -1,17 +1,7 @@
 {
   "scripts": {
-    "layer0:dev": "layer0 dev",
-    "layer0:build": "layer0 build",
-    "layer0:deploy": "layer0 deploy --team=calmernews",
-    "clearcache:dev": "layer0 cache-clear --team=calmernews --site=calmernews --environment=default --token=$layer0_deploy_token",
-    "clearcache:stage": "layer0 cache-clear --team=calmernews --site=calmernews --environment=staging --token=$layer0_deploy_token",
-    "clearcache:prod": "layer0 cache-clear --team=calmernews --site=calmernews --environment=production --token=$layer0_deploy_token",
-    "deploy": "layer0 deploy --team=calmernews",
-    "deploy:staging": "layer0 deploy --team=calmernews --environment=staging",
-    "deploy:production": "layer0 deploy --team=calmernews --environment=production",
-    "dev": "layer0 dev",
-    "start": "layer0 dev",
-    "start:cache": "layer0 dev --cache",
+    "dev": "next dev",
+    "start": "next dev",
     "next:build": "next build",
     "next:dev": "next dev",
     "next:start": "next start",
@@ -19,7 +9,7 @@
     "tailwind:watch": "npx tailwindcss --watch"
   },
   "name": "calmernews",
-  "version": "2.7.0",
+  "version": "3.0.0",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "lodash": "^4.17.21",
@@ -32,12 +22,6 @@
     "webpack": "^5.74.0"
   },
   "devDependencies": {
-    "@layer0/cli": "^4.19.4",
-    "@layer0/core": "^4.19.4",
-    "@layer0/devtools": "^4.19.4",
-    "@layer0/next": "^4.19.4",
-    "@layer0/prefetch": "^4.19.4",
-    "@layer0/react": "^4.19.4",
     "ansi-regex": ">=6.0.1",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.26.0",
