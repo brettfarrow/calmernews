@@ -3,7 +3,6 @@ import Posts from './Posts';
 import ToggleButton from './ToggleButton';
 import NavButtons from './NavButtons';
 import Link from 'next/link';
-import { Prefetch } from '@layer0/react';
 import Head from 'next/head';
 import Script from 'next/script';
 import PullToRefresh from 'react-simple-pull-to-refresh';

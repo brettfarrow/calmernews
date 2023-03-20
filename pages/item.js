@@ -1,8 +1,8 @@
 import getQueryParameter from '../utils/getQueryParameter';
 import Comments from '../components/Comments';
 
-const Item = ({ data, cookies }) => {
-  return <Comments data={data} cookies={cookies} />;
+const Item = ({ data }) => {
+  return <Comments data={data} />;
 };
 
 Item.getInitialProps = async function (ctx) {
@@ -14,19 +14,12 @@ Item.getInitialProps = async function (ctx) {
     );
     return {
       data,
-      cookies: ctx.req.cookies,
     };
   } else {
     const id = get(ctx, 'query.id', 1);
     const data = await fetch(`/api/item?id=${id}`).then((r) => r.json());
-    const cookies = document.cookie.split('; ').reduce((prev, current) => {
-      const [name, ...value] = current.split('=');
-      prev[name] = value.join('=');
-      return prev;
-    }, {});
     return {
       data,
-      cookies,
     };
   }
 };

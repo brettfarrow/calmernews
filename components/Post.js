@@ -25,7 +25,7 @@ export default function Post({
 
   const getCommentURL = (subreddit, commentId) => {
     if (experience === 'hackernews') {
-      return `${HN_HOSTNAME}/item?id=${post.id}`;
+      return `/item?id=${post.id}`;
     } else {
       return `${REDDIT_HOSTNAME}/r/${subreddit}/comments/${commentId}/`;
     }
