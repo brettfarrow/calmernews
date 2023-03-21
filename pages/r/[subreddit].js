@@ -1,8 +1,8 @@
 import React from 'react';
-import Page from '../../components/Page';
+import News from '../../components/Page';
 
 function Subreddit({ data, cookies }) {
-  return <Page data={data} cookies={cookies} />;
+  return <News data={data} cookies={cookies} />;
 }
 
 Subreddit.getInitialProps = async (ctx) => {

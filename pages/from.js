@@ -1,9 +1,14 @@
 import React from 'react';
 import get from 'lodash/get';
 import Page from '../components/Page';
+import News from '../components/News';
 
 function From({ data, cookies }) {
-  return <Page data={data} cookies={cookies} />;
+  return (
+    <Page>
+      <News data={data} cookies={cookies} />
+    </Page>
+  );
 }
 
 From.getInitialProps = async function (ctx) {

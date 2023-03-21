@@ -1,25 +1,55 @@
+import React, { useEffect, useState } from 'react';
 import LoadingButton from './LoadingButton';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-export default function NavButtons({
-  loading,
-  setLoading,
-  more,
-  previous,
-  p,
-  router,
-}) {
+export default function NavButtons({ more, previous, p }) {
   // Show the back button except on page 1 of home
+  const [loading, setLoading] = useState({
+    loading: false,
+    button: false,
+  });
+  const router = useRouter();
   const { pathname, asPath } = router;
+  const isCommentPage = pathname.includes('/item');
   const showBackButton =
-    previous &&
-    (!more || (more && pathname !== '/' && asPath !== '/news?p=1' && p === 1));
+    isCommentPage ||
+    (previous &&
+      (!more ||
+        (more && pathname !== '/' && asPath !== '/news?p=1' && p === 1)));
 
   // One column for More on the homepage
   // One column for Back when only one page of results
   // Otherwise, two columns for all pages
   const gridCols =
-    p === 1 && !showBackButton ? 1 : p === 1 && !more && showBackButton ? 1 : 2;
+    isCommentPage ||
+    (p === 1 && !showBackButton) ||
+    (p === 1 && !more && showBackButton)
+      ? 1
+      : 2;
+
+  // Attempts to handle loading button state becoming stuck
+  const resetLoadingButton = () => {
+    if (loading) {
+      setTimeout(() => {
+        setLoading({
+          loading: false,
+          button: false,
+        });
+      }, 1000);
+    }
+  };
+
+  useEffect(() => {
+    router.events.on('routeChangeComplete', resetLoadingButton);
+    return () => {
+      router.events.off('routeChangeComplete', resetLoadingButton);
+    };
+  }, []);
+
+  useEffect(() => {
+    resetLoadingButton();
+  }, [more, previous, p]);
 
   return (
     <div className={`grid grid-cols-${gridCols} max-w-4xl mx-auto`}>
