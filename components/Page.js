@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import PullToRefresh from 'react-simple-pull-to-refresh';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -21,21 +22,29 @@ export default function Page({ children }) {
   );
 
   return (
-    <PullToRefresh
-      pullingContent={''}
-      onRefresh={handleRefresh}
-      refreshingContent={refreshingContent}
-    >
-      <div className="bg-coolGray-100 dark:bg-coolGray-700" {...swipeHandlers}>
-        <h1
-          className={`text-gray-800 dark:text-gray-200 flex justify-center p-4`}
+    <>
+      <Head>
+        <title>calmer news</title>
+      </Head>
+      <PullToRefresh
+        pullingContent={''}
+        onRefresh={handleRefresh}
+        refreshingContent={refreshingContent}
+      >
+        <div
+          className="bg-coolGray-100 dark:bg-coolGray-700"
+          {...swipeHandlers}
         >
-          <Link href="/" passHref>
-            calmer news
-          </Link>
-        </h1>
-        {children}
-      </div>
-    </PullToRefresh>
+          <h1
+            className={`text-gray-800 dark:text-gray-200 flex justify-center p-4`}
+          >
+            <Link href="/" passHref>
+              calmer news
+            </Link>
+          </h1>
+          {children}
+        </div>
+      </PullToRefresh>
+    </>
   );
 }

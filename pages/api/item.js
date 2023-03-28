@@ -29,10 +29,10 @@ export default async function item(req, res) {
     const username = $(comment).find('.comhead > a.hnuser').text();
     const age = $(comment).find('.comhead > span.age').text();
     $(comment).find('div.reply').remove(); // remove comment reply link
+    const rawComment =
+      $(comment).find('.comment > span.commtext').html() || '[flagged]';
     const body = DOMPurify.sanitize(
-      $(comment)
-        .find('.comment > span.commtext')
-        .html()
+      rawComment
         .trim()
         .replace(/<p>/g, '\n') // remove opening paragraph tags
         .replace(/<\/p>/g, '\n') // replace with newline character
