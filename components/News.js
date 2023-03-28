@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
+import React, { useState } from 'react';
 import Posts from './Posts';
 import ToggleButton from './ToggleButton';
 import NavButtons from './NavButtons';
@@ -30,39 +31,44 @@ export default function News({ data, cookies }) {
     setter(!value);
   };
   return (
-    <Posts
-      from={from}
-      items={get(data, 'items', [])}
-      showComments={showComments}
-      showByline={showByline}
-      showScore={showScore}
-      start={get(data, 'start', 1)}
-      experience={experience}
-    >
-      <NavButtons more={more} previous={previous} p={p} />
-      <footer className={`flex justify-center pb-16`}>
-        <ToggleButton
-          name={'Byline'}
-          value={showByline}
-          onClick={() => {
-            toggleClick('show_byline', setShowByline, showByline);
-          }}
-        />
-        <ToggleButton
-          name={'Comments'}
-          value={showComments}
-          onClick={() => {
-            toggleClick('show_comments', setShowComments, showComments);
-          }}
-        />
-        <ToggleButton
-          name={'Score'}
-          value={showScore}
-          onClick={() => {
-            toggleClick('show_score', setShowScore, showScore);
-          }}
-        />
-      </footer>
-    </Posts>
+    <>
+      <Head>
+        <title>calmer news{p > 1 ? ` | page ${p}` : ''}</title>
+      </Head>
+      <Posts
+        from={from}
+        items={get(data, 'items', [])}
+        showComments={showComments}
+        showByline={showByline}
+        showScore={showScore}
+        start={get(data, 'start', 1)}
+        experience={experience}
+      >
+        <NavButtons more={more} previous={previous} p={p} />
+        <footer className={`flex justify-center pb-16`}>
+          <ToggleButton
+            name={'Byline'}
+            value={showByline}
+            onClick={() => {
+              toggleClick('show_byline', setShowByline, showByline);
+            }}
+          />
+          <ToggleButton
+            name={'Comments'}
+            value={showComments}
+            onClick={() => {
+              toggleClick('show_comments', setShowComments, showComments);
+            }}
+          />
+          <ToggleButton
+            name={'Score'}
+            value={showScore}
+            onClick={() => {
+              toggleClick('show_score', setShowScore, showScore);
+            }}
+          />
+        </footer>
+      </Posts>
+    </>
   );
 }

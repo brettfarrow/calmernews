@@ -5,7 +5,6 @@ class MyDocument extends Document {
     return (
       <Html className={`dark no-js`} lang="en">
         <Head>
-          <title>calmer news</title>
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
