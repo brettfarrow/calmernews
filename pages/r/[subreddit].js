@@ -35,6 +35,7 @@ function Subreddit({ data, cookies }) {
           onClick={handleChange}
           value="change subreddit"
           className={`p-2 rounded text-center bg-purple-700 hover:bg-purple-800 text-white font-bold transition duration-500 ease-in-out`}
+          aria-describedby="input-description"
         />
         <span id="input-description" className="sr-only">
           Press Enter to change the subreddit after entering your text.
