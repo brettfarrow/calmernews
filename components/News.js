@@ -47,21 +47,21 @@ export default function News({ data, cookies }) {
         <NavButtons more={more} previous={previous} p={p} />
         <footer className={`flex justify-center pb-16`}>
           <ToggleButton
-            name={'Byline'}
+            name={'byline'}
             value={showByline}
             onClick={() => {
               toggleClick('show_byline', setShowByline, showByline);
             }}
           />
           <ToggleButton
-            name={'Comments'}
+            name={'comments'}
             value={showComments}
             onClick={() => {
               toggleClick('show_comments', setShowComments, showComments);
             }}
           />
           <ToggleButton
-            name={'Score'}
+            name={'score'}
             value={showScore}
             onClick={() => {
               toggleClick('show_score', setShowScore, showScore);

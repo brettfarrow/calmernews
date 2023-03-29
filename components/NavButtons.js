@@ -74,7 +74,7 @@ export default function NavButtons({ more, previous, p }) {
                 ) : loading.button === 'more' ? (
                   ''
                 ) : (
-                  'Previous'
+                  'previous'
                 )}
               </span>
             </Link>
@@ -101,7 +101,7 @@ export default function NavButtons({ more, previous, p }) {
             ) : loading.button === 'previous' ? (
               ''
             ) : (
-              'Back'
+              'back'
             )}
           </button>
         </div>
@@ -127,7 +127,7 @@ export default function NavButtons({ more, previous, p }) {
                 ) : loading.button === 'previous' ? (
                   ''
                 ) : (
-                  'More'
+                  'more'
                 )}
               </span>
             </Link>
