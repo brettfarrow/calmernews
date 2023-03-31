@@ -4,7 +4,22 @@ import NavButtons from './NavButtons';
 
 const Comments = ({ data }) => {
   const HN_HOSTNAME = 'https://news.ycombinator.com';
-  const { id, title, score, byline, age, commentCount, comments, link } = data;
+  const {
+    id,
+    title,
+    score,
+    byline,
+    age,
+    commentCount,
+    comments,
+    link,
+    postBody,
+  } = data;
+
+  let postBodySplit = '';
+  if (postBody) {
+    postBodySplit = postBody.split('\n');
+  }
 
   return (
     <>
@@ -20,8 +35,23 @@ const Comments = ({ data }) => {
             {title}
           </a>
         </h2>
+        {postBodySplit && (
+          <div className={title ? 'mt-2' : ''}>
+            {postBodySplit.map((line, index) => (
+              <span
+                key={index}
+                className={
+                  postBodySplit.length !== index + 1
+                    ? 'post-body block mb-4'
+                    : 'post-body'
+                }
+                dangerouslySetInnerHTML={{ __html: line }}
+              />
+            ))}
+          </div>
+        )}
         <div className="subline pb-6 text-sm text-gray-800 dark:text-gray-200">
-          <span className="score">{score} points</span>
+          {score > 0 && <span className="score">{score} points</span>}
           <span className="byline">
             posted by{' '}
             <a className="underline" href={`${HN_HOSTNAME}/user?id=${byline}`}>

@@ -11,6 +11,7 @@ export default function News({ data, cookies }) {
   const p = get(data, 'page', 1);
   const { from, more, previous, experience } = data;
   const localStorage = typeof window !== 'undefined' ? window.localStorage : {};
+  const title = `calmer news${p > 1 ? ` | page ${p}` : ''}`;
   const [showComments, setShowComments] = useState(
     getInitialValue('show_comments', cookies, localStorage, false) === 'true'
   );
@@ -33,7 +34,7 @@ export default function News({ data, cookies }) {
   return (
     <>
       <Head>
-        <title>calmer news{p > 1 ? ` | page ${p}` : ''}</title>
+        <title>{title}</title>
       </Head>
       <Posts
         from={from}

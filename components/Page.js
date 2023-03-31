@@ -11,6 +11,7 @@ export default function Page({ children }) {
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => window.history.forward(),
     onSwipedRight: () => router.back(),
+    preventScrollOnSwipe: true,
   });
 
   const handleRefresh = () => {
@@ -23,9 +24,6 @@ export default function Page({ children }) {
 
   return (
     <>
-      <Head>
-        <title>calmer news</title>
-      </Head>
       <PullToRefresh
         pullingContent={''}
         onRefresh={handleRefresh}

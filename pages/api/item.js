@@ -2,6 +2,18 @@ import * as cheerio from 'cheerio';
 import endpoints from './endpoints';
 import DOMPurify from 'isomorphic-dompurify';
 
+const cleanContent = (content) => {
+  if (!content) return;
+  return DOMPurify.sanitize(
+    content
+      .trim()
+      .replace(/<p>/g, '\n') // remove opening paragraph tags
+      .replace(/<\/p>/g, '\n') // replace with newline character
+      .replace(/\n\n/g, '\n') // remove duplicate line breaks
+      .replace(/\n(\s+)\n/g, '') // remove any extra line breaks at end of comment
+  );
+};
+
 export default async function item(req, res) {
   const {
     query: { id },
@@ -20,8 +32,15 @@ export default async function item(req, res) {
       .text()
       .replace(/[^0-9]+/g, '')
   );
-  const byline = $('.subtext a.hnuser').text();
+  const byline =
+    $('.subtext a.hnuser').text() ||
+    $('table.fatitem span.comhead a.hnuser').text();
   const age = $('.subtext span.age a').text();
+
+  // first option is for Ask HN / similar posts, second is for comment chains
+  const postBody =
+    cleanContent($('div.toptext').html()) ||
+    cleanContent($('table.fatitem tbody tr.athing div.comment').html());
 
   let comments = [];
   $('tr.comtr').each((i, comment) => {
@@ -31,14 +50,7 @@ export default async function item(req, res) {
     $(comment).find('div.reply').remove(); // remove comment reply link
     const rawComment =
       $(comment).find('.comment > span.commtext').html() || '[flagged]';
-    const body = DOMPurify.sanitize(
-      rawComment
-        .trim()
-        .replace(/<p>/g, '\n') // remove opening paragraph tags
-        .replace(/<\/p>/g, '\n') // replace with newline character
-        .replace(/\n\n/g, '\n') // remove duplicate line breaks
-        .replace(/\n(\s+)\n/g, '') // remove any extra line breaks at end of comment
-    );
+    const body = cleanContent(rawComment);
     const level = $(comment).find('td.ind').attr('indent');
 
     comments.push({
@@ -59,6 +71,7 @@ export default async function item(req, res) {
     score,
     byline,
     age,
+    postBody,
     commentCount: comments.length,
     comments,
   });

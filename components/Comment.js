@@ -13,7 +13,7 @@ const Comment = ({ comment }) => {
         (
         <a
           className="text-indigo-600 dark:text-indigo-200 underline"
-          href={`${HN_HOSTNAME}/item?id=${comment.id}`}
+          href={`/item?id=${comment.id}`}
         >
           {comment.age}
         </a>
