@@ -23,10 +23,8 @@ export default async function subreddit(req, res) {
   const ID_PREFIX = 't3_'; // the unused prefix for reddit comment URLs
 
   const fetchUrl = `${endpoints.REDDIT.HOME}${path}`;
-  res.json({
-    fetchUrl,
-  });
   const data = await fetch(fetchUrl).then((r) => r.text());
+  res.json({ data, fetchUrl });
 
   const $ = cheerio.load(data);
   const things = $('div.thing').not('.promoted').not('.stickied').toArray();
