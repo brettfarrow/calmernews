@@ -45,6 +45,10 @@ li:before {
   @apply dark:text-gray-100;
 }
 
+.comment a {
+  word-break: break-all;
+}
+
 .comment a,
 .post-body a {
   @apply text-indigo-700;
