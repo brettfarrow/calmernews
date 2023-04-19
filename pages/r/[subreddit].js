@@ -49,11 +49,30 @@ function Subreddit({ data, cookies }) {
 Subreddit.getInitialProps = async (ctx) => {
   if (ctx.req) {
     const { url } = ctx.req;
-    const data = await fetch(`${process.env.HOST}/api${url}`).then((r) =>
-      r.json()
-    );
+    let data;
+    try {
+      data = await fetch(`${process.env.HOST}/api${url}`).then((r) => r.text());
+    } catch (e) {
+      console.error('error', e);
+      return {
+        status: 500,
+        error: e,
+      };
+    }
+    console.log('data', data);
+    let jsonData;
+    try {
+      jsonData = JSON.parse(data);
+      console.log('jsonData', jsonData);
+    } catch (e) {
+      console.error('error', e);
+      return {
+        status: 500,
+        error: e,
+      };
+    }
     return {
-      data,
+      data: jsonData,
       cookies: ctx.req.cookies,
     };
   } else {
