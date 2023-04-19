@@ -23,6 +23,7 @@ export default async function subreddit(req, res) {
   const ID_PREFIX = 't3_'; // the unused prefix for reddit comment URLs
 
   const fetchUrl = `${endpoints.REDDIT.HOME}${path}`;
+  console.log('fetchUrl', fetchUrl);
   const data = await fetch(fetchUrl).then((r) => r.text());
 
   const $ = cheerio.load(data);
