@@ -4,39 +4,23 @@ export default function Post({
   showComments,
   showByline,
   showScore,
-  experience,
 }) {
   const HN_HOSTNAME = 'https://news.ycombinator.com';
-  const REDDIT_HOSTNAME = 'https://old.reddit.com';
 
   const isSelfPost = (host) => {
-    // hacker news self posts start with HN domain
-    // subreddit self posts start with the prefix
     return host === HN_HOSTNAME || host.startsWith('self.');
   };
 
   const getLinkDomain = (host) => {
-    if (experience === 'hackernews') {
-      return `/from?site=${host}`;
-    } else {
-      return `/r/domain/${host}`;
-    }
+    return `/from?site=${host}`;
   };
 
-  const getCommentURL = (subreddit, commentId) => {
-    if (experience === 'hackernews') {
-      return `/item?id=${post.id}`;
-    } else {
-      return `${REDDIT_HOSTNAME}/r/${subreddit}/comments/${commentId}/`;
-    }
+  const getCommentURL = (commentId) => {
+    return `/item?id=${commentId}`;
   };
 
   const getBylineURL = (user) => {
-    if (experience === 'hackernews') {
-      return `${HN_HOSTNAME}/user?id=${user}`;
-    } else {
-      return `${REDDIT_HOSTNAME}/user/${user}`;
-    }
+    return `${HN_HOSTNAME}/user?id=${user}`;
   };
 
   return (
@@ -52,7 +36,7 @@ export default function Post({
       ) : (
         <span>
           <a
-            href={getLinkDomain(post.host, experience)}
+            href={getLinkDomain(post.host)}
             className={`underline underline-link underline-host`}
           >
             ({post.host})
@@ -72,7 +56,7 @@ export default function Post({
                 posted {post.age} by{' '}
                 <a
                   className={`underline underline-link`}
-                  href={getBylineURL(post.user, experience)}
+                  href={getBylineURL(post.user)}
                 >
                   {post.user}
                 </a>
@@ -85,7 +69,7 @@ export default function Post({
             <span className={`comments`}>
               <a
                 className={`underline underline-link`}
-                href={getCommentURL(post.subreddit, post.id)}
+                href={getCommentURL(post.id)}
               >
                 {post.comments ? (
                   <>view {post.comments} comments</>

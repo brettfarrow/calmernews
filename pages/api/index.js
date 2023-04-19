@@ -79,6 +79,5 @@ export default async function index(req, res) {
         : '/',
     page: pageNumber || 1,
     start: pageNumber > 1 ? (pageNumber - 1) * 30 + 1 : 1,
-    experience: 'hackernews',
   });
 }
