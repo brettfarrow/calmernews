@@ -160,10 +160,6 @@ pre {
   margin-left: 24px;
 }
 
-pre code {
-  white-space: normal;
-}
-
 /* vietnamese */
 @font-face {
   font-family: 'Work Sans';
