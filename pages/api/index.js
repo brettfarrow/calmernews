@@ -34,8 +34,8 @@ export default async function index(req, res) {
   const parsed = stories.map((story, index) => {
     const id = Number($(story).attr('id') || '');
 
-    const link = $(story).find('span.titleline a').first();
-    const host = $(story).find('span.sitestr').text();
+    const link = $(story).find('span.titleline a').first() || '';
+    const host = $(story).find('span.sitestr').text() || endpoints.HOME;
     const href = host ? link.attr('href') : `${host}/${link.attr('href')}`;
     const text = link.text() || '';
 
@@ -60,8 +60,8 @@ export default async function index(req, res) {
       id,
       age,
       comments,
-      host: host ? host : endpoints.HOME,
-      href: host ? href : `${endpoints.HOME}${href}`,
+      host,
+      href,
       score,
       text,
       user,
@@ -79,6 +79,5 @@ export default async function index(req, res) {
         : '/',
     page: pageNumber || 1,
     start: pageNumber > 1 ? (pageNumber - 1) * 30 + 1 : 1,
-    experience: 'hackernews',
   });
 }

@@ -45,6 +45,10 @@ li:before {
   @apply dark:text-gray-100;
 }
 
+.comment a {
+  word-break: break-all;
+}
+
 .comment a,
 .post-body a {
   @apply text-indigo-700;
@@ -154,10 +158,6 @@ pre {
   white-space: pre-wrap;
   word-wrap: break-word;
   margin-left: 24px;
-}
-
-pre code {
-  white-space: normal;
 }
 
 /* vietnamese */

@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import PullToRefresh from 'react-simple-pull-to-refresh';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

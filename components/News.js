@@ -9,7 +9,7 @@ import getInitialValue from '../utils/getInitialValue';
 
 export default function News({ data, cookies }) {
   const p = get(data, 'page', 1);
-  const { from, more, previous, experience } = data;
+  const { from, more, previous } = data;
   const localStorage = typeof window !== 'undefined' ? window.localStorage : {};
   const title = `calmer news${p > 1 ? ` | page ${p}` : ''}`;
   const [showComments, setShowComments] = useState(
@@ -43,7 +43,6 @@ export default function News({ data, cookies }) {
         showByline={showByline}
         showScore={showScore}
         start={get(data, 'start', 1)}
-        experience={experience}
       >
         <NavButtons more={more} previous={previous} p={p} />
         <footer className={`flex justify-center pb-16`}>

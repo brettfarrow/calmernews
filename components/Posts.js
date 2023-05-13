@@ -7,7 +7,6 @@ export default function Posts({
   showComments,
   showByline,
   showScore,
-  experience,
   children,
 }) {
   return (
@@ -26,7 +25,6 @@ export default function Posts({
             showComments={showComments}
             showByline={showByline}
             showScore={showScore}
-            experience={experience}
           />
         ))}
       </ol>
