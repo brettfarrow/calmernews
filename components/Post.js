@@ -47,7 +47,7 @@ export default function Post({
         {(showScore || showByline) && (
           <span>
             {showScore && (
-              <span className={`score mr-3`}>
+              <span className={`score mr-2`}>
                 {post.score} {post.score === 1 ? 'point' : 'points'}
               </span>
             )}
