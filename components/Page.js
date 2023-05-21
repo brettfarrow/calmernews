@@ -33,7 +33,7 @@ export default function Page({ children }) {
           {...swipeHandlers}
         >
           <h1
-            className={`text-gray-800 dark:text-gray-200 flex justify-center p-4`}
+            className={`text-3xl text-gray-800 dark:text-gray-200 flex justify-center p-4`}
           >
             <Link href="/" passHref>
               calmer news

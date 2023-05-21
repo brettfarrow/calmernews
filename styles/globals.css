@@ -6,43 +6,13 @@ body {
   font-family: 'Atkinson Hyperlegible', ui-sans-serif, sans-serif;
 }
 
-h1 {
-  @apply text-3xl;
-}
-
-h2 {
-  @apply text-xl;
-}
-
 i,
 em {
   font-style: italic;
 }
 
-ol {
-  @apply list-inside;
-}
-
 .list-decimal-zero {
   list-style: decimal-leading-zero;
-  @apply list-inside;
-}
-
-li {
-  @apply px-4;
-  @apply py-5;
-}
-
-@media (min-width: 768px) {
-  li {
-    @apply px-12;
-    @apply py-4;
-  }
-}
-
-li:before {
-  @apply text-gray-800;
-  @apply dark:text-gray-100;
 }
 
 .comment a {
