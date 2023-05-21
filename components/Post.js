@@ -24,7 +24,10 @@ export default function Post({
   };
 
   return (
-    <li key={`item-${index}`} className={`text-gray-800 dark:text-gray-200`}>
+    <li
+      key={`item-${index}`}
+      className={`text-gray-800 dark:text-gray-200 px-4 md:px-12 py-5 md:py-4 before:text-gray-800 before:dark:text-gray-100`}
+    >
       <a
         href={post.href}
         className={`text-indigo-700 dark:text-indigo-300 underline`}
@@ -47,7 +50,7 @@ export default function Post({
         {(showScore || showByline) && (
           <span>
             {showScore && (
-              <span className={`score mr-3`}>
+              <span className={`score mr-2`}>
                 {post.score} {post.score === 1 ? 'point' : 'points'}
               </span>
             )}

@@ -27,7 +27,7 @@ const Comments = ({ data }) => {
         <title>calmer news | {title}</title>
       </Head>
       <div className="max-w-4xl mx-auto p-4">
-        <h2>
+        <h2 className="text-xl lg:text-2xl">
           <a
             href={link}
             className="text-indigo-700 dark:text-indigo-300 underline"
@@ -50,7 +50,7 @@ const Comments = ({ data }) => {
             ))}
           </div>
         )}
-        <div className="subline pb-6 text-sm text-gray-800 dark:text-gray-200">
+        <div className="subline pb-6 text-sm lg:text-md text-gray-800 dark:text-gray-200">
           {score > 0 && <span className="score">{score} points</span>}
           <span className="byline">
             posted by{' '}

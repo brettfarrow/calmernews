@@ -42,7 +42,7 @@ const Comment = ({ comment }) => {
         </a>
         )
       </div>
-      <div className="text-gray-800 dark:text-gray-200 pb-3 leading-relaxed">
+      <div className="text-gray-800 dark:text-gray-200 pb-3 leading-relaxed lg:text-lg">
         {splitText.map((line, index) => (
           <span
             key={index}

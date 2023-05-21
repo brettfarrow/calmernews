@@ -15,7 +15,7 @@ export default function Posts({
         start={start}
         className={`${
           from ? 'list-disc' : 'list-decimal-zero'
-        } max-w-4xl mx-auto`}
+        } !list-inside max-w-5xl mx-auto lg:text-lg`}
       >
         {items.map((post, index) => (
           <Post
