@@ -1,5 +1,6 @@
 import PullToRefresh from 'react-simple-pull-to-refresh';
 import Link from 'next/link';
+import Script from 'next/script';
 import { useRouter } from 'next/router';
 import { useSwipeable } from 'react-swipeable';
 import LoadingButton from './LoadingButton';
@@ -42,6 +43,11 @@ export default function Page({ children }) {
           {children}
         </div>
       </PullToRefresh>
+      <Script
+        src="https://plausible.io/js/script.js"
+        data-domain="calmernews.com"
+        afterInteractive
+      />
     </>
   );
 }
