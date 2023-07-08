@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 
 export default function Page({ children }) {
   const router = useRouter();
-  const { asPath } = router;
+  const { asPath, isReady } = router;
 
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => window.history.forward(),
@@ -25,7 +25,7 @@ export default function Page({ children }) {
   );
 
   useEffect(() => {
-    if (window?.plausible) {
+    if (isReady && window?.plausible) {
       window.plausible('pageview');
     }
   }, [asPath]); // eslint-disable-line react-hooks/exhaustive-deps
