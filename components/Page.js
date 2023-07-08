@@ -4,9 +4,11 @@ import Script from 'next/script';
 import { useRouter } from 'next/router';
 import { useSwipeable } from 'react-swipeable';
 import LoadingButton from './LoadingButton';
+import { useEffect } from 'react';
 
 export default function Page({ children }) {
   const router = useRouter();
+  const { asPath } = router;
 
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => window.history.forward(),
@@ -21,6 +23,12 @@ export default function Page({ children }) {
   const refreshingContent = (
     <LoadingButton customClasses={`animate-spin w-8 h-8 my-8 mx-auto`} />
   );
+
+  useEffect(() => {
+    if (window?.plausible) {
+      window.plausible('pageview');
+    }
+  }, [asPath]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
