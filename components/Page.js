@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useSwipeable } from 'react-swipeable';
 import LoadingButton from './LoadingButton';
 import { useEffect } from 'react';
+import preparePlausibleURL from '../utils/preparePlausibleURL';
 
 export default function Page({ children }) {
   const router = useRouter();
@@ -26,7 +27,8 @@ export default function Page({ children }) {
 
   useEffect(() => {
     if (isReady && window?.plausible) {
-      window.plausible('pageview');
+      const customURL = preparePlausibleURL(['p', 'id', 'site']);
+      window.plausible('pageview', { u: customURL });
     }
   }, [asPath]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -52,10 +54,14 @@ export default function Page({ children }) {
         </div>
       </PullToRefresh>
       <Script
-        src="https://plausible.io/js/script.js"
+        src="https://plausible.io/js/script.manual.js"
         data-domain="calmernews.com"
         afterInteractive
       />
+      <script>
+        window.plausible = window.plausible || function(){' '}
+        {(window.plausible.q = window.plausible.q || []).push(arguments)}
+      </script>
     </>
   );
 }
