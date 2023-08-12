@@ -4,12 +4,13 @@ import Script from 'next/script';
 import { useRouter } from 'next/router';
 import { useSwipeable } from 'react-swipeable';
 import LoadingButton from './LoadingButton';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import preparePlausibleURL from '../utils/preparePlausibleURL';
 
 export default function Page({ children }) {
   const router = useRouter();
-  const { asPath, isReady } = router;
+  const { asPath } = router;
+  const currentPathname = useRef();
 
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => window.history.forward(),
@@ -26,9 +27,15 @@ export default function Page({ children }) {
   );
 
   useEffect(() => {
-    if (isReady && window?.plausible) {
+    if (typeof window !== 'undefined' && currentPathname.current !== asPath) {
+      window.plausible =
+        window.plausible ||
+        function () {
+          (window.plausible.q = window.plausible.q || []).push(arguments);
+        };
       const customURL = preparePlausibleURL(['p', 'id', 'site']);
       window.plausible('pageview', { u: customURL });
+      currentPathname.current = asPath;
     }
   }, [asPath]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -58,10 +65,6 @@ export default function Page({ children }) {
         data-domain="calmernews.com"
         afterInteractive
       />
-      <script>
-        window.plausible = window.plausible || function(){' '}
-        {(window.plausible.q = window.plausible.q || []).push(arguments)}
-      </script>
     </>
   );
 }
