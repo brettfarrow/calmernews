@@ -6,10 +6,11 @@
     "next:dev": "next dev",
     "next:start": "next start",
     "prettier": "npx prettier --write .",
+    "tailwind:build": "npx tailwindcss -c ./tailwind.config.js -i ./styles/globals.css -o ./public/tailwind.css",
     "tailwind:watch": "npx tailwindcss --watch"
   },
   "name": "calmernews",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "isomorphic-dompurify": "^1.7.0",
