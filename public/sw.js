@@ -67,7 +67,7 @@ if (!self.define) {
     });
   };
 }
-define(['./workbox-e9051b57'], (function (workbox) { 'use strict';
+define(['./workbox-58396f7a'], (function (workbox) { 'use strict';
 
   /**
   * Welcome to your Workbox-powered service worker!
