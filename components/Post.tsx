@@ -1,25 +1,35 @@
-export default function Post({
+import { PostItem } from '../types/postTypes';
+
+type PostProps = {
+  post: PostItem,
+  index: number,
+  showComments: boolean,
+  showByline: boolean,
+  showScore: boolean,
+};
+
+const Post: React.FC<PostProps> = ({
   post,
   index,
   showComments,
   showByline,
   showScore,
-}) {
+}) => {
   const HN_HOSTNAME = 'https://news.ycombinator.com';
 
-  const isSelfPost = (host) => {
+  const isSelfPost = (host: string) => {
     return host === HN_HOSTNAME || host.startsWith('self.');
   };
 
-  const getLinkDomain = (host) => {
+  const getLinkDomain = (host: string) => {
     return `/from?site=${host}`;
   };
 
-  const getCommentURL = (commentId) => {
+  const getCommentURL = (commentId: number) => {
     return `/item?id=${commentId}`;
   };
 
-  const getBylineURL = (user) => {
+  const getBylineURL = (user: string) => {
     return `${HN_HOSTNAME}/user?id=${user}`;
   };
 
@@ -87,3 +97,5 @@ export default function Post({
     </li>
   );
 }
+
+export default Post;

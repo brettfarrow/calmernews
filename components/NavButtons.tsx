@@ -3,11 +3,17 @@ import LoadingButton from './LoadingButton';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-export default function NavButtons({ more, previous, p }) {
+type NavButtonsProps = {
+  more?: string;
+  previous?: string;
+  p?: number;
+};
+
+const NavButtons: React.FC<NavButtonsProps> = ({ more, previous, p }) => {
   // Show the back button except on page 1 of home
   const [loading, setLoading] = useState({
     loading: false,
-    button: false,
+    button: '',
   });
   const router = useRouter();
   const { pathname, asPath } = router;
@@ -34,7 +40,7 @@ export default function NavButtons({ more, previous, p }) {
       setTimeout(() => {
         setLoading({
           loading: false,
-          button: false,
+          button: '',
         });
       }, 1000);
     }
@@ -63,7 +69,7 @@ export default function NavButtons({ more, previous, p }) {
                 button: 'previous',
               })
             }
-            disabled={loading.button === false ? false : true}
+            disabled={loading.button === '' ? false : true}
           >
             <Link href={previous} passHref>
               <span className={`w-28 h-12 block leading-12`}>
@@ -92,7 +98,7 @@ export default function NavButtons({ more, previous, p }) {
               });
               router.back();
             }}
-            disabled={loading.button === false ? false : true}
+            disabled={loading.button === '' ? false : true}
           >
             {loading.loading && loading.button === 'back' ? (
               <LoadingButton
@@ -116,10 +122,10 @@ export default function NavButtons({ more, previous, p }) {
                 button: 'more',
               })
             }
-            disabled={loading.button === false ? false : true}
+            disabled={loading.button === '' ? false : true}
           >
             <Link href={more} passHref>
-              <span className={`w-28 h-12 block leading-12`} href={more}>
+              <span className={`w-28 h-12 block leading-12`}>
                 {loading.loading && loading.button === 'more' ? (
                   <LoadingButton
                     customClasses={`animate-spin w-8 h-8 mx-10 my-2 text-white`}
@@ -136,4 +142,6 @@ export default function NavButtons({ more, previous, p }) {
       )}
     </div>
   );
-}
+};
+
+export default NavButtons;

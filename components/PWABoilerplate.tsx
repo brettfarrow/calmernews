@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-export default function PWABoilerplate() {
+const PWABoilerplate: React.FC = () => {
   return (
     <Head>
       <link rel="manifest" href="/manifest.json" />
@@ -42,4 +42,6 @@ export default function PWABoilerplate() {
       <meta name="msapplication-TileColor" content="#1F2937" />
     </Head>
   );
-}
+};
+
+export default PWABoilerplate;
