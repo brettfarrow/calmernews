@@ -1,6 +1,8 @@
-function splitStringIgnoringPre(input, delimiter) {
+import { Comment as CommentType } from '../types/postTypes';
+
+function splitStringIgnoringPre(input: string, delimiter: string) {
   const preTagRegex = /<pre[\s\S]*?<\/pre>/gi;
-  const preTags = [];
+  const preTags: string[] = [];
   let match;
 
   // Store all matches of the <pre></pre> tag, and replace them with placeholders in the input string
@@ -21,7 +23,7 @@ function splitStringIgnoringPre(input, delimiter) {
   );
 }
 
-const Comment = ({ comment }) => {
+const Comment: React.FC<{ comment: CommentType }> = ({ comment }) => {
   const HN_HOSTNAME = 'https://news.ycombinator.com';
   const splitText = splitStringIgnoringPre(comment.body, '\n');
   return (

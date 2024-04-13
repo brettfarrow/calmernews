@@ -1,6 +1,7 @@
-import Post from '../components/Post';
+import Post from './Post';
+import { PostsProps } from '../types/postTypes';
 
-export default function Posts({
+const Posts: React.FC<PostsProps> = ({
   from,
   items,
   start,
@@ -8,7 +9,7 @@ export default function Posts({
   showByline,
   showScore,
   children,
-}) {
+}) => {
   return (
     <>
       <ol
@@ -32,3 +33,5 @@ export default function Posts({
     </>
   );
 }
+
+export default Posts;

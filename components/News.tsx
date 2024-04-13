@@ -6,11 +6,24 @@ import NavButtons from './NavButtons';
 
 import { get } from 'lodash';
 import getInitialValue from '../utils/getInitialValue';
+import { PostItem } from '../types/postTypes';
 
-export default function News({ data, cookies }) {
+type NewsProps = {
+  data: {
+    page: number;
+    items: PostItem[];
+    more?: string;
+    previous?: string;
+    from?: boolean;
+  };
+  cookies: object;
+};
+
+const News: React.FC<NewsProps> = ({ data, cookies }) => {
   const p = get(data, 'page', 1);
   const { from, more, previous } = data;
-  const localStorage = typeof window !== 'undefined' ? window.localStorage : {};
+  const localStorage =
+    typeof window !== 'undefined' ? window.localStorage : { setItem: () => {} };
   const title = `calmer news${p > 1 ? ` | page ${p}` : ''}`;
   const [showComments, setShowComments] = useState(
     getInitialValue('show_comments', cookies, localStorage, false) === 'true'
@@ -22,10 +35,14 @@ export default function News({ data, cookies }) {
     getInitialValue('show_score', cookies, localStorage, false) === 'true'
   );
 
-  const toggleClick = (name, setter, value) => {
+  const toggleClick = (
+    name: string,
+    setter: (value: boolean) => void,
+    value: boolean
+  ) => {
     document.cookie = `${name}=${!value}; Max-Age=2147483647`;
     try {
-      localStorage.setItem(name, !value);
+      localStorage.setItem(name, String(!value));
     } catch (e) {
       console.error(e);
     }
@@ -71,4 +88,6 @@ export default function News({ data, cookies }) {
       </Posts>
     </>
   );
-}
+};
+
+export default News;

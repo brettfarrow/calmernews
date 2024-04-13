@@ -1,4 +1,8 @@
-export default function LoadingButton({ customClasses }) {
+interface LoadingButtonProps {
+  customClasses: string;
+}
+
+const LoadingButton: React.FC<LoadingButtonProps> = ({ customClasses }) => {
   return (
     <svg className={customClasses} viewBox="0 0 24 24">
       <circle
@@ -16,4 +20,6 @@ export default function LoadingButton({ customClasses }) {
       ></path>
     </svg>
   );
-}
+};
+
+export default LoadingButton;

@@ -5,7 +5,13 @@ import { useSwipeable } from 'react-swipeable';
 import LoadingButton from './LoadingButton';
 import { useEffect } from 'react';
 
-export default function Page({ children }) {
+declare global {
+  interface Window {
+    posthog: PostHog;
+  }
+}
+
+const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const router = useRouter();
   const { asPath } = router;
 
@@ -15,8 +21,11 @@ export default function Page({ children }) {
     preventScrollOnSwipe: true,
   });
 
-  const handleRefresh = () => {
-    setTimeout(() => router.reload(), 0);
+  const handleRefresh = async (): Promise<void> => {
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 0);
+    });
+    router.reload();
   };
 
   const refreshingContent = (
@@ -24,8 +33,8 @@ export default function Page({ children }) {
   );
 
   useEffect(() => {
-    posthog.capture('$pageview');
-  }, [asPath]); // eslint-disable-line react-hooks/exhaustive-deps
+    window?.posthog?.capture('$pageview');
+  }, [asPath]);
 
   return (
     <>
@@ -50,4 +59,6 @@ export default function Page({ children }) {
       </PullToRefresh>
     </>
   );
-}
+};
+
+export default Page;

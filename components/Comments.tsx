@@ -1,8 +1,23 @@
 import Head from 'next/head';
 import Comment from './Comment';
 import NavButtons from './NavButtons';
+import { Comment as CommentType } from '../types/postTypes';
 
-const Comments = ({ data }) => {
+type CommentsProps = {
+  data: {
+    id: number;
+    title: string;
+    score: number;
+    byline: string;
+    age: string;
+    commentCount: number;
+    comments: CommentType[];
+    link: string;
+    postBody: string;
+  };
+};
+
+const Comments: React.FC<CommentsProps> = ({ data }) => {
   const HN_HOSTNAME = 'https://news.ycombinator.com';
   const {
     id,
@@ -16,7 +31,7 @@ const Comments = ({ data }) => {
     postBody,
   } = data;
 
-  let postBodySplit = '';
+  let postBodySplit: string[] = [];
   if (postBody) {
     postBodySplit = postBody.split('\n');
   }
