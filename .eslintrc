@@ -1,6 +1,13 @@
 {
-  "extends": "next",
+  "extends": ["next", "prettier"],
+  "plugins": ["prettier", "react-19-upgrade"], // Add your plugin name here
   "rules": {
+    // "prettier/prettier": ["error"],
+    "react-19-upgrade/no-default-props": "error",
+    "react-19-upgrade/no-prop-types": "warn", // or "error" based on your preference
+    "react-19-upgrade/no-legacy-context": "error",
+    "react-19-upgrade/no-string-refs": "error",
+    "react-19-upgrade/no-factories": "error",
     "react-hooks/exhaustive-deps": 0
   }
 }

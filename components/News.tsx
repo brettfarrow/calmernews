@@ -26,19 +26,19 @@ const News: React.FC<NewsProps> = ({ data, cookies }) => {
     typeof window !== 'undefined' ? window.localStorage : { setItem: () => {} };
   const title = `calmer news${p > 1 ? ` | page ${p}` : ''}`;
   const [showComments, setShowComments] = useState(
-    getInitialValue('show_comments', cookies, localStorage, false) === 'true'
+    getInitialValue('show_comments', cookies, localStorage, false) === 'true',
   );
   const [showByline, setShowByline] = useState(
-    getInitialValue('show_byline', cookies, localStorage, false) === 'true'
+    getInitialValue('show_byline', cookies, localStorage, false) === 'true',
   );
   const [showScore, setShowScore] = useState(
-    getInitialValue('show_score', cookies, localStorage, false) === 'true'
+    getInitialValue('show_score', cookies, localStorage, false) === 'true',
   );
 
   const toggleClick = (
     name: string,
     setter: (value: boolean) => void,
-    value: boolean
+    value: boolean,
   ) => {
     document.cookie = `${name}=${!value}; Max-Age=2147483647`;
     try {
