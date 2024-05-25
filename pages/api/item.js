@@ -50,6 +50,9 @@ export default async function item(req, res) {
     $(comment).find('div.reply').remove(); // remove comment reply link
     const rawComment =
       $(comment).find('.comment > .commtext').html() || '[flagged]';
+    console.log('rawComment', rawComment);
+    const testComment = $(comment).find('.commtext').html() || '[flagged]';
+    console.log('testComment', testComment);
     const body = cleanContent(rawComment);
     const level = $(comment).find('td.ind').attr('indent');
 
