@@ -10,7 +10,7 @@ const cleanContent = (content) => {
       .replace(/<p>/g, '\n') // remove opening paragraph tags
       .replace(/<\/p>/g, '\n') // replace with newline character
       .replace(/\n\n/g, '\n') // remove duplicate line breaks
-      .replace(/\n(\s+)\n/g, '') // remove any extra line breaks at end of comment
+      .replace(/\n(\s+)\n/g, ''), // remove any extra line breaks at end of comment
   );
 };
 
@@ -20,7 +20,7 @@ export default async function item(req, res) {
   } = req;
 
   const data = await fetch(`${endpoints.COMMENTS}?id=${id}`).then((r) =>
-    r.text()
+    r.text(),
   );
 
   const $ = cheerio.load(data);
@@ -30,7 +30,7 @@ export default async function item(req, res) {
   const score = Number(
     $('.subtext span.subline span.score')
       .text()
-      .replace(/[^0-9]+/g, '')
+      .replace(/[^0-9]+/g, ''),
   );
   const byline =
     $('.subtext a.hnuser').text() ||
@@ -49,7 +49,7 @@ export default async function item(req, res) {
     const age = $(comment).find('.comhead > span.age').text();
     $(comment).find('div.reply').remove(); // remove comment reply link
     const rawComment =
-      $(comment).find('.comment > span.commtext').html() || '[flagged]';
+      $(comment).find('.comment > .commtext').html() || '[flagged]';
     const body = cleanContent(rawComment);
     const level = $(comment).find('td.ind').attr('indent');
 
