@@ -43,10 +43,7 @@ const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         onRefresh={handleRefresh}
         refreshingContent={refreshingContent}
       >
-        <div
-          className="bg-coolGray-100 dark:bg-coolGray-700"
-          {...swipeHandlers}
-        >
+        <div className="bg-white dark:bg-gray-800" {...swipeHandlers}>
           <h1
             className={`text-3xl text-gray-800 dark:text-gray-200 flex justify-center p-4`}
           >

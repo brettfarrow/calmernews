@@ -4,8 +4,8 @@
   "lang": "en",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#374151",
-  "background_color": "#374151",
+  "theme_color": "#1F2937",
+  "background_color": "#1F2937",
   "icons": [
     {
       "src": "https://calmernews.com/images/logo.png",

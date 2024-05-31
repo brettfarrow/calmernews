@@ -8,8 +8,8 @@ const PWABoilerplate: React.FC = () => {
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="application-name" content="calmer news" />
       <meta name="apple-mobile-web-app-title" content="calmer news" />
-      <meta name="theme-color" content="#374151" />
-      <meta name="msapplication-navbutton-color" content="#374151" />
+      <meta name="theme-color" content="#1F2937" />
+      <meta name="msapplication-navbutton-color" content="#1F2937" />
       <meta name="apple-mobile-web-app-status-bar-style" content="black" />
       <meta name="msapplication-starturl" content="https://calmernews.com" />
       <link
@@ -37,7 +37,7 @@ const PWABoilerplate: React.FC = () => {
       <link
         rel="mask-icon"
         href="/images/safari-pinned-tab.svg"
-        color="#374151"
+        color="#1F2937"
       />
       <meta name="msapplication-TileColor" content="#1F2937" />
     </Head>
