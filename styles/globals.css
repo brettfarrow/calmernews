@@ -1,54 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 body {
   font-family: 'Atkinson Hyperlegible', ui-sans-serif, sans-serif;
 }
-
 i,
 em {
-  font-style: italic;
+  @apply italic;
 }
-
 .list-decimal-zero {
   list-style: decimal-leading-zero;
 }
-
 .comment a {
-  word-break: break-all;
+  @apply break-all;
 }
-
 .comment a,
 .post-body a {
   @apply text-indigo-700;
   @apply dark:text-indigo-300;
 }
-
 .underline,
 .comment a,
 .post-body a {
-  display: inline;
-  position: relative;
-  overflow: hidden;
-  text-decoration: none;
+  @apply inline relative overflow-hidden no-underline;
 }
-
 .underline:after,
 .comment a:after,
 .post-body a:after {
-  content: '';
-  position: absolute;
-  right: 0;
-  width: 0;
-  bottom: -3px;
-  background-color: rgb(165, 180, 252, 1); /* equivalent to text-indigo-300 */
-  height: 1px;
-  transition-property: width;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-out;
-}
+  @apply content-[''] absolute w-0 bottom-[-3px] bg-indigo-300 h-px transition-[width] duration-[0.3s] ease-[ease-out] right-0;
 
+  /* equivalent to text-indigo-300 */
+}
 .underline:hover:after,
 .underline:focus:after,
 .underline:active:after,
@@ -58,76 +40,56 @@ em {
 .post-body a:hover:after,
 .post-body a:focus:after,
 .post-body a:active:after {
-  left: 0px;
-  right: auto;
-  width: 100%;
+  @apply w-full left-0 right-auto;
 }
-
 .underline-host.underline:hover:after,
 .underline-host.underline:focus:after,
 .underline-host.underline:active:after {
-  left: 6px;
-  right: auto;
-  width: calc(100% - 12px);
+  @apply w-[calc(100%_-_12px)] left-1.5 right-auto;
 }
-
-.grid-cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
 .subline span {
   @apply text-gray-500;
   @apply dark:text-gray-400;
 }
-
 .subline span:after {
-  content: ' | ';
+  @apply content-['_|_'];
 }
-
 .subline span:last-child::after {
-  content: unset;
+  @apply content-[unset];
 }
-
 @media screen and (max-width: 320px) {
   .subline span.score {
-    display: block;
-  }
-
-  .subline span.score:after {
-    content: unset;
+    @apply block after:content-[unset];
   }
 }
-
 @media screen and (max-width: 640px) {
   .subline span.byline:after {
-    content: unset;
+    @apply content-[unset];
   }
 }
-
 @media (prefers-color-scheme: light) {
   .underline.underline-link:after {
-    background-color: rgb(2, 2, 2, 1); /* equivalent to text-gray-200 */
+    @apply bg-[rgb(2,2,2,1)];
+
+    /* equivalent to text-gray-200 */
   }
 }
-
 @media (prefers-color-scheme: dark) {
   .underline.underline-link:after {
-    background-color: rgb(229, 231, 235, 1); /* equivalent to text-gray-200 */
+    @apply bg-gray-200;
+
+    /* equivalent to text-gray-200 */
   }
 }
-
 .no-js .toggle-button {
-  display: none;
+  @apply hidden;
 }
-
 .leading-12 {
-  line-height: 3rem;
+  @apply leading-[3rem];
 }
-
 pre {
-  white-space: pre-wrap;
+  @apply whitespace-pre-wrap ml-6;
   word-wrap: break-word;
-  margin-left: 24px;
 }
 
 /* latin-ext */
