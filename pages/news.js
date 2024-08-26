@@ -29,6 +29,7 @@ NewsPage.getInitialProps = async function (ctx) {
       prev[name] = value.join('=');
       return prev;
     }, {});
+    ctx.res.setHeader('Cache-Control', 'public, must-revalidate, max-age=600');
     return {
       data,
       cookies,

@@ -70,6 +70,7 @@ export default async function index(req, res) {
 
   const pageNumber = Number(p);
 
+  res.setHeader('Cache-Control', 'public, max-age=600, must-revalidate');
   res.json({
     items: parsed,
     more,

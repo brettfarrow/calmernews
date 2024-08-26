@@ -63,6 +63,7 @@ export default async function item(req, res) {
     });
   });
 
+  res.setHeader('Cache-Control', 'public, max-age=600, must-revalidate');
   res.json({
     id,
     title,

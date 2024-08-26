@@ -23,6 +23,7 @@ Item.getInitialProps = async function (ctx) {
   } else {
     const id = get(ctx, 'query.id', 1);
     const data = await fetch(`/api/item?id=${id}`).then((r) => r.json());
+    ctx.res.setHeader('Cache-Control', 'public, must-revalidate, max-age=600');
     return {
       data,
     };

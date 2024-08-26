@@ -1,4 +1,10 @@
 {
+  "crons": [
+    {
+      "path": "/api/cron",
+      "schedule": "*/10 * * * *"
+    }
+  ],
   "github": {
     "silent": true
   }
