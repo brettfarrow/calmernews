@@ -12,3 +12,5 @@ async function fetchWithTimeout(url, options = {}) {
     throw error;
   }
 }
+
+export default fetchWithTimeout;
