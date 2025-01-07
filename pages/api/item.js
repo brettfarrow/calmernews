@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import endpoints from './endpoints';
 import DOMPurify from 'isomorphic-dompurify';
+import fetchWithTimeout from '../../utils/fetchWithTimeout';
 
 const cleanContent = (content) => {
   if (!content) return;
@@ -19,7 +20,7 @@ export default async function item(req, res) {
     query: { id },
   } = req;
 
-  const data = await fetch(`${endpoints.COMMENTS}?id=${id}`).then((r) =>
+  const data = await fetchWithTimeout(`${endpoints.COMMENTS}?id=${id}`).then((r) =>
     r.text(),
   );
 
