@@ -2,6 +2,7 @@ import React from 'react';
 import Page from '../components/Page';
 import News from '../components/News';
 import get from 'lodash/get';
+import fetchWithTimeout from '../utils/fetchWithTimeout';
 
 function NewsPage({ data, cookies }) {
   return (
@@ -14,7 +15,7 @@ function NewsPage({ data, cookies }) {
 NewsPage.getInitialProps = async function (ctx) {
   if (ctx.req) {
     const { url } = ctx.req;
-    const data = await fetch(
+    const data = await fetchWithTimeout(
       `${process.env.HOST}/api/news?${url.split('?')[1]}`
     ).then((r) => r.json());
     return {
@@ -23,7 +24,7 @@ NewsPage.getInitialProps = async function (ctx) {
     };
   } else {
     const p = get(ctx, 'query.p', 1);
-    const data = await fetch(`/api/news?p=${p}`).then((r) => r.json());
+    const data = await fetchWithTimeout(`/api/news?p=${p}`).then((r) => r.json());
     const cookies = document.cookie.split('; ').reduce((prev, current) => {
       const [name, ...value] = current.split('=');
       prev[name] = value.join('=');

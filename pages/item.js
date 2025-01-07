@@ -1,6 +1,7 @@
 import getQueryParameter from '../utils/getQueryParameter';
 import Page from '../components/Page';
 import Comments from '../components/Comments';
+import fetchWithTimeout from '../utils/fetchWithTimeout';
 
 const Item = ({ data }) => {
   return (
@@ -14,7 +15,7 @@ Item.getInitialProps = async function (ctx) {
   if (ctx.req) {
     const { url } = ctx.req;
     const id = getQueryParameter(`${process.env.HOST}${url}`, 'id');
-    const data = await fetch(`${process.env.HOST}/api/item?id=${id}`).then(
+    const data = await fetchWithTimeout(`${process.env.HOST}/api/item?id=${id}`).then(
       (r) => r.json()
     );
     return {
@@ -22,7 +23,7 @@ Item.getInitialProps = async function (ctx) {
     };
   } else {
     const id = get(ctx, 'query.id', 1);
-    const data = await fetch(`/api/item?id=${id}`).then((r) => r.json());
+    const data = await fetchWithTimeout(`/api/item?id=${id}`).then((r) => r.json());
     return {
       data,
     };

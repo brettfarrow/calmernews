@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import Head from 'next/head';
 import PWABoilerplate from '../components/PWABoilerplate';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 function App({ Component, pageProps }) {
   return (
@@ -16,7 +17,9 @@ function App({ Component, pageProps }) {
         />
       </Head>
       <PWABoilerplate />
-      <Component {...pageProps} />
+      <ErrorBoundary>
+        <Component {...pageProps} />
+      </ErrorBoundary>
     </>
   );
 }
