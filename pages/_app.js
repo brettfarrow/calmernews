@@ -4,6 +4,10 @@ import PWABoilerplate from '../components/PWABoilerplate';
 import ErrorBoundary from '../components/ErrorBoundary';
 
 function App({ Component, pageProps }) {
+  const error = pageProps.error instanceof Error ? pageProps.error : null;
+  const filteredProps = { ...pageProps };
+  delete filteredProps.error;
+
   return (
     <>
       <Head>
@@ -17,11 +21,25 @@ function App({ Component, pageProps }) {
         />
       </Head>
       <PWABoilerplate />
-      <ErrorBoundary>
-        <Component {...pageProps} />
+      <ErrorBoundary error={error}>
+        <Component {...filteredProps} />
       </ErrorBoundary>
     </>
   );
+}
+
+App.getInitialProps = async ({ Component, ctx }) => {
+  let pageProps = {};
+
+  try {
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+  } catch (error) {
+    pageProps.error = error;
+  }
+
+  return { pageProps };
 }
 
 export default App;

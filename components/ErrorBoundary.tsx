@@ -3,6 +3,7 @@ import TimeoutError from './TimeoutError';
 
 interface Props {
   children: React.ReactNode;
+  error?: Error | null;
 }
 
 interface State {
@@ -13,7 +14,10 @@ interface State {
 class ErrorBoundary extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { hasError: false, isTimeout: false };
+    this.state = {
+      hasError: Boolean(props.error),
+      isTimeout: props.error?.message.includes('timed out') || false,
+    };
   }
 
   static getDerivedStateFromError(error: Error): State {
@@ -23,9 +27,18 @@ class ErrorBoundary extends React.Component<Props, State> {
     };
   }
 
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.error !== prevProps.error) {
+      this.setState({
+        hasError: Boolean(this.props.error),
+        isTimeout: this.props.error?.message.includes('timed out') || false,
+      });
+    }
+  }
+
   render() {
-    if (this.state.hasError) {
-      if (this.state.isTimeout) {
+    if (this.state.hasError || this.props.error) {
+      if (this.state.isTimeout || this.props.error?.message.includes('timed out')) {
         return <TimeoutError />;
       }
       return null;
