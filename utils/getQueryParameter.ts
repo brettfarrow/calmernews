@@ -3,5 +3,5 @@ export default function getQueryParameter (
   parameterName: string,
 ): string {
   const urlParams = new URLSearchParams(new URL(url).search);
-  return urlParams.get(parameterName);
+  return urlParams.get(parameterName) || '';
 };

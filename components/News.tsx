@@ -54,7 +54,7 @@ const News: React.FC<NewsProps> = ({ data, cookies }) => {
         <title>{title}</title>
       </Head>
       <Posts
-        from={from}
+        from={from ?? false}
         items={get(data, 'items', [])}
         showComments={showComments}
         showByline={showByline}

@@ -59,7 +59,7 @@ const NavButtons: React.FC<NavButtonsProps> = ({ more, previous, p }) => {
 
   return (
     <div className={`grid grid-cols-${gridCols} max-w-4xl mx-auto`}>
-      {p > 1 && (
+      {p !== undefined && p > 1 && (
         <div className={`flex justify-center`}>
           <button
             className={`rounded text-center bg-purple-700 w-28 h-12 m-6 text-white font-bold transition duration-500 ease-in-out hover:bg-purple-800`}
@@ -71,7 +71,7 @@ const NavButtons: React.FC<NavButtonsProps> = ({ more, previous, p }) => {
             }
             disabled={loading.button === '' ? false : true}
           >
-            <Link href={previous} passHref>
+            <Link href={previous || '#'} passHref>
               <span className={`w-28 h-12 block leading-12`}>
                 {loading.loading && loading.button === 'previous' ? (
                   <LoadingButton
@@ -124,7 +124,7 @@ const NavButtons: React.FC<NavButtonsProps> = ({ more, previous, p }) => {
             }
             disabled={loading.button === '' ? false : true}
           >
-            <Link href={more} passHref>
+            <Link href={more || '#'} passHref>
               <span className={`w-28 h-12 block leading-12`}>
                 {loading.loading && loading.button === 'more' ? (
                   <LoadingButton
