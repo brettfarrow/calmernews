@@ -24,7 +24,7 @@ Your application has been successfully updated to use Node.js 22 and the latest 
 ### Dependencies
 - **@types/node**: Upgraded from `20.12.7` → `22.10.5`
 - **@types/react**: Upgraded from `18.2.77` → `19.0.2`
-- **next-pwa**: Replaced `next-pwa@5.6.0` with `@ducanh2912/next-pwa@10.2.9` (for Next.js 15 compatibility)
+- **next-pwa**: Reverted to original `next-pwa@5.6.0` with package overrides for Next.js 15/React 19 compatibility
 - **Various other dependencies**: Updated to latest compatible versions
 
 ## Configuration Changes
@@ -49,13 +49,14 @@ Your application has been successfully updated to use Node.js 22 and the latest 
 - Updated build scripts to use new CLI
 
 ### PWA Configuration
-- Updated `next-pwa` to a maintained fork compatible with Next.js 15
-- Enhanced PWA configuration with better caching strategies
+- Reverted to original `next-pwa` package with overrides for Next.js 15/React 19 compatibility
+- Simplified PWA configuration back to essentials
 - Added development mode disable option
+- **Alternative**: Created native PWA implementation guide (see `PWA_NATIVE_OPTION.md`)
 
 ### Package.json
 - Added Node.js engine requirement (`>=22.0.0`)
-- Added override configuration to resolve React 19 peer dependency conflicts
+- Added override configuration to resolve React 19 peer dependency conflicts and next-pwa compatibility
 - Updated all scripts to work with new tooling
 
 ## Files Modified
@@ -71,6 +72,7 @@ Your application has been successfully updated to use Node.js 22 and the latest 
 ### New Files
 - `.nvmrc` - Specifies Node.js 22
 - `UPGRADE_SUMMARY.md` - This summary document
+- `PWA_NATIVE_OPTION.md` - Guide for implementing native PWA functionality
 
 ### Removed Files
 - `.eslintrc` - Replaced with new flat config
