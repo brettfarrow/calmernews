@@ -24,6 +24,8 @@
   "name": "calmernews",
   "version": "5.0.1",
   "dependencies": {
+    "@babel/runtime": ">=7.26.10",
+    "brace-expansion": ">=2.0.2",
     "cheerio": "^1.1.2",
     "isomorphic-dompurify": "^2.34.0",
     "lodash": "^4.17.21",
