@@ -1,17 +1,33 @@
 import * as cheerio from 'cheerio';
 import endpoints from './endpoints';
-import DOMPurify from 'isomorphic-dompurify';
 
 const cleanContent = (content) => {
-  if (!content) return;
-  return DOMPurify.sanitize(
-    content
-      .trim()
-      .replace(/<p>/g, '\n') // remove opening paragraph tags
-      .replace(/<\/p>/g, '\n') // replace with newline character
-      .replace(/\n\n/g, '\n') // remove duplicate line breaks
-      .replace(/\n(\s+)\n/g, ''), // remove any extra line breaks at end of comment
-  );
+  if (!content) return '';
+  const normalized = content
+    .trim()
+    .replace(/<p>/g, '\n') // remove opening paragraph tags
+    .replace(/<\/p>/g, '\n') // replace with newline character
+    .replace(/\n\n/g, '\n') // remove duplicate line breaks
+    .replace(/\n(\s+)\n/g, ''); // remove any extra line breaks at end of comment
+
+  // Use cheerio to strip unsafe nodes and event attributes without relying on DOM APIs
+  const fragment = cheerio.load(normalized, undefined, false);
+  fragment('script,style').remove();
+  fragment('*').each((_, el) => {
+    const attrs = el.attribs || {};
+    Object.keys(attrs).forEach((attr) => {
+      if (attr.startsWith('on')) {
+        fragment(el).removeAttr(attr);
+      }
+    });
+  });
+
+  return fragment
+    .root()
+    .contents()
+    .map((_, el) => fragment.html(el))
+    .get()
+    .join('');
 };
 
 export default async function item(req, res) {
