@@ -13,6 +13,7 @@
     "tailwind:watch": "npx @tailwindcss/cli --watch -i ./styles/globals.css -o ./public/tailwind.css"
   },
   "overrides": {
+    "brace-expansion@^2.0.1": "2.0.2",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "next-pwa": {
@@ -22,7 +23,7 @@
     }
   },
   "name": "calmernews",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "dependencies": {
     "@babel/runtime": ">=7.26.10",
     "brace-expansion": ">=2.0.2",
