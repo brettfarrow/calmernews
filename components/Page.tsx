@@ -1,4 +1,4 @@
-import PullToRefresh from 'react-simple-pull-to-refresh';
+import PullToRefresh from './PullToRefresh';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSwipeable } from 'react-swipeable';
