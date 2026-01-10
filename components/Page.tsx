@@ -1,9 +1,36 @@
-import PullToRefresh from './PullToRefresh';
+import PullToRefresh, { type PullProgress } from './PullToRefresh';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSwipeable } from 'react-swipeable';
 import LoadingButton from './LoadingButton';
 import { useEffect } from 'react';
+
+const PullIndicator: React.FC<PullProgress> = ({ progress, isThresholdMet }) => {
+  // Arrow rotates from pointing down (0°) to pointing up (180°) as you pull
+  const rotation = Math.min(progress, 1) * 180;
+
+  return (
+    <div className="flex flex-col items-center justify-center py-4">
+      <svg
+        className="w-6 h-6 text-gray-500 dark:text-gray-400 transition-transform duration-150"
+        style={{ transform: `rotate(${rotation}deg)` }}
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M19 14l-7 7m0 0l-7-7m7 7V3"
+        />
+      </svg>
+      <span className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        {isThresholdMet ? 'Release to refresh' : 'Pull to refresh'}
+      </span>
+    </div>
+  );
+};
 
 declare global {
   interface Window {
@@ -39,7 +66,7 @@ const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <>
       <PullToRefresh
-        pullingContent={''}
+        pullingContent={(info) => <PullIndicator {...info} />}
         onRefresh={handleRefresh}
         refreshingContent={refreshingContent}
       >

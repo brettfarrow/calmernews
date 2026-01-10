@@ -1,9 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+type PullProgress = {
+  progress: number; // 0 to 1+
+  isThresholdMet: boolean;
+};
+
 type PullToRefreshProps = {
   children: React.ReactNode;
   onRefresh: () => Promise<void> | void;
-  pullingContent?: React.ReactNode;
+  pullingContent?: React.ReactNode | ((info: PullProgress) => React.ReactNode);
   refreshingContent?: React.ReactNode;
   pullDownThreshold?: number;
   maxPullDistance?: number;
@@ -30,12 +35,32 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
 
   const threshold = pullDownThreshold > 0 ? pullDownThreshold : 1;
   const maxPull = Math.max(maxPullDistance, threshold);
-  const resolvedRefreshingContent =
-    refreshingContent === undefined ? pullingContent : refreshingContent;
+
+  // Resolve refreshing content - if undefined, use pullingContent (calling it if it's a function)
+  const getRefreshingContent = (): React.ReactNode => {
+    if (refreshingContent !== undefined) {
+      return refreshingContent;
+    }
+    if (typeof pullingContent === 'function') {
+      return pullingContent({ progress: 1, isThresholdMet: true });
+    }
+    return pullingContent;
+  };
 
   const setPullDistance = (value: number): void => {
     pullDistanceRef.current = value;
     setPullDistanceState(value);
+  };
+
+  // Apply rubber-band damping for a more natural pull feel
+  const applyDamping = (distance: number): number => {
+    if (distance <= threshold) {
+      return distance;
+    }
+    // Logarithmic damping past threshold creates elastic resistance
+    const overpull = distance - threshold;
+    const dampedOverpull = Math.log(overpull + 1) * 15;
+    return threshold + dampedOverpull;
   };
 
   const isAtTop = (): boolean => {
@@ -141,12 +166,18 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
     };
   }, []);
 
-  const translateY = isRefreshing ? threshold : pullDistance;
+  const dampedDistance = applyDamping(pullDistance);
+  const translateY = isRefreshing ? threshold : dampedDistance;
   const indicatorOpacity = Math.min(translateY / threshold, 1);
   const indicatorTranslate = Math.min(translateY, threshold) - threshold;
+  // Scale indicator from 0.5 to 1 as user pulls
+  const indicatorScale = 0.5 + 0.5 * Math.min(translateY / threshold, 1);
   const containerClassName = ['relative', className]
     .filter(Boolean)
     .join(' ');
+
+  // Spring-like easing for natural bounce feel
+  const springTransition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease-out';
 
   return (
     <div
@@ -161,18 +192,23 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
         style={{
           height: threshold,
           opacity: indicatorOpacity,
-          transform: `translateY(${indicatorTranslate}px)`,
-          transition: isPulling
-            ? 'none'
-            : 'transform 0.2s ease, opacity 0.2s ease',
+          transform: `translateY(${indicatorTranslate}px) scale(${indicatorScale})`,
+          transition: isPulling ? 'none' : springTransition,
         }}
       >
-        {isRefreshing ? resolvedRefreshingContent : pullingContent}
+        {isRefreshing
+          ? getRefreshingContent()
+          : typeof pullingContent === 'function'
+            ? pullingContent({
+                progress: translateY / threshold,
+                isThresholdMet: translateY >= threshold,
+              })
+            : pullingContent}
       </div>
       <div
         style={{
           transform: `translateY(${translateY}px)`,
-          transition: isPulling ? 'none' : 'transform 0.2s ease',
+          transition: isPulling ? 'none' : 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
           willChange: 'transform',
         }}
       >
@@ -183,3 +219,4 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
 };
 
 export default PullToRefresh;
+export type { PullProgress };

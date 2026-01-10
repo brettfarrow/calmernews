@@ -1,12 +1,17 @@
 import Head from 'next/head';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Posts from './Posts';
 import ToggleButton from './ToggleButton';
 import NavButtons from './NavButtons';
 
 import { get } from 'lodash';
-import getInitialValue from '../utils/getInitialValue';
 import { PostItem } from '../types/postTypes';
+
+// Get initial value from cookies only (for SSR consistency)
+const getInitialFromCookies = (name: string, cookies: object): boolean => {
+  const value = get(cookies, name);
+  return value === 'true' || value === true;
+};
 
 type NewsProps = {
   data: {
@@ -22,18 +27,31 @@ type NewsProps = {
 const News: React.FC<NewsProps> = ({ data, cookies }) => {
   const p = get(data, 'page', 1);
   const { from, more, previous } = data;
-  const localStorage =
-    typeof window !== 'undefined' ? window.localStorage : { setItem: () => {} };
   const title = `calmer news${p > 1 ? ` | page ${p}` : ''}`;
+
+  // Initialize from cookies only to match server render
   const [showComments, setShowComments] = useState(
-    getInitialValue('show_comments', cookies, localStorage, false) === 'true',
+    getInitialFromCookies('show_comments', cookies),
   );
   const [showByline, setShowByline] = useState(
-    getInitialValue('show_byline', cookies, localStorage, false) === 'true',
+    getInitialFromCookies('show_byline', cookies),
   );
   const [showScore, setShowScore] = useState(
-    getInitialValue('show_score', cookies, localStorage, false) === 'true',
+    getInitialFromCookies('show_score', cookies),
   );
+
+  // Sync from localStorage after mount (client-side only)
+  useEffect(() => {
+    const syncFromLocalStorage = (key: string, setter: (v: boolean) => void) => {
+      const value = window.localStorage.getItem(key);
+      if (value !== null) {
+        setter(value === 'true');
+      }
+    };
+    syncFromLocalStorage('show_comments', setShowComments);
+    syncFromLocalStorage('show_byline', setShowByline);
+    syncFromLocalStorage('show_score', setShowScore);
+  }, []);
 
   const toggleClick = (
     name: string,
@@ -42,7 +60,7 @@ const News: React.FC<NewsProps> = ({ data, cookies }) => {
   ) => {
     document.cookie = `${name}=${!value}; Max-Age=2147483647`;
     try {
-      localStorage.setItem(name, String(!value));
+      window.localStorage.setItem(name, String(!value));
     } catch (e) {
       console.error(e);
     }
