@@ -40,7 +40,7 @@ const Post: React.FC<PostProps> = ({
     >
       <a
         href={post.href}
-        className={`text-indigo-700 dark:text-indigo-300 hover:underline decoration-indigo-700 dark:decoration-indigo-300 underline-offset-[3px]`}
+        className={`text-indigo-700 dark:text-indigo-300 hover:underline decoration-indigo-700 dark:decoration-indigo-300 underline-offset-[3px] text-[20px]`}
       >
         {post.text}
       </a>{' '}

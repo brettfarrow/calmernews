@@ -38,6 +38,7 @@ em {
 .list-decimal-zero > li::marker {
   @apply text-gray-500 dark:text-gray-300;
   font-variant-numeric: tabular-nums;
+  font-size: 20px;
 }
 
 .list-disc > li::marker {
