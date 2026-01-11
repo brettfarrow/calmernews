@@ -1,93 +1,195 @@
 @import "tailwindcss";
+
 body {
   font-family: 'Atkinson Hyperlegible', ui-sans-serif, sans-serif;
+  line-height: 1.6;
 }
+
 i,
 em {
   @apply italic;
 }
+
 .list-decimal-zero {
   list-style: decimal-leading-zero;
 }
+
+/* Post list items - add subtle separators and improve spacing */
+.list-decimal-zero > li,
+.list-disc > li {
+  border-bottom: 1px solid rgb(55 65 81 / 0.3);
+  margin-bottom: 0;
+}
+
+.list-decimal-zero > li:last-child,
+.list-disc > li:last-child {
+  border-bottom: none;
+}
+
+/* Light mode separator */
+@media (prefers-color-scheme: light) {
+  .list-decimal-zero > li,
+  .list-disc > li {
+    border-bottom-color: rgb(209 213 219 / 0.6);
+  }
+}
+
+/* Make list markers more visible - improved contrast */
+.list-decimal-zero > li::marker {
+  @apply text-gray-500 dark:text-gray-300;
+  font-variant-numeric: tabular-nums;
+}
+
+.list-disc > li::marker {
+  @apply text-gray-500 dark:text-gray-300;
+}
+
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
+
+/* Metadata row styling */
+.meta-row {
+  @apply text-gray-600 dark:text-gray-100;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  line-height: 1.5;
+}
+
+/* Score styling */
+.score {
+  @apply text-gray-600 dark:text-gray-100;
+}
+
+/* Byline styling */
+.byline {
+  @apply text-gray-600 dark:text-gray-100;
+}
+
+/* Comments link */
+.comments a {
+  @apply text-gray-600 dark:text-gray-100;
+}
+
+.comments a:hover {
+  @apply text-indigo-600 dark:text-indigo-300;
+}
+
 .comment a {
   @apply break-all;
 }
+
 .comment a,
 .post-body a {
   @apply text-indigo-700;
   @apply dark:text-indigo-300;
 }
-.underline,
+
+/*
+ * Underline animation - use text-decoration for multi-line support
+ * The pseudo-element approach only works for single-line text
+ */
+
+/* Base underline class - uses native text-decoration for multi-line support */
+.underline {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.3s ease;
+}
+
+.underline:hover,
+.underline:focus,
+.underline:active {
+  text-decoration-color: currentColor;
+}
+
+/* Comment and post-body links */
 .comment a,
 .post-body a {
-  @apply inline relative overflow-hidden no-underline;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.3s ease;
 }
-.underline:after,
-.comment a:after,
-.post-body a:after {
-  @apply content-[''] absolute w-0 bottom-[-3px] bg-indigo-300 h-px transition-[width] duration-[0.3s] ease-[ease-out] right-0;
 
-  /* equivalent to text-indigo-300 */
+.comment a:hover,
+.comment a:focus,
+.post-body a:hover,
+.post-body a:focus {
+  text-decoration-color: #a5b4fc; /* indigo-300 */
 }
-.underline:hover:after,
-.underline:focus:after,
-.underline:active:after,
-.comment a:hover:after,
-.comment a:focus:after,
-.comment a:active:after,
-.post-body a:hover:after,
-.post-body a:focus:after,
-.post-body a:active:after {
-  @apply w-full left-0 right-auto;
+
+/* Underline-link for metadata links */
+.underline-link {
+  @apply text-gray-600 dark:text-gray-100;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.3s ease, color 0.15s ease;
 }
-.underline-host.underline:hover:after,
-.underline-host.underline:focus:after,
-.underline-host.underline:active:after {
-  @apply w-[calc(100%_-_12px)] left-1.5 right-auto;
+
+.underline-link:hover,
+.underline-link:focus {
+  @apply text-gray-800 dark:text-gray-100;
+  text-decoration-color: currentColor;
 }
+
+/* Host/domain links */
+.underline-host {
+  @apply text-gray-600 dark:text-gray-300;
+}
+
+.underline-host:hover,
+.underline-host:focus {
+  @apply text-gray-800 dark:text-gray-100;
+}
+
 .subline span {
   @apply text-gray-500;
-  @apply dark:text-gray-400;
+  @apply dark:text-gray-100;
 }
+
 .subline span:after {
-  @apply content-['_|_'];
+  @apply content-['_·_'];
+  @apply text-gray-400 dark:text-gray-400;
 }
+
 .subline span:last-child::after {
   @apply content-[unset];
 }
+
 @media screen and (max-width: 320px) {
   .subline span.score {
     @apply block after:content-[unset];
   }
 }
+
 @media screen and (max-width: 640px) {
   .subline span.byline:after {
     @apply content-[unset];
   }
 }
-@media (prefers-color-scheme: light) {
-  .underline.underline-link:after {
-    @apply bg-[rgb(2,2,2,1)];
 
-    /* equivalent to text-gray-200 */
-  }
-}
-@media (prefers-color-scheme: dark) {
-  .underline.underline-link:after {
-    @apply bg-gray-200;
-
-    /* equivalent to text-gray-200 */
-  }
-}
 .no-js .toggle-button {
   @apply hidden;
 }
+
+/* Toggle button styling */
+.toggle-button {
+  @apply text-gray-500 dark:text-gray-400;
+  font-size: 0.8rem;
+  transition: color 0.15s ease;
+}
+
+.toggle-button:hover {
+  @apply text-gray-700 dark:text-gray-200;
+}
+
 .leading-12 {
   @apply leading-[3rem];
 }
+
 pre {
   @apply whitespace-pre-wrap ml-6;
   word-wrap: break-word;

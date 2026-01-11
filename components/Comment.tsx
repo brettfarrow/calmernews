@@ -32,6 +32,7 @@ const Comment: React.FC<{ comment: CommentType }> = ({ comment }) => {
         <a
           className="text-indigo-600 dark:text-indigo-200 underline"
           href={`${HN_HOSTNAME}/user?id=${comment.username}`}
+          aria-label={`View ${comment.username}'s profile on Hacker News`}
         >
           {comment.username}
         </a>{' '}
@@ -39,6 +40,7 @@ const Comment: React.FC<{ comment: CommentType }> = ({ comment }) => {
         <a
           className="text-indigo-600 dark:text-indigo-200 underline"
           href={`/item?id=${comment.id}`}
+          aria-label={`Permalink to this comment from ${comment.age}`}
         >
           {comment.age}
         </a>

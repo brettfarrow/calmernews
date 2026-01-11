@@ -36,7 +36,7 @@ const Post: React.FC<PostProps> = ({
   return (
     <li
       key={`item-${index}`}
-      className={`text-gray-800 dark:text-gray-200 px-4 md:px-12 py-5 md:py-4 before:text-gray-800 before:dark:text-gray-100`}
+      className={`text-gray-800 dark:text-gray-200 px-4 md:px-12 py-4 md:py-3`}
     >
       <a
         href={post.href}
@@ -45,39 +45,42 @@ const Post: React.FC<PostProps> = ({
         {post.text}
       </a>{' '}
       {isSelfPost(post.host) ? (
-        <span>({post.host})</span>
+        <span className="text-gray-500 dark:text-gray-400 text-sm">({post.host})</span>
       ) : (
-        <span>
+        <span className="text-sm">
           <a
             href={getLinkDomain(post.host)}
             className={`underline underline-link underline-host`}
+            aria-label={`More posts from ${post.host}`}
           >
             ({post.host})
           </a>
         </span>
       )}
-      <div className={`grid grid-cols-1 sm:grid-cols-2`}>
-        {(showScore || showByline) && (
-          <span>
-            {showScore && (
-              <span className={`score mr-2`}>
-                {post.score} {post.score === 1 ? 'point' : 'points'}
-              </span>
-            )}
-            {showByline && (
-              <span className={`byline block sm:inline`}>
-                posted {post.age} by{' '}
-                <a
-                  className={`underline underline-link`}
-                  href={getBylineURL(post.user)}
-                >
-                  {post.user}
-                </a>
-              </span>
-            )}
-          </span>
-        )}
-        <span>
+      {(showScore || showByline || showComments) && (
+        <div className={`meta-row grid grid-cols-1 sm:grid-cols-2 gap-x-4`}>
+          {(showScore || showByline) && (
+            <span>
+              {showScore && (
+                <span className={`score`}>
+                  {post.score} {post.score === 1 ? 'point' : 'points'}
+                </span>
+              )}
+              {showScore && showByline && <span className="text-gray-400 dark:text-gray-500"> · </span>}
+              {showByline && (
+                <span className={`byline`}>
+                  {post.age} by{' '}
+                  <a
+                    className={`underline underline-link`}
+                    href={getBylineURL(post.user)}
+                    aria-label={`View ${post.user}'s profile on Hacker News`}
+                  >
+                    {post.user}
+                  </a>
+                </span>
+              )}
+            </span>
+          )}
           {showComments && (
             <span className={`comments`}>
               <a
@@ -85,15 +88,15 @@ const Post: React.FC<PostProps> = ({
                 href={getCommentURL(post.id)}
               >
                 {post.comments ? (
-                  <>view {post.comments} comments</>
+                  <>{post.comments} comments</>
                 ) : (
                   <>discuss</>
                 )}
               </a>
             </span>
           )}
-        </span>
-      </div>
+        </div>
+      )}
     </li>
   );
 }

@@ -43,7 +43,7 @@ const Comments: React.FC<CommentsProps> = ({ data }) => {
       <Head>
         <title>{pageTitle}</title>
       </Head>
-      <div className="max-w-4xl mx-auto p-4">
+      <article className="max-w-4xl mx-auto p-4">
         <h2 className="text-xl lg:text-2xl">
           <a
             href={link}
@@ -71,7 +71,11 @@ const Comments: React.FC<CommentsProps> = ({ data }) => {
           {score > 0 && <span className="score">{score} points</span>}
           <span className="byline">
             posted by{' '}
-            <a className="underline" href={`${HN_HOSTNAME}/user?id=${byline}`}>
+            <a
+              className="underline"
+              href={`${HN_HOSTNAME}/user?id=${byline}`}
+              aria-label={`View ${byline}'s profile on Hacker News`}
+            >
               {byline}
             </a>{' '}
             {age}
@@ -79,19 +83,23 @@ const Comments: React.FC<CommentsProps> = ({ data }) => {
           <div className="sm:inline">
             <span>{commentCount} comments</span>
             <span>
-              <a className="underline" href={`${HN_HOSTNAME}/item?id=${id}`}>
+              <a
+                className="underline"
+                href={`${HN_HOSTNAME}/item?id=${id}`}
+                aria-label="View this post on Hacker News"
+              >
                 view on hn
               </a>
             </span>
           </div>
         </div>
-        <div>
+        <section aria-label="Comments">
           {comments.map((comment) => (
             <Comment key={comment.id} comment={comment} />
           ))}
-        </div>
+        </section>
         <NavButtons />
-      </div>
+      </article>
     </>
   );
 };
