@@ -28,23 +28,22 @@ const Comment: React.FC<{ comment: CommentType }> = ({ comment }) => {
   const splitText = splitStringIgnoringPre(comment.body, '\n');
   return (
     <div style={{ marginLeft: `${comment.level * 24}px` }} className="pb-4">
-      <div className="text-gray-700 dark:text-gray-300 pb-2">
+      <div className="text-gray-600 dark:text-gray-100 pb-2 text-sm">
         <a
-          className="text-indigo-600 dark:text-indigo-200 underline"
+          className="text-indigo-700 dark:text-indigo-300 underline"
           href={`${HN_HOSTNAME}/user?id=${comment.username}`}
           aria-label={`View ${comment.username}'s profile on Hacker News`}
         >
           {comment.username}
-        </a>{' '}
-        (
+        </a>
+        {' '}
         <a
-          className="text-indigo-600 dark:text-indigo-200 underline"
+          className="underline-link underline"
           href={`/item?id=${comment.id}`}
           aria-label={`Permalink to this comment from ${comment.age}`}
         >
-          {comment.age}
+          ({comment.age})
         </a>
-        )
       </div>
       <div className="text-gray-800 dark:text-gray-200 pb-3 leading-relaxed lg:text-lg">
         {splitText.map((line, index) => (

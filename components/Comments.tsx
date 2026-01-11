@@ -67,12 +67,17 @@ const Comments: React.FC<CommentsProps> = ({ data }) => {
             ))}
           </div>
         )}
-        <div className="subline pb-6 text-sm lg:text-md text-gray-800 dark:text-gray-200">
-          {score > 0 && <span className="score">{score} points</span>}
+        <div className="meta-row pb-6 text-sm">
+          {score > 0 && (
+            <>
+              <span className="score">{score} points</span>
+              <span className="text-gray-400 dark:text-gray-500"> · </span>
+            </>
+          )}
           <span className="byline">
             posted by{' '}
             <a
-              className="underline"
+              className="underline-link underline"
               href={`${HN_HOSTNAME}/user?id=${byline}`}
               aria-label={`View ${byline}'s profile on Hacker News`}
             >
@@ -80,18 +85,18 @@ const Comments: React.FC<CommentsProps> = ({ data }) => {
             </a>{' '}
             {age}
           </span>
-          <div className="sm:inline">
-            <span>{commentCount} comments</span>
-            <span>
-              <a
-                className="underline"
-                href={`${HN_HOSTNAME}/item?id=${id}`}
-                aria-label="View this post on Hacker News"
-              >
-                view on hn
-              </a>
-            </span>
-          </div>
+          <span className="text-gray-400 dark:text-gray-500"> · </span>
+          <span>{commentCount} comments</span>
+          <span className="text-gray-400 dark:text-gray-500"> · </span>
+          <span>
+            <a
+              className="underline-link underline"
+              href={`${HN_HOSTNAME}/item?id=${id}`}
+              aria-label="View this post on Hacker News"
+            >
+              view on hn
+            </a>
+          </span>
         </div>
         <section aria-label="Comments">
           {comments.map((comment) => (
