@@ -58,7 +58,7 @@ const NavButtons: React.FC<NavButtonsProps> = ({ more, previous, p }) => {
   }, [more, previous, p]);
 
   return (
-    <div className={`grid grid-cols-${gridCols} max-w-4xl mx-auto`}>
+    <div className={`grid ${gridCols === 2 ? 'grid-cols-2' : 'grid-cols-1'} max-w-4xl mx-auto`}>
       {p > 1 && (
         <div className={`flex justify-center`}>
           <button

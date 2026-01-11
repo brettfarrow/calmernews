@@ -77,7 +77,7 @@ const Comments: React.FC<CommentsProps> = ({ data }) => {
           <span>
             posted by{' '}
             <a
-              className="underline hover:text-gray-800 transition-colors duration-150"
+              className="underline hover:text-gray-800 hover:dark:text-white transition-colors duration-150"
               href={`${HN_HOSTNAME}/user?id=${byline}`}
               aria-label={`View ${byline}'s profile on Hacker News`}
             >
@@ -90,7 +90,7 @@ const Comments: React.FC<CommentsProps> = ({ data }) => {
           <span className="text-gray-400 dark:text-gray-500"> · </span>
           <span>
             <a
-              className="underline hover:text-gray-800 transition-colors duration-150"
+              className="underline hover:text-gray-800 hover:dark:text-white transition-colors duration-150"
               href={`${HN_HOSTNAME}/item?id=${id}`}
               aria-label="View this post on Hacker News"
             >
