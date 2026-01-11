@@ -72,7 +72,7 @@ const NavButtons: React.FC<NavButtonsProps> = ({ more, previous, p }) => {
             disabled={loading.button === '' ? false : true}
           >
             <Link href={previous} passHref>
-              <span className={`w-28 h-12 block leading-12`}>
+              <span className={`w-28 h-12 block leading-[3rem]`}>
                 {loading.loading && loading.button === 'previous' ? (
                   <LoadingButton
                     customClasses={`animate-spin w-8 h-8 mx-10 my-2 text-white`}
@@ -125,7 +125,7 @@ const NavButtons: React.FC<NavButtonsProps> = ({ more, previous, p }) => {
             disabled={loading.button === '' ? false : true}
           >
             <Link href={more} passHref>
-              <span className={`w-28 h-12 block leading-12`}>
+              <span className={`w-28 h-12 block leading-[3rem]`}>
                 {loading.loading && loading.button === 'more' ? (
                   <LoadingButton
                     customClasses={`animate-spin w-8 h-8 mx-10 my-2 text-white`}

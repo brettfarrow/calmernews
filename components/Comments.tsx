@@ -47,7 +47,7 @@ const Comments: React.FC<CommentsProps> = ({ data }) => {
         <h2 className="text-xl lg:text-2xl">
           <a
             href={link}
-            className="text-indigo-700 dark:text-indigo-300 underline"
+            className="text-indigo-700 dark:text-indigo-300 hover:underline decoration-indigo-700 dark:decoration-indigo-300 underline-offset-[3px]"
           >
             {title}
           </a>
@@ -67,17 +67,17 @@ const Comments: React.FC<CommentsProps> = ({ data }) => {
             ))}
           </div>
         )}
-        <div className="meta-row pb-6 text-sm">
+        <div className="text-gray-600 dark:text-gray-100 mt-1 leading-normal pb-6 text-sm">
           {score > 0 && (
             <>
-              <span className="score">{score} points</span>
+              <span>{score} points</span>
               <span className="text-gray-400 dark:text-gray-500"> · </span>
             </>
           )}
-          <span className="byline">
+          <span>
             posted by{' '}
             <a
-              className="underline-link underline"
+              className="underline hover:text-gray-800 transition-colors duration-150"
               href={`${HN_HOSTNAME}/user?id=${byline}`}
               aria-label={`View ${byline}'s profile on Hacker News`}
             >
@@ -90,7 +90,7 @@ const Comments: React.FC<CommentsProps> = ({ data }) => {
           <span className="text-gray-400 dark:text-gray-500"> · </span>
           <span>
             <a
-              className="underline-link underline"
+              className="underline hover:text-gray-800 transition-colors duration-150"
               href={`${HN_HOSTNAME}/item?id=${id}`}
               aria-label="View this post on Hacker News"
             >

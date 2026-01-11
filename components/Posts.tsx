@@ -15,7 +15,7 @@ const Posts: React.FC<PostsProps> = ({
       <ol
         start={start}
         className={`${
-          from ? 'list-disc' : 'list-decimal-zero'
+          from ? 'list-none' : 'list-decimal-zero'
         } !list-inside max-w-5xl mx-auto lg:text-lg`}
       >
         {items.map((post, index) => (

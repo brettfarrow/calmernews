@@ -44,37 +44,6 @@ em {
   @apply text-gray-500 dark:text-gray-300;
 }
 
-.grid-cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-/* Metadata row styling */
-.meta-row {
-  @apply text-gray-600 dark:text-gray-100;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-  line-height: 1.5;
-}
-
-/* Score styling */
-.score {
-  @apply text-gray-600 dark:text-gray-100;
-}
-
-/* Byline styling */
-.byline {
-  @apply text-gray-600 dark:text-gray-100;
-}
-
-/* Comments link */
-.comments a {
-  @apply text-gray-600 dark:text-gray-100;
-}
-
-.comments a:hover {
-  @apply text-indigo-600 dark:text-indigo-300;
-}
-
 .comment a {
   @apply break-all;
 }
@@ -90,18 +59,30 @@ em {
  * The pseudo-element approach only works for single-line text
  */
 
-/* Base underline class - uses native text-decoration for multi-line support */
+/* Base underline class - visible by default with subtle color, brighter on hover */
 .underline {
   text-decoration: underline;
-  text-decoration-color: transparent;
+  text-decoration-color: rgb(156 163 175); /* gray-400 */
   text-underline-offset: 3px;
-  transition: text-decoration-color 0.3s ease;
+  transition: text-decoration-color 0.3s ease, color 0.15s ease;
 }
 
 .underline:hover,
 .underline:focus,
 .underline:active {
   text-decoration-color: currentColor;
+}
+
+@media (prefers-color-scheme: dark) {
+  .underline {
+    text-decoration-color: rgb(156 163 175); /* gray-400 */
+  }
+
+  .underline:hover,
+  .underline:focus,
+  .underline:active {
+    text-decoration-color: white;
+  }
 }
 
 /* Comment and post-body links */
@@ -118,31 +99,6 @@ em {
 .post-body a:hover,
 .post-body a:focus {
   text-decoration-color: #a5b4fc; /* indigo-300 */
-}
-
-/* Underline-link for metadata links */
-.underline-link {
-  @apply text-gray-600 dark:text-gray-100;
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 3px;
-  transition: text-decoration-color 0.3s ease, color 0.15s ease;
-}
-
-.underline-link:hover,
-.underline-link:focus {
-  @apply text-gray-800 dark:text-gray-100;
-  text-decoration-color: currentColor;
-}
-
-/* Host/domain links */
-.underline-host {
-  @apply text-gray-600 dark:text-gray-300;
-}
-
-.underline-host:hover,
-.underline-host:focus {
-  @apply text-gray-800 dark:text-gray-100;
 }
 
 .subline span {
@@ -173,21 +129,6 @@ em {
 
 .no-js .toggle-button {
   @apply hidden;
-}
-
-/* Toggle button styling */
-.toggle-button {
-  @apply text-gray-500 dark:text-gray-400;
-  font-size: 0.8rem;
-  transition: color 0.15s ease;
-}
-
-.toggle-button:hover {
-  @apply text-gray-700 dark:text-gray-200;
-}
-
-.leading-12 {
-  @apply leading-[3rem];
 }
 
 pre {
