@@ -45,9 +45,9 @@ const Post: React.FC<PostProps> = ({
         {post.text}
       </a>{' '}
       {isSelfPost(post.host) ? (
-        <span className="text-gray-500 dark:text-gray-400 text-sm">({post.host})</span>
+        <span className="text-gray-500 dark:text-gray-400 text-sm align-baseline leading-[20px]">({post.host})</span>
       ) : (
-        <span className="text-sm text-gray-600 dark:text-gray-300">
+        <span className="text-sm text-gray-600 dark:text-gray-300 align-baseline leading-[20px]">
           (<a
             href={getLinkDomain(post.host)}
             className={`underline hover:text-gray-800 hover:dark:text-gray-100 transition-colors duration-150`}
