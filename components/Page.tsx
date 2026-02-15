@@ -1,7 +1,7 @@
 import PullToRefresh, { type PullProgress } from './PullToRefresh';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSwipeable } from 'react-swipeable';
+import { useSwipeNavigation } from '../hooks/useSwipeNavigation';
 import LoadingButton from './LoadingButton';
 import { useEffect } from 'react';
 
@@ -43,10 +43,9 @@ const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const router = useRouter();
   const { asPath } = router;
 
-  const swipeHandlers = useSwipeable({
+  const swipeHandlers = useSwipeNavigation({
     onSwipedLeft: () => window.history.forward(),
     onSwipedRight: () => router.back(),
-    preventScrollOnSwipe: true,
   });
 
   const handleRefresh = async (): Promise<void> => {
