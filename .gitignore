@@ -106,11 +106,11 @@ dist
 # Layer0 generated build directory
 .layer0
 
-# Custom workbox files
+# Generated workbox files (legacy)
 **/public/workbox-*.js
 **/public/workbox-*.js.map
-**/public/sw.js
 **/public/sw.js.map
 **/public/worker-*.js
 **/public/worker-*.js.map
+**/public/swe-worker-*.js
 **/public/tailwind.css

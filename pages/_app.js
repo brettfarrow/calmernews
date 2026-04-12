@@ -1,8 +1,15 @@
+import { useEffect } from 'react';
 import '../styles/globals.css';
 import Head from 'next/head';
 import PWABoilerplate from '../components/PWABoilerplate';
 
 function App({ Component, pageProps }) {
+  useEffect(() => {
+    if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  }, []);
+
   return (
     <>
       <Head>
