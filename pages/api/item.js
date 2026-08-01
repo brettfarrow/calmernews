@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
 import endpoints from './endpoints';
+import hnFetch from '../../utils/hnFetch';
 
 const cleanContent = (content) => {
   if (!content) return '';
@@ -35,7 +36,7 @@ export default async function item(req, res) {
     query: { id },
   } = req;
 
-  const data = await fetch(`${endpoints.COMMENTS}?id=${id}`).then((r) =>
+  const data = await hnFetch(`${endpoints.COMMENTS}?id=${id}`).then((r) =>
     r.text(),
   );
 

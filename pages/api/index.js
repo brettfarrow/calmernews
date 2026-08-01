@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
 import endpoints from './endpoints';
+import hnFetch from '../../utils/hnFetch';
 import qs from 'qs';
 
 export default async function index(req, res) {
@@ -15,7 +16,7 @@ export default async function index(req, res) {
   const url = site
     ? `${endpoints.FROM}?${qs.stringify(params)}`
     : `${endpoints.NEWS}?${qs.stringify(params)}`;
-  const data = await fetch(url).then((r) => r.text());
+  const data = await hnFetch(url).then((r) => r.text());
 
   const $ = cheerio.load(data);
   const stories = $('tr.athing').toArray();

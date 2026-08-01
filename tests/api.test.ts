@@ -1,11 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import * as cheerio from 'cheerio';
+import hnFetch from '../utils/hnFetch';
 
 const HN = 'https://news.ycombinator.com';
 
 // Mirrors the parsing logic in pages/api/index.js
 async function fetchNewsFeed(path = '/news') {
-  const res = await fetch(`${HN}${path}`);
+  const res = await hnFetch(`${HN}${path}`);
   expect(res.ok).toBe(true);
   const html = await res.text();
   const $ = cheerio.load(html);
@@ -51,7 +52,7 @@ async function fetchNewsFeed(path = '/news') {
 
 // Mirrors the parsing logic in pages/api/item.js
 async function fetchItem(id: string) {
-  const res = await fetch(`${HN}/item?id=${id}`);
+  const res = await hnFetch(`${HN}/item?id=${id}`);
   expect(res.ok).toBe(true);
   const html = await res.text();
   const $ = cheerio.load(html);
