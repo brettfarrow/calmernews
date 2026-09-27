@@ -1,61 +1,31 @@
 import { Comment as CommentType } from '../types/postTypes';
 
-function splitStringIgnoringPre(input: string, delimiter: string) {
-  const preTagRegex = /<pre[\s\S]*?<\/pre>/gi;
-  const preTags: string[] = [];
-  let match;
-
-  // Store all matches of the <pre></pre> tag, and replace them with placeholders in the input string
-  while ((match = preTagRegex.exec(input)) !== null) {
-    preTags.push(match[0]);
-  }
-
-  preTags.forEach((preTag, index) => {
-    input = input.split(preTag).join(`{{PRE_TAG_${index}}}`);
-  });
-
-  // Split the string using the delimiter
-  const parts = input.split(delimiter);
-
-  // Replace the placeholders with the original <pre></pre> tags
-  return parts.map((part) =>
-    part.replace(/{{PRE_TAG_(\d+)}}/g, (_, index) => preTags[index])
-  );
-}
-
 const Comment: React.FC<{ comment: CommentType }> = ({ comment }) => {
   const HN_HOSTNAME = 'https://news.ycombinator.com';
-  const splitText = splitStringIgnoringPre(comment.body, '\n');
   return (
     <div style={{ marginLeft: `${comment.level * 24}px` }} className="pb-4">
       <div className="text-gray-600 dark:text-gray-100 pb-2 text-sm">
         <a
           className="text-indigo-700 dark:text-indigo-300 hover:underline decoration-indigo-700 dark:decoration-indigo-300 underline-offset-[3px]"
-          href={`${HN_HOSTNAME}/user?id=${comment.username}`}
+          href={`${HN_HOSTNAME}/user?id=${encodeURIComponent(comment.username)}`}
           aria-label={`View ${comment.username}'s profile on Hacker News`}
         >
           {comment.username}
-        </a>
-        {' '}
-        (<a
+        </a>{' '}
+        (
+        <a
           className="underline hover:text-gray-800 hover:dark:text-white transition-colors duration-150"
           href={`/item?id=${comment.id}`}
           aria-label={`Permalink to this comment from ${comment.age}`}
         >
           {comment.age}
-        </a>)
+        </a>
+        )
       </div>
-      <div className="text-gray-800 dark:text-gray-200 pb-3 leading-relaxed lg:text-lg">
-        {splitText.map((line, index) => (
-          <span
-            key={index}
-            className={
-              splitText.length !== index + 1 ? 'comment block mb-4' : 'comment'
-            }
-            dangerouslySetInnerHTML={{ __html: line }}
-          />
-        ))}
-      </div>
+      <div
+        className="comment text-gray-800 dark:text-gray-200 pb-3 leading-relaxed lg:text-lg"
+        dangerouslySetInnerHTML={{ __html: comment.body }}
+      />
     </div>
   );
 };

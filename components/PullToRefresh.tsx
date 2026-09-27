@@ -71,7 +71,7 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
   };
 
   const getTouchPoint = (
-    event: React.TouchEvent<HTMLDivElement>
+    event: React.TouchEvent<HTMLDivElement>,
   ): { x: number; y: number } => {
     const touch = event.touches[0] ?? event.changedTouches[0];
     return {
@@ -87,9 +87,7 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
     startXRef.current = null;
   };
 
-  const handleTouchStart = (
-    event: React.TouchEvent<HTMLDivElement>
-  ): void => {
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>): void => {
     if (isRefreshing || !isAtTop()) {
       return;
     }
@@ -103,9 +101,7 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
     setIsPulling(true);
   };
 
-  const handleTouchMove = (
-    event: React.TouchEvent<HTMLDivElement>
-  ): void => {
+  const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>): void => {
     if (!isPullingRef.current || isRefreshing) {
       return;
     }
@@ -146,7 +142,8 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
     if (pullDistanceRef.current >= threshold) {
       setIsRefreshing(true);
       setPullDistance(threshold);
-      Promise.resolve(onRefresh())
+      Promise.resolve()
+        .then(onRefresh)
         .catch(() => {})
         .finally(() => {
           if (!isMountedRef.current) {
@@ -161,6 +158,7 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
   }, [onRefresh, threshold]);
 
   useEffect(() => {
+    isMountedRef.current = true;
     return () => {
       isMountedRef.current = false;
     };
@@ -172,12 +170,11 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
   const indicatorTranslate = Math.min(translateY, threshold) - threshold;
   // Scale indicator from 0.5 to 1 as user pulls
   const indicatorScale = 0.5 + 0.5 * Math.min(translateY / threshold, 1);
-  const containerClassName = ['relative', className]
-    .filter(Boolean)
-    .join(' ');
+  const containerClassName = ['relative', className].filter(Boolean).join(' ');
 
   // Spring-like easing for natural bounce feel
-  const springTransition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease-out';
+  const springTransition =
+    'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease-out';
 
   return (
     <div
@@ -185,7 +182,10 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleRelease}
-      onTouchCancel={handleRelease}
+      onTouchCancel={() => {
+        resetPull();
+        setPullDistance(0);
+      }}
     >
       <div
         className="pointer-events-none absolute left-0 right-0 top-0 flex justify-center"
@@ -208,8 +208,10 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
       <div
         style={{
           transform: `translateY(${translateY}px)`,
-          transition: isPulling ? 'none' : 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          willChange: 'transform',
+          transition: isPulling
+            ? 'none'
+            : 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          willChange: isPulling || isRefreshing ? 'transform' : undefined,
         }}
       >
         {children}

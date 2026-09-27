@@ -18,11 +18,10 @@ const Posts: React.FC<PostsProps> = ({
           from ? 'list-none' : 'list-decimal-zero'
         } !list-inside max-w-5xl mx-auto lg:text-lg`}
       >
-        {items.map((post, index) => (
+        {items.map((post) => (
           <Post
             post={post}
-            key={index}
-            index={index}
+            key={post.id}
             showComments={showComments}
             showByline={showByline}
             showScore={showScore}
@@ -32,6 +31,6 @@ const Posts: React.FC<PostsProps> = ({
       {children}
     </>
   );
-}
+};
 
 export default Posts;

@@ -4,28 +4,20 @@ import Posts from './Posts';
 import ToggleButton from './ToggleButton';
 import NavButtons from './NavButtons';
 
-import { get } from 'lodash';
-import { PostItem } from '../types/postTypes';
-
-// Get initial value from cookies only (for SSR consistency)
-const getInitialFromCookies = (name: string, cookies: object): boolean => {
-  const value = get(cookies, name);
-  return value === 'true' || value === true;
-};
+import { NewsData } from '../types/postTypes';
 
 type NewsProps = {
-  data: {
-    page: number;
-    items: PostItem[];
-    more?: string;
-    previous?: string;
-    from?: boolean;
-  };
-  cookies: object;
+  data: NewsData;
+  cookies: Record<string, string | boolean>;
 };
 
+const getInitialFromCookies = (
+  name: string,
+  cookies: NewsProps['cookies'],
+): boolean => cookies[name] === 'true' || cookies[name] === true;
+
 const News: React.FC<NewsProps> = ({ data, cookies }) => {
-  const p = get(data, 'page', 1);
+  const p = data.page;
   const { from, more, previous } = data;
   const title = `calmer news${p > 1 ? ` | page ${p}` : ''}`;
 
@@ -42,10 +34,15 @@ const News: React.FC<NewsProps> = ({ data, cookies }) => {
 
   // Sync from localStorage after mount (client-side only)
   useEffect(() => {
-    const syncFromLocalStorage = (key: string, setter: (v: boolean) => void) => {
-      const value = window.localStorage.getItem(key);
-      if (value !== null) {
-        setter(value === 'true');
+    const syncFromLocalStorage = (
+      key: string,
+      setter: (v: boolean) => void,
+    ) => {
+      try {
+        const value = window.localStorage.getItem(key);
+        if (value !== null) setter(value === 'true');
+      } catch {
+        // Cookies still work when browser storage is unavailable.
       }
     };
     syncFromLocalStorage('show_comments', setShowComments);
@@ -58,7 +55,7 @@ const News: React.FC<NewsProps> = ({ data, cookies }) => {
     setter: (value: boolean) => void,
     value: boolean,
   ) => {
-    document.cookie = `${name}=${!value}; Max-Age=2147483647`;
+    document.cookie = `${name}=${!value}; Max-Age=31536000; Path=/; SameSite=Lax`;
     try {
       window.localStorage.setItem(name, String(!value));
     } catch (e) {
@@ -73,11 +70,11 @@ const News: React.FC<NewsProps> = ({ data, cookies }) => {
       </Head>
       <Posts
         from={from}
-        items={get(data, 'items', [])}
+        items={data.items}
         showComments={showComments}
         showByline={showByline}
         showScore={showScore}
-        start={get(data, 'start', 1)}
+        start={data.start}
       >
         <NavButtons more={more} previous={previous} p={p} />
         <footer className={`flex justify-center pb-16`}>
