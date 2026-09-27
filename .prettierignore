@@ -6,3 +6,7 @@ coverage
 package.json
 package-lock.json
 .prettierrc.json
+next-env.d.ts
+.husky/_
+# Preserve upstream HTML fixtures verbatim.
+tests/fixtures

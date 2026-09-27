@@ -18,7 +18,7 @@ describe('useSwipeNavigation', () => {
   it('calls onSwipedRight on right swipe', () => {
     const onSwipedRight = vi.fn();
     const { result } = renderHook(() =>
-      useSwipeNavigation({ onSwipedRight, threshold: 50 })
+      useSwipeNavigation({ onSwipedRight, threshold: 50 }),
     );
 
     result.current.onTouchStart(touchEvent(100, 200));
@@ -31,7 +31,7 @@ describe('useSwipeNavigation', () => {
   it('calls onSwipedLeft on left swipe', () => {
     const onSwipedLeft = vi.fn();
     const { result } = renderHook(() =>
-      useSwipeNavigation({ onSwipedLeft, threshold: 50 })
+      useSwipeNavigation({ onSwipedLeft, threshold: 50 }),
     );
 
     result.current.onTouchStart(touchEvent(200, 200));
@@ -45,7 +45,7 @@ describe('useSwipeNavigation', () => {
     const onSwipedLeft = vi.fn();
     const onSwipedRight = vi.fn();
     const { result } = renderHook(() =>
-      useSwipeNavigation({ onSwipedLeft, onSwipedRight, threshold: 50 })
+      useSwipeNavigation({ onSwipedLeft, onSwipedRight, threshold: 50 }),
     );
 
     result.current.onTouchStart(touchEvent(100, 100));
@@ -59,7 +59,7 @@ describe('useSwipeNavigation', () => {
   it('does not trigger when below threshold', () => {
     const onSwipedRight = vi.fn();
     const { result } = renderHook(() =>
-      useSwipeNavigation({ onSwipedRight, threshold: 50 })
+      useSwipeNavigation({ onSwipedRight, threshold: 50 }),
     );
 
     result.current.onTouchStart(touchEvent(100, 200));
@@ -73,7 +73,7 @@ describe('useSwipeNavigation', () => {
     const event1 = touchEvent(100, 200);
     const event2 = touchEvent(200, 200);
     const { result } = renderHook(() =>
-      useSwipeNavigation({ onSwipedRight: vi.fn() })
+      useSwipeNavigation({ onSwipedRight: vi.fn() }),
     );
 
     result.current.onTouchStart(event1);
