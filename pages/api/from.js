@@ -1,3 +1,4 @@
-import fromDomain from './index';
+import { apiHandler } from '../../server/api';
+import { loadNews } from '../../server/hn';
 
-export default fromDomain;
+export default apiHandler((query) => loadNews(query, true));

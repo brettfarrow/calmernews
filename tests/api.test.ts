@@ -1,393 +1,245 @@
-import { describe, it, expect } from 'vitest';
-import * as cheerio from 'cheerio';
+import { readFileSync } from 'node:fs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type {
+  NextApiRequest,
+  NextApiResponse,
+  NextApiHandler,
+  GetServerSidePropsContext,
+} from 'next';
+import news from '../pages/api/news';
+import from from '../pages/api/from';
+import item from '../pages/api/item';
 import hnFetch from '../utils/hnFetch';
+import { HttpError } from '../server/errors';
+import { pageProps } from '../server/pageProps';
+import type { Query } from '../server/query';
 
-const HN = 'https://news.ycombinator.com';
+vi.mock('../utils/hnFetch', () => ({ default: vi.fn() }));
+const newsHtml = readFileSync(
+  new URL('./fixtures/news.html', import.meta.url),
+  'utf8',
+);
+const itemHtml = readFileSync(
+  new URL('./fixtures/item.html', import.meta.url),
+  'utf8',
+);
 
-// Mirrors the parsing logic in pages/api/index.js
-async function fetchNewsFeed(path = '/news') {
-  const res = await hnFetch(`${HN}${path}`);
-  expect(res.ok).toBe(true);
-  const html = await res.text();
-  const $ = cheerio.load(html);
-
-  const stories = $('tr.athing').toArray();
-  const storyInfo = $('table#hnmain tr td.subtext')
-    .not('.spacer')
-    .not('.athing')
-    .toArray()
-    .slice(0, 30);
-
-  const moreLink = $('a.morelink').attr('href');
-
-  const parsed = stories.map((story, index) => {
-    const id = Number($(story).attr('id') || '');
-    const link = $(story).find('span.titleline a').first();
-    const host = $(story).find('span.sitestr').text() || HN;
-    const href = host ? link.attr('href') : `${host}/${link.attr('href')}`;
-    const text = link.text() || '';
-
-    const age = $(storyInfo[index]).find('span.age').text() || '';
-    const score = Number(
-      ($(storyInfo[index]).find('span.score').text() || '').replace(
-        /[^0-9]+/g,
-        '',
-      ),
-    );
-    const lastLink =
-      $(
-        $(storyInfo[index]).find('span.subline a[href^="item"]').last(),
-      ).text() || '';
-    const comments =
-      lastLink.includes('comments') || lastLink.includes('discuss')
-        ? Number(lastLink.replace(/[^0-9]+/g, ''))
-        : 0;
-    const user = $(storyInfo[index]).find('a.hnuser').text() || '';
-
-    return { id, age, comments, host, href, score, text, user };
-  });
-
-  return { items: parsed, moreLink };
+function upstream(html: string) {
+  vi.mocked(hnFetch).mockResolvedValue({ text: async () => html } as Awaited<
+    ReturnType<typeof hnFetch>
+  >);
 }
 
-// Mirrors the parsing logic in pages/api/item.js
-async function fetchItem(id: string) {
-  const res = await hnFetch(`${HN}/item?id=${id}`);
-  expect(res.ok).toBe(true);
-  const html = await res.text();
-  const $ = cheerio.load(html);
-
-  const title = $('.title span.titleline').text();
-  const link = $('.title span.titleline a').first().attr('href');
-  const host = $('span.sitestr').text();
-  const score = Number(
-    $('.subtext span.subline span.score')
-      .text()
-      .replace(/[^0-9]+/g, ''),
+async function request(
+  handler: NextApiHandler,
+  query: Query = {},
+  method = 'GET',
+) {
+  const res = {
+    status: vi.fn().mockReturnThis(),
+    json: vi.fn(),
+    setHeader: vi.fn(),
+  };
+  await handler(
+    { query, method } as NextApiRequest,
+    res as unknown as NextApiResponse,
   );
-  const byline =
-    $('.subtext a.hnuser').text() ||
-    $('table.fatitem span.comhead a.hnuser').text();
-  const age = $('.subtext span.age a').text();
-  const postBody = $('div.toptext').html() || '';
+  return {
+    ...res,
+    body: res.json.mock.calls[0][0],
+    code: res.status.mock.calls[0][0],
+  };
+}
 
-  const comments: any[] = [];
-  $('tr.comtr').each((i, comment) => {
-    const commentId = $(comment).attr('id');
-    const username = $(comment).find('.comhead > a.hnuser').text();
-    const commentAge = $(comment).find('.comhead > span.age').text();
-    $(comment).find('div.reply').remove();
-    const rawComment =
-      $(comment).find('.comment > .commtext').html() || '[flagged]';
-    const level = $(comment).find('td.ind').attr('indent');
+beforeEach(() => {
+  vi.resetAllMocks();
+  upstream(newsHtml);
+});
 
-    comments.push({
-      position: i,
-      id: commentId,
-      username,
-      age: commentAge,
-      body: rawComment,
-      level,
+describe('news API', () => {
+  it('parses actual handler output, associates metadata with jobs, and resolves safe links', async () => {
+    const res = await request(news);
+    expect(res.code).toBe(200);
+    expect(res.body.items).toMatchObject([
+      { id: 123, href: '/item?id=123', comments: 1, score: 42, user: 'alice' },
+      {
+        id: 124,
+        href: 'https://example.com/jobs',
+        comments: 0,
+        score: 0,
+        user: '',
+      },
+      { id: 125, href: '', score: 3, user: 'bob' },
+    ]);
+    expect(res.body.more).toBe('/news?p=2&next=120&n=31');
+    expect(res.setHeader).toHaveBeenCalledWith(
+      'Cache-Control',
+      'public, s-maxage=30, stale-while-revalidate=60',
+    );
+  });
+
+  it('builds previous links on the last page without a next cursor', async () => {
+    upstream(newsHtml.replace(/<a class="morelink"[^>]*>More<\/a>/, ''));
+    const res = await request(news, { p: '3', next: '120', n: '61' });
+    expect(res.body).toMatchObject({
+      more: false,
+      previous: '/news?p=2',
+      page: 3,
+      start: 61,
     });
   });
 
-  return { id, title, host, link, score, byline, age, postBody, commentCount: comments.length, comments };
-}
-
-describe('HN News Feed (/api/news)', () => {
-  it('should return stories from the front page', async () => {
-    const { items } = await fetchNewsFeed();
-
-    expect(items.length).toBeGreaterThan(0);
-    expect(items.length).toBeLessThanOrEqual(30);
-  });
-
-  it('each story should have a valid numeric id', async () => {
-    const { items } = await fetchNewsFeed();
-
-    for (const item of items) {
-      expect(item.id).toBeTypeOf('number');
-      expect(item.id).toBeGreaterThan(0);
-      expect(Number.isInteger(item.id)).toBe(true);
-    }
-  });
-
-  it('each story should have a non-empty title', async () => {
-    const { items } = await fetchNewsFeed();
-
-    for (const item of items) {
-      expect(item.text).toBeTypeOf('string');
-      expect(item.text.length).toBeGreaterThan(0);
-    }
-  });
-
-  it('each story should have a valid href', async () => {
-    const { items } = await fetchNewsFeed();
-
-    for (const item of items) {
-      expect(item.href).toBeTypeOf('string');
-      expect(item.href.length).toBeGreaterThan(0);
-    }
-  });
-
-  it('each story should have an age string', async () => {
-    const { items } = await fetchNewsFeed();
-
-    for (const item of items) {
-      expect(item.age).toBeTypeOf('string');
-      // Age should match patterns like "2 hours ago", "1 day ago", etc.
-      expect(item.age).toMatch(
-        /\d+\s+(second|minute|hour|day|month|year)s?\s+ago/,
-      );
-    }
-  });
-
-  it('each story should have a non-negative numeric score', async () => {
-    const { items } = await fetchNewsFeed();
-
-    for (const item of items) {
-      expect(item.score).toBeTypeOf('number');
-      expect(item.score).toBeGreaterThanOrEqual(0);
-    }
-  });
-
-  it('each story should have a non-negative comment count', async () => {
-    const { items } = await fetchNewsFeed();
-
-    for (const item of items) {
-      expect(item.comments).toBeTypeOf('number');
-      expect(item.comments).toBeGreaterThanOrEqual(0);
-    }
-  });
-
-  it('most stories should have a user', async () => {
-    const { items } = await fetchNewsFeed();
-
-    // Job posts don't have users, but most stories should
-    const withUser = items.filter((item) => item.user.length > 0);
-    expect(withUser.length).toBeGreaterThan(items.length * 0.8);
-  });
-
-  it('should have a more link for pagination', async () => {
-    const { moreLink } = await fetchNewsFeed();
-
-    expect(moreLink).toBeTypeOf('string');
-    expect(moreLink).toContain('p=');
-  });
-
-  it('should return stories from page 2', async () => {
-    const { items } = await fetchNewsFeed('/news?p=2');
-
-    expect(items.length).toBeGreaterThan(0);
-    expect(items.length).toBeLessThanOrEqual(30);
-
-    // Page 2 stories should have different IDs than page 1
-    const page1 = await fetchNewsFeed();
-    const page1Ids = new Set(page1.items.map((i) => i.id));
-    const overlap = items.filter((i) => page1Ids.has(i.id));
-    expect(overlap.length).toBeLessThan(items.length);
-  });
-});
-
-describe('HN From/Domain Filter (/api/from)', () => {
-  it('should return stories filtered by domain', async () => {
-    const { items } = await fetchNewsFeed('/from?site=github.com');
-
-    expect(items.length).toBeGreaterThan(0);
-
-    for (const item of items) {
-      expect(item.id).toBeTypeOf('number');
-      expect(item.id).toBeGreaterThan(0);
-      expect(item.text.length).toBeGreaterThan(0);
-    }
-  });
-
-  it('domain-filtered stories should reference the correct host', async () => {
-    const { items } = await fetchNewsFeed('/from?site=github.com');
-
-    for (const item of items) {
-      expect(item.host.toLowerCase()).toContain('github.com');
-    }
-  });
-});
-
-describe('HN Item/Comments (/api/item)', () => {
-  // Use a known high-traffic story that's likely to stay around
-  // We'll fetch the front page first and grab a real ID
-  let storyId: string;
-
-  it('should fetch a real story from the front page', async () => {
-    const { items } = await fetchNewsFeed();
-    // Pick a story that has comments
-    const withComments = items.find((item) => item.comments > 0);
-    expect(withComments).toBeDefined();
-    storyId = String(withComments!.id);
-  });
-
-  it('should return valid story metadata', async () => {
-    const item = await fetchItem(storyId);
-
-    expect(item.id).toBe(storyId);
-    expect(item.title).toBeTypeOf('string');
-    expect(item.title.length).toBeGreaterThan(0);
-
-    expect(item.score).toBeTypeOf('number');
-    expect(item.score).toBeGreaterThanOrEqual(0);
-
-    expect(item.byline).toBeTypeOf('string');
-    expect(item.byline.length).toBeGreaterThan(0);
-
-    expect(item.age).toBeTypeOf('string');
-    expect(item.age).toMatch(
-      /\d+\s+(second|minute|hour|day|month|year)s?\s+ago/,
+  it('preserves domain pagination and the from flag', async () => {
+    upstream(
+      newsHtml.replace(
+        'news?p=2&amp;next=120&amp;n=31',
+        'from?site=example.com&amp;p=3&amp;next=120',
+      ),
+    );
+    const res = await request(from, {
+      site: 'example.com',
+      p: '2',
+      next: '125',
+    });
+    expect(res.body).toMatchObject({
+      from: true,
+      more: '/from?site=example.com&p=3&next=120',
+      previous: '/from?site=example.com',
+    });
+    expect(hnFetch).toHaveBeenCalledWith(
+      'https://news.ycombinator.com/from?p=2&next=125&site=example.com',
     );
   });
 
-  it('should return comments with valid structure', async () => {
-    const item = await fetchItem(storyId);
-
-    expect(item.commentCount).toBeTypeOf('number');
-    expect(item.commentCount).toBeGreaterThan(0);
-    expect(item.comments.length).toBe(item.commentCount);
-
-    for (const comment of item.comments) {
-      expect(comment.id).toBeTypeOf('string');
-      expect(comment.id.length).toBeGreaterThan(0);
-
-      expect(comment.position).toBeTypeOf('number');
-      expect(comment.position).toBeGreaterThanOrEqual(0);
-
-      expect(comment.body).toBeTypeOf('string');
-      expect(comment.body.length).toBeGreaterThan(0);
-
-      expect(comment.level).toBeTypeOf('string');
-      // Level should be a numeric string representing nesting depth
-      expect(Number(comment.level)).toBeGreaterThanOrEqual(0);
-    }
-  });
-
-  it('comments should have sequential positions', async () => {
-    const item = await fetchItem(storyId);
-
-    for (let i = 0; i < item.comments.length; i++) {
-      expect(item.comments[i].position).toBe(i);
-    }
-  });
-
-  it('most comments should have a username', async () => {
-    const item = await fetchItem(storyId);
-
-    // Some comments may be [dead] or [deleted], but most should have usernames
-    const withUsername = item.comments.filter(
-      (c: any) => c.username.length > 0,
+  it('does not return an external pagination link', async () => {
+    upstream(
+      newsHtml.replace(
+        'news?p=2&amp;next=120&amp;n=31',
+        'https://evil.example/news?p=2',
+      ),
     );
-    expect(withUsername.length).toBeGreaterThan(item.comments.length * 0.5);
+    expect((await request(news)).body.more).toBe(false);
   });
 
-  it('most comments should have an age', async () => {
-    const item = await fetchItem(storyId);
-
-    const withAge = item.comments.filter((c: any) => c.age.length > 0);
-    expect(withAge.length).toBeGreaterThan(item.comments.length * 0.5);
-  });
-});
-
-describe('HN HTML Structure Selectors', () => {
-  // These tests verify that the CSS selectors used for scraping still match
-  // the actual HN HTML structure. If these fail, HN likely changed their markup.
-
-  it('front page should have tr.athing elements for stories', async () => {
-    const res = await fetch(`${HN}/news`);
-    const html = await res.text();
-    const $ = cheerio.load(html);
-
-    expect($('tr.athing').length).toBeGreaterThan(0);
+  it.each([
+    { p: ['1', '2'] },
+    { p: '-1' },
+    { p: '1.5' },
+    { p: 'Infinity' },
+    { p: '9007199254740992' },
+    { site: 'example.com&x=1' },
+    { next: '' },
+  ])('rejects invalid input before fetching: %j', async (query) => {
+    expect((await request(news, query)).code).toBe(400);
+    expect(hnFetch).not.toHaveBeenCalled();
   });
 
-  it('stories should have span.titleline with links', async () => {
-    const res = await fetch(`${HN}/news`);
-    const html = await res.text();
-    const $ = cheerio.load(html);
-
-    const titleLinks = $('tr.athing span.titleline a').length;
-    expect(titleLinks).toBeGreaterThan(0);
-  });
-
-  it('should have subtext rows with score, age, and user info', async () => {
-    const res = await fetch(`${HN}/news`);
-    const html = await res.text();
-    const $ = cheerio.load(html);
-
-    expect($('span.score').length).toBeGreaterThan(0);
-    expect($('span.age').length).toBeGreaterThan(0);
-    expect($('a.hnuser').length).toBeGreaterThan(0);
-  });
-
-  it('should have a.morelink for pagination', async () => {
-    const res = await fetch(`${HN}/news`);
-    const html = await res.text();
-    const $ = cheerio.load(html);
-
-    expect($('a.morelink').length).toBe(1);
-    expect($('a.morelink').attr('href')).toContain('p=');
-  });
-
-  it('item page should have tr.comtr elements for comments', async () => {
-    // First get a story with comments
-    const feedRes = await fetch(`${HN}/news`);
-    const feedHtml = await feedRes.text();
-    const $feed = cheerio.load(feedHtml);
-    const firstId = $feed('tr.athing').first().attr('id');
-
-    const res = await fetch(`${HN}/item?id=${firstId}`);
-    const html = await res.text();
-    const $ = cheerio.load(html);
-
-    // The item page should at least have the story title
-    expect($('.title span.titleline').length).toBeGreaterThan(0);
-
-    // Comment selectors
-    const comtrs = $('tr.comtr');
-    if (comtrs.length > 0) {
-      // Verify comment sub-selectors
-      expect(comtrs.first().find('.comhead > a.hnuser').length + comtrs.first().find('.comhead > span.age').length).toBeGreaterThan(0);
-      expect(comtrs.first().find('td.ind').length).toBe(1);
-      expect(comtrs.first().find('td.ind').attr('indent')).toBeDefined();
-    }
-  });
-
-  it('subtext should have item links for comment counts', async () => {
-    const res = await fetch(`${HN}/news`);
-    const html = await res.text();
-    const $ = cheerio.load(html);
-
-    // The selector used to get comment counts
-    const itemLinks = $('span.subline a[href^="item"]');
-    expect(itemLinks.length).toBeGreaterThan(0);
+  it('requires a domain on the domain route', async () => {
+    expect((await request(from)).code).toBe(400);
+    expect(hnFetch).not.toHaveBeenCalled();
   });
 });
 
-describe('Data Consistency', () => {
-  it('story IDs from feed should resolve as valid items', async () => {
-    const { items } = await fetchNewsFeed();
-
-    // Test a few stories to avoid hammering HN
-    const sample = items.slice(0, 3);
-    for (const story of sample) {
-      const item = await fetchItem(String(story.id));
-      expect(item.title.length).toBeGreaterThan(0);
-      // Item page title includes hostname suffix (e.g. "(site.com)"),
-      // feed parser only gets the link text. So item title should start with feed title.
-      expect(item.title).toContain(story.text);
-    }
+describe('item API', () => {
+  it('sanitizes story bodies and comments while retaining code and paragraphs', async () => {
+    upstream(itemHtml);
+    const res = await request(item, { id: '123' });
+    expect(res.code).toBe(200);
+    expect(res.body).toMatchObject({
+      id: '123',
+      link: '/item?id=123',
+      score: 42,
+      commentCount: 2,
+    });
+    expect(res.body.postBody).toContain(
+      '<pre><code>line 1\nline 2</code></pre>',
+    );
+    expect(res.body.postBody).toContain('<p>Second paragraph</p>');
+    expect(res.body.comments[0]).toMatchObject({
+      id: '456',
+      level: 2,
+      username: 'bob',
+    });
+    expect(res.body.comments[0].body).toContain('<i>italic</i>');
+    expect(res.body.comments[1].body).toBe('[flagged]');
+    expect(JSON.stringify(res.body)).not.toMatch(
+      /javascript:|onclick|onmouseover|<script|<svg|<iframe/,
+    );
   });
 
-  it('score from feed and item page should be close', async () => {
-    const { items } = await fetchNewsFeed();
-    const story = items[0];
-    const item = await fetchItem(String(story.id));
+  it.each([{}, { id: ['123', '456'] }, { id: '123&other=456' }, { id: '0' }])(
+    'rejects invalid item IDs: %j',
+    async (query) => {
+      expect((await request(item, query)).code).toBe(400);
+      expect(hnFetch).not.toHaveBeenCalled();
+    },
+  );
 
-    // Scores may drift slightly between requests, allow some tolerance
-    expect(Math.abs(item.score - story.score)).toBeLessThan(50);
+  it('returns 404 for missing items', async () => {
+    upstream('<html>No such item.</html>');
+    expect((await request(item, { id: '123' })).code).toBe(404);
+  });
+});
+
+describe('request failures and SSR', () => {
+  it('rejects unsupported methods without contacting HN', async () => {
+    const res = await request(news, {}, 'POST');
+    expect(res.code).toBe(405);
+    expect(res.setHeader).toHaveBeenCalledWith('Allow', 'GET, HEAD');
+    expect(hnFetch).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    new HttpError(502, 'Upstream unavailable'),
+    new Error('sensitive internal detail'),
+  ])(
+    'does not cache upstream errors or expose internal failures',
+    async (error) => {
+      vi.mocked(hnFetch).mockRejectedValue(error);
+      const res = await request(news);
+      expect(res.code).toBe(502);
+      expect(res.setHeader).toHaveBeenCalledWith('Cache-Control', 'no-store');
+      expect(res.body.error).not.toContain('sensitive');
+    },
+  );
+
+  it('rejects an upstream error document instead of caching an empty feed', async () => {
+    upstream('<html>Rate limited</html>');
+    expect((await request(news)).code).toBe(502);
+  });
+
+  it('loads SSR data directly and exposes only display preference cookies', async () => {
+    const res = { setHeader: vi.fn() };
+    const context = {
+      query: { p: '2' },
+      req: { cookies: { show_score: 'true', session: 'private' } },
+      res,
+    } as unknown as GetServerSidePropsContext;
+    const result = await pageProps('news')(context);
+    expect(result.props).toMatchObject({
+      data: { page: 2 },
+      cookies: { show_score: true },
+    });
+    expect(JSON.stringify(result)).not.toContain('private');
+    expect(hnFetch).toHaveBeenCalledTimes(1);
+    expect(res.setHeader).toHaveBeenCalledWith(
+      'Cache-Control',
+      'private, no-store',
+    );
+  });
+
+  it('provides a readable SSR error with the correct HTTP status', async () => {
+    const res = { statusCode: 200, setHeader: vi.fn() };
+    const context = {
+      query: {},
+      req: { cookies: {} },
+      res,
+    } as unknown as GetServerSidePropsContext;
+    const result = await pageProps('item')(context);
+    expect(result.props).toMatchObject({
+      errorStatus: 400,
+      errorMessage: 'Missing id parameter.',
+    });
+    expect(res.statusCode).toBe(400);
   });
 });

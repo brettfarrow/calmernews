@@ -1,16 +1,14 @@
 import { PostItem } from '../types/postTypes';
 
 type PostProps = {
-  post: PostItem,
-  index: number,
-  showComments: boolean,
-  showByline: boolean,
-  showScore: boolean,
+  post: PostItem;
+  showComments: boolean;
+  showByline: boolean;
+  showScore: boolean;
 };
 
 const Post: React.FC<PostProps> = ({
   post,
-  index,
   showComments,
   showByline,
   showScore,
@@ -22,7 +20,7 @@ const Post: React.FC<PostProps> = ({
   };
 
   const getLinkDomain = (host: string) => {
-    return `/from?site=${host}`;
+    return `/from?site=${encodeURIComponent(host)}`;
   };
 
   const getCommentURL = (commentId: number) => {
@@ -30,35 +28,40 @@ const Post: React.FC<PostProps> = ({
   };
 
   const getBylineURL = (user: string) => {
-    return `${HN_HOSTNAME}/user?id=${user}`;
+    return `${HN_HOSTNAME}/user?id=${encodeURIComponent(user)}`;
   };
 
   return (
     <li
-      key={`item-${index}`}
       className={`text-gray-800 dark:text-gray-200 px-4 md:px-12 py-4 md:py-3`}
     >
       <a
-        href={post.href}
+        href={post.href || undefined}
         className={`text-indigo-700 dark:text-indigo-300 hover:underline decoration-indigo-700 dark:decoration-indigo-300 underline-offset-[3px] text-[20px]`}
       >
         {post.text}
       </a>{' '}
       {isSelfPost(post.host) ? (
-        <span className="text-gray-500 dark:text-gray-400 text-sm">({post.host})</span>
+        <span className="text-gray-500 dark:text-gray-400 text-sm">
+          ({post.host})
+        </span>
       ) : (
         <span className="text-sm text-gray-600 dark:text-gray-300">
-          (<a
+          (
+          <a
             href={getLinkDomain(post.host)}
             className={`underline hover:text-gray-800 hover:dark:text-gray-100 transition-colors duration-150`}
             aria-label={`More posts from ${post.host}`}
           >
             {post.host}
-          </a>)
+          </a>
+          )
         </span>
       )}
       {(showScore || showByline || showComments) && (
-        <div className={`text-gray-600 dark:text-gray-100 text-sm mt-1 leading-normal grid grid-cols-1 sm:grid-cols-2 gap-x-4`}>
+        <div
+          className={`text-gray-600 dark:text-gray-100 text-sm mt-1 leading-normal grid grid-cols-1 sm:grid-cols-2 gap-x-4`}
+        >
           {(showScore || showByline) && (
             <span>
               {showScore && (
@@ -66,7 +69,9 @@ const Post: React.FC<PostProps> = ({
                   {post.score} {post.score === 1 ? 'point' : 'points'}
                 </span>
               )}
-              {showScore && showByline && <span className="text-gray-400 dark:text-gray-500"> · </span>}
+              {showScore && showByline && (
+                <span className="text-gray-400 dark:text-gray-500"> · </span>
+              )}
               {showByline && (
                 <span>
                   {post.age} by{' '}
@@ -87,11 +92,7 @@ const Post: React.FC<PostProps> = ({
                 className={`underline hover:text-gray-800 hover:dark:text-white transition-colors duration-150`}
                 href={getCommentURL(post.id)}
               >
-                {post.comments ? (
-                  <>{post.comments} comments</>
-                ) : (
-                  <>discuss</>
-                )}
+                {post.comments ? <>{post.comments} comments</> : <>discuss</>}
               </a>
             </span>
           )}
@@ -99,6 +100,6 @@ const Post: React.FC<PostProps> = ({
       )}
     </li>
   );
-}
+};
 
 export default Post;

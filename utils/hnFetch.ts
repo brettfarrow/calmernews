@@ -1,14 +1,28 @@
 import { Agent, fetch } from 'undici';
+import { HttpError } from '../server/errors';
 
-// Hacker News rejects plain Node fetch (HTTP/1.1 with a blocklisted bot
-// User-Agent like "undici") with 429 "Sorry." on some endpoints such as
-// /from. HTTP/2 plus a project-identifying UA passes their checks.
-const agent = new Agent({ allowH2: true });
+// HN accepts HTTP/2 with a project-identifying User-Agent more reliably
+// than Node's default fetch client, particularly for domain feeds.
+const agent = new Agent({ allowH2: true, connections: 8 });
 
-const headers = {
-  'User-Agent': 'calmernews/5.3.0 (https://calmernews.com)',
-};
-
-export default function hnFetch(url: string) {
-  return fetch(url, { dispatcher: agent, headers });
+export default async function hnFetch(url: string) {
+  try {
+    const response = await fetch(url, {
+      dispatcher: agent,
+      headers: { 'User-Agent': 'calmernews/5.3.0 (https://calmernews.com)' },
+      signal: AbortSignal.timeout(10_000),
+      redirect: 'error',
+    });
+    if (!response.ok) {
+      await response.body?.cancel();
+      throw new HttpError(
+        502,
+        'Hacker News is temporarily unavailable. Please try again.',
+      );
+    }
+    return response;
+  } catch (error) {
+    if (error instanceof HttpError) throw error;
+    throw new HttpError(502, 'Unable to reach Hacker News. Please try again.');
+  }
 }

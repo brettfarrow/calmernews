@@ -1,21 +1,9 @@
 import Head from 'next/head';
 import Comment from './Comment';
 import NavButtons from './NavButtons';
-import { Comment as CommentType } from '../types/postTypes';
+import { ItemData } from '../types/postTypes';
 
-type CommentsProps = {
-  data: {
-    id: number;
-    title: string;
-    score: number;
-    byline: string;
-    age: string;
-    commentCount: number;
-    comments: CommentType[];
-    link: string;
-    postBody: string;
-  };
-};
+type CommentsProps = { data: ItemData };
 
 const Comments: React.FC<CommentsProps> = ({ data }) => {
   const HN_HOSTNAME = 'https://news.ycombinator.com';
@@ -31,11 +19,6 @@ const Comments: React.FC<CommentsProps> = ({ data }) => {
     postBody,
   } = data;
 
-  let postBodySplit: string[] = [];
-  if (postBody) {
-    postBodySplit = postBody.split('\n');
-  }
-
   const pageTitle = title ? `calmer news | ${title}` : 'calmer news';
 
   return (
@@ -46,26 +29,17 @@ const Comments: React.FC<CommentsProps> = ({ data }) => {
       <article className="max-w-4xl mx-auto p-4">
         <h2 className="text-xl lg:text-2xl">
           <a
-            href={link}
+            href={link || undefined}
             className="text-indigo-700 dark:text-indigo-300 hover:underline decoration-indigo-700 dark:decoration-indigo-300 underline-offset-[3px]"
           >
             {title}
           </a>
         </h2>
-        {postBodySplit && (
-          <div className={title ? 'mt-2' : ''}>
-            {postBodySplit.map((line, index) => (
-              <span
-                key={index}
-                className={
-                  postBodySplit.length !== index + 1
-                    ? 'post-body block mb-4'
-                    : 'post-body'
-                }
-                dangerouslySetInnerHTML={{ __html: line }}
-              />
-            ))}
-          </div>
+        {postBody && (
+          <div
+            className={`post-body ${title ? 'mt-2' : ''}`}
+            dangerouslySetInnerHTML={{ __html: postBody }}
+          />
         )}
         <div className="text-gray-600 dark:text-gray-100 mt-1 leading-normal pb-6 text-sm">
           {score > 0 && (
@@ -78,7 +52,7 @@ const Comments: React.FC<CommentsProps> = ({ data }) => {
             posted by{' '}
             <a
               className="underline hover:text-gray-800 hover:dark:text-white transition-colors duration-150"
-              href={`${HN_HOSTNAME}/user?id=${byline}`}
+              href={`${HN_HOSTNAME}/user?id=${encodeURIComponent(byline)}`}
               aria-label={`View ${byline}'s profile on Hacker News`}
             >
               {byline}
