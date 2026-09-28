@@ -5,7 +5,10 @@ import { useSwipeNavigation } from '../hooks/useSwipeNavigation';
 import LoadingButton from './LoadingButton';
 import { useEffect } from 'react';
 
-const PullIndicator: React.FC<PullProgress> = ({ progress, isThresholdMet }) => {
+const PullIndicator: React.FC<PullProgress> = ({
+  progress,
+  isThresholdMet,
+}) => {
   // Arrow rotates from pointing down (0°) to pointing up (180°) as you pull
   const rotation = Math.min(progress, 1) * 180;
 
@@ -80,9 +83,7 @@ const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               </Link>
             </h1>
           </header>
-          <main>
-            {children}
-          </main>
+          <main>{children}</main>
         </div>
       </PullToRefresh>
     </>
