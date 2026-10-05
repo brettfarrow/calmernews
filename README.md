@@ -7,6 +7,8 @@ Use Node.js 24 and install dependencies with `npm ci`.
 - `npm run dev`: development server on port 3002.
 - `npm run build && npm start`: production build and server on port 3002.
 - `npm test`: deterministic regression tests; no network access required.
+- `npm run build && npm run test:production`: smoke-test compiled pages and APIs
+  with fixture HN responses and Vercel's `require(ESM)` support disabled.
 - `HN_LIVE_TESTS=1 npx vitest run tests/live.test.ts`: opt-in check against current Hacker News markup.
 - `npm run lint` and `npm run typecheck`: code checks.
 - `npm run format:check`: check formatting; `npm run prettier` applies fixes.
@@ -20,8 +22,9 @@ working tree, including unstaged changes. Run `npm run precommit` manually to
 repeat these checks, or `npm run prepare` to reinstall the hook.
 
 GitHub Actions runs formatting, lint, type checks, regression tests, and a
-production build on every PR and every push to `main`, using Node.js from
-`.nvmrc`. CodeQL also scans PRs targeting `main`, pushes to `main`, and weekly.
+production build and runtime smoke test on every PR and every push to `main`,
+using Node.js from `.nvmrc`. CodeQL also scans PRs targeting `main`, pushes to
+`main`, and weekly.
 The optional live Hacker News test stays disabled in CI. In GitHub's branch
 rules for `main`, require `Lint, types, tests, and build` and `Analyze` to pass
 before merging; adding workflow files alone does not enforce merge protection.
