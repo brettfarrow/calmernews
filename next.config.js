@@ -1,6 +1,8 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Vercel disables Node's require(ESM); bundle the sanitizer's ESM parser.
+  transpilePackages: ['sanitize-html'],
   turbopack: {},
   async headers() {
     return [

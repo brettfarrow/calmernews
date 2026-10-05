@@ -9,6 +9,7 @@
     "next:dev": "next dev",
     "next:start": "next start",
     "test": "vitest run",
+    "test:production": "node scripts/smoke-production.mjs",
     "test:watch": "vitest",
     "prettier": "prettier --write .",
     "format:check": "prettier --check .",
